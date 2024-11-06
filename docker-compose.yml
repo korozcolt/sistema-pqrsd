@@ -21,9 +21,9 @@ services:
             - REDIS_HOST=redis
             - REDIS_PORT=6379
             - SESSION_DRIVER=database
-            - CACHE_STORE=database
+            - CACHE_STORE=redis
         ports:
-            - "8080:80" # Mapea al puerto 8080 en el host
+            - "8080:8080" # Mapea al puerto 8080 en el host
         volumes:
             - .:/var/www/html
         depends_on:
