@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+    laravel:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: torcoroma_web_app
+        environment:
+            - APP_NAME=Torcoroma WEB
+            - APP_ENV=local
+            - APP_DEBUG=true
+            - APP_TIMEZONE=UTC
+            - DB_CONNECTION=mysql
+            - DB_HOST=mysql
+            - DB_PORT=3306
+            - DB_DATABASE=torcoroma_web_project
+            - DB_USERNAME=root
+            - DB_PASSWORD=root
+            - REDIS_CLIENT=phpredis
+            - REDIS_HOST=redis
+            - REDIS_PORT=6379
+            - SESSION_DRIVER=database
+            - CACHE_STORE=database
+        ports:
+            - "8080:80" # Mapea al puerto 8080 en el host
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - mysql
+            - redis
+
+    mysql:
+        image: mysql:8
+        container_name: torcoroma_mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: torcoroma_web_project
+            MYSQL_USER: root
+            MYSQL_PASSWORD: root
+        volumes:
+            - mysql_data:/var/lib/mysql
+        ports:
+            - "3306:3306"
+
+    redis:
+        image: redis:6
+        container_name: torcoroma_redis
+        ports:
+            - "6379:6379"
+        volumes:
+            - redis_data:/data
+
+volumes:
+    mysql_data:
+    redis_data:
