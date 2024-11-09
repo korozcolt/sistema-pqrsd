@@ -25,3 +25,4 @@ jobs:
     - name: Deploy to Server
       run: |
         ssh -i ~/.ssh/id_ed25519 kronnos@208.109.235.177 "cd ~/torcoroma_project && git pull origin master && docker-compose up -d --build"
+        ssh -i ~/.ssh/id_ed25519 kronnos@208.109.235.177 "cd ~/torcoroma_project && docker exec torcoroma_web_app php artisan migrate --force"
