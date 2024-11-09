@@ -2,6 +2,10 @@ version: "3.8"
 
 services:
     laravel:
+        deploy:
+            resources:
+                limits:
+                    memory: 1024M
         build:
             context: .
             dockerfile: Dockerfile
