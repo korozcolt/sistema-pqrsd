@@ -11,47 +11,37 @@ class Reminder extends Model
 {
     use HasFactory;
 
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
     public $timestamps = false;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'ticket_id',
         'sent_to',
         'reminder_type',
+        'is_read',
         'sent_at',
+        'read_at',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected $casts = [
+        'is_read' => 'boolean',
         'sent_at' => 'datetime',
+        'read_at' => 'datetime',
     ];
 
-    /**
-     * Relation to the ticket this reminder is for.
-     */
+    // Relationships
     public function ticket()
     {
         return $this->belongsTo(Ticket::class);
     }
 
-    /**
-     * Relation to the user who received the reminder.
-     */
-    public function sentTo()
+    public function user()
     {
         return $this->belongsTo(User::class, 'sent_to');
+    }
+
+    // Scope para no leídos
+    public function scopeUnread($query)
+    {
+        return $query->where('is_read', false);
     }
 }

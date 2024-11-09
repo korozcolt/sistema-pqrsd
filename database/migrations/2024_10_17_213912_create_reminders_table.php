@@ -13,10 +13,16 @@ return new class extends Migration
     {
         Schema::create('reminders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ticket_id')->constrained('tickets')->onDelete('cascade');
+            $table->foreignId('ticket_id')->constrained()->onDelete('cascade');
             $table->foreignId('sent_to')->constrained('users');
             $table->enum('reminder_type', ['response_due', 'resolution_due']);
+            $table->boolean('is_read')->default(false);
             $table->timestamp('sent_at')->useCurrent();
+            $table->timestamp('read_at')->nullable();
+
+            // Índices para consultas frecuentes
+            $table->index(['sent_to', 'is_read']);
+            $table->index(['ticket_id', 'reminder_type']);
         });
     }
 

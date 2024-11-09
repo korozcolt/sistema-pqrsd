@@ -14,7 +14,17 @@ return new class extends Migration
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('description');
+            $table->string('code')->unique();
+            $table->string('address');
+            $table->string('phone');
+            $table->string('email')->nullable();
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
+            $table->softDeletes();
+
+            // Índices para búsquedas frecuentes
+            $table->index(['status', 'code']);
         });
     }
 

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('ticket_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ticket_id')->constrained('tickets')->onDelete('cascade');
+            $table->foreignId('ticket_id')->constrained()->onDelete('cascade');
             $table->foreignId('changed_by')->constrained('users');
             $table->enum('previous_status', [
                 'pending', 'in_progress', 'closed', 'resolved', 'rejected', 'reopened'
@@ -23,12 +23,14 @@ return new class extends Migration
             ]);
             $table->foreignId('previous_department_id')->nullable()->constrained('departments');
             $table->foreignId('new_department_id')->nullable()->constrained('departments');
+            $table->enum('previous_priority', ['low', 'medium', 'high', 'urgent'])->nullable();
+            $table->enum('new_priority', ['low', 'medium', 'high', 'urgent'])->nullable();
             $table->text('change_reason')->nullable();
             $table->timestamp('changed_at')->useCurrent();
 
-            // Indexes
-            $table->index('ticket_id');
-            $table->index('changed_by');
+            // Índices optimizados
+            $table->index(['ticket_id', 'changed_at']);
+            $table->index(['changed_by', 'changed_at']);
         });
     }
 

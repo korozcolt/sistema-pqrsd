@@ -13,11 +13,17 @@ return new class extends Migration
     {
         Schema::create('ticket_attachments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ticket_id')->constrained('tickets')->onDelete('cascade');
+            $table->foreignId('ticket_id')->constrained()->onDelete('cascade');
             $table->foreignId('uploaded_by')->constrained('users');
+            $table->string('file_name');
             $table->string('file_path');
             $table->string('file_type');
+            $table->integer('file_size')->unsigned(); // tamaño en bytes
             $table->timestamps();
+            $table->softDeletes();
+
+            // Índice para búsqueda de archivos
+            $table->index(['ticket_id', 'file_type']);
         });
     }
 

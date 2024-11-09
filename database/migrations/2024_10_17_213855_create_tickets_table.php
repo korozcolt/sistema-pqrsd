@@ -21,9 +21,21 @@ return new class extends Migration
             $table->enum('status', [
                 'pending', 'in_progress', 'closed', 'resolved', 'rejected', 'reopened'
             ])->default('pending');
+            $table->enum('priority', ['low', 'medium', 'high', 'urgent'])->default('medium');
+            $table->enum('type', ['petition', 'complaint', 'claim', 'suggestion']);
             $table->date('response_due_date')->nullable();
             $table->date('resolution_due_date')->nullable();
+            $table->timestamp('first_response_at')->nullable();
+            $table->timestamp('resolution_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+
+            // Índices compuestos para queries comunes
+            $table->index(['status', 'priority', 'created_at']);
+            $table->index(['user_id', 'status']);
+            $table->index(['department_id', 'status']);
+            $table->index(['ticket_number']);
+            $table->index(['type', 'status']); // Índice adicional para filtrado por tipo
         });
     }
 

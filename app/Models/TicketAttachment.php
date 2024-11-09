@@ -4,30 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TicketAttachment extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'ticket_id',
         'uploaded_by',
+        'file_name',
         'file_path',
         'file_type',
+        'file_size',
     ];
 
-    /**
-     * Relación con el modelo Ticket.
-     */
+    // Relationships
     public function ticket()
     {
         return $this->belongsTo(Ticket::class);
     }
 
-    /**
-     * Relación con el modelo User (quien subió el archivo).
-     */
-    public function uploadedBy()
+    public function uploader()
     {
         return $this->belongsTo(User::class, 'uploaded_by');
     }

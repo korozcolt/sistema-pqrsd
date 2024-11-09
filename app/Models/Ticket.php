@@ -7,63 +7,92 @@ use Illuminate\Database\Eloquent\Model;
 use App\Enums\StatusTicket;
 use App\Enums\TicketType;
 use App\Enums\Priority;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Ticket extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'user_id',
+        'department_id',
+        'ticket_number',
         'title',
         'description',
-        'user_id',    // El usuario que creó el ticket
-        'type',       // Enum TicketType
-        'status',     // Enum StatusTicket
-        'priority',   // Enum Priority
-        'department_id',  // Agregado: referencia al departamento si corresponde
+        'status',
+        'priority',
+        'type',
+        'response_due_date',
+        'resolution_due_date',
+        'first_response_at',
+        'resolution_at',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
             'type' => TicketType::class,
             'status' => StatusTicket::class,
             'priority' => Priority::class,
+            'response_due_date' => 'date',
+            'resolution_due_date' => 'date',
+            'first_response_at' => 'datetime',
+            'resolution_at' => 'datetime',
         ];
     }
-    /**
-     * The user who created the ticket.
-     */
+
+    // Relationships
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * The department the ticket belongs to (if applicable).
-     */
     public function department()
     {
         return $this->belongsTo(Department::class);
     }
 
-    /**
-     * The attachments for the ticket.
-     */
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'ticket_tags')
+            ->withTimestamps();
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(TicketComment::class);
+    }
+
+    public function logs()
+    {
+        return $this->hasMany(TicketLog::class);
+    }
+
     public function attachments()
     {
         return $this->hasMany(TicketAttachment::class);
     }
 
-    /**
-     * The history of status changes for the ticket.
-     */
-    public function history()
+    public function reminders()
     {
-        return $this->hasMany(TicketLog::class);
+        return $this->hasMany(Reminder::class);
+    }
+
+    // Scope para filtrar por estado
+    public function scopeStatus($query, StatusTicket $status)
+    {
+        return $query->where('status', $status);
+    }
+
+    // Scope para filtrar por prioridad
+    public function scopePriority($query, Priority $priority)
+    {
+        return $query->where('priority', $priority);
+    }
+
+    // Scope para filtrar por tipo
+    public function scopeType($query, TicketType $type)
+    {
+        return $query->where('type', $type);
     }
 }

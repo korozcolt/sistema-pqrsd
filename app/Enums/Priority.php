@@ -36,7 +36,7 @@ enum Priority: string implements HasLabel, HasColor, HasIcon {
     {
         return match ($this) {
             self::Low => 'heroicon-o-arrow-down',
-            self::Medium => 'heroicon-o-adjustments',
+            self::Medium => 'heroicon-o-adjustments-horizontal',
             self::High => 'heroicon-o-arrow-up',
             self::Urgent => 'heroicon-o-fire',
         };

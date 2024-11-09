@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Priority;
 use App\Enums\StatusTicket;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,18 +14,8 @@ class TicketLog extends Model
 {
     use HasFactory;
 
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
     public $timestamps = false;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'ticket_id',
         'changed_by',
@@ -32,50 +23,42 @@ class TicketLog extends Model
         'new_status',
         'previous_department_id',
         'new_department_id',
+        'previous_priority',
+        'new_priority',
         'change_reason',
         'changed_at',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'previous_status' => StatusTicket::class,
-        'new_status' => StatusTicket::class,
-        'changed_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'previous_status' => StatusTicket::class,
+            'new_status' => StatusTicket::class,
+            'previous_priority' => Priority::class,
+            'new_priority' => Priority::class,
+            'changed_at' => 'datetime',
+        ];
+    }
 
-    /**
-     * Relation to the ticket this log belongs to.
-     */
+    // Relationships
     public function ticket()
     {
         return $this->belongsTo(Ticket::class);
     }
 
-    /**
-     * User who made the change.
-     */
-    public function changedBy()
+    public function user()
     {
         return $this->belongsTo(User::class, 'changed_by');
     }
 
-    /**
-     * Previous department.
-     */
     public function previousDepartment()
     {
         return $this->belongsTo(Department::class, 'previous_department_id');
     }
 
-    /**
-     * New department after the change.
-     */
     public function newDepartment()
     {
         return $this->belongsTo(Department::class, 'new_department_id');
     }
 }
+
