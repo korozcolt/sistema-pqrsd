@@ -13,25 +13,29 @@ services:
             - APP_URL=https://torcoroma.kronnos.dev
             - APP_TIMEZONE=UTC
             - DB_CONNECTION=mysql
-            - DB_HOST=mysql
+            - DB_HOST=torcoroma_mysql
             - DB_PORT=3306
             - DB_DATABASE=torcoroma_web_project
             - DB_USERNAME=root
             - DB_PASSWORD=root
             - REDIS_CLIENT=phpredis
-            - REDIS_HOST=redis
+            - REDIS_HOST=torcoroma_redis
             - REDIS_PORT=6379
             - SESSION_DRIVER=database
             - CACHE_STORE=redis
         ports:
-            - "127.0.0.1:8080:8000"  # Solo accesible localmente
+            - "127.0.0.1:8080:8000"
         volumes:
-            - .:/var/www/html
+            - ./:/var/www/html
+            - /var/www/html/vendor
+            - /var/www/html/node_modules
         networks:
             - torcoroma_network
         depends_on:
-            - mysql
-            - redis
+            mysql:
+                condition: service_healthy
+            redis:
+                condition: service_healthy
         restart: unless-stopped
 
     mysql:
@@ -47,9 +51,9 @@ services:
         networks:
             - torcoroma_network
         ports:
-            - "127.0.0.1:3306:3306"  # Solo accesible localmente
+            - "127.0.0.1:3306:3306"
         healthcheck:
-            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
             interval: 10s
             timeout: 5s
             retries: 5
@@ -63,7 +67,7 @@ services:
         networks:
             - torcoroma_network
         ports:
-            - "127.0.0.1:6379:6379"  # Solo accesible localmente
+            - "127.0.0.1:6379:6379"
         healthcheck:
             test: ["CMD", "redis-cli", "ping"]
             interval: 10s
