@@ -23,11 +23,32 @@ jobs:
         ssh-keyscan -H 208.109.235.177 >> ~/.ssh/known_hosts
 
     - name: Deploy to Server
+      env:
+        COMPOSE_HTTP_TIMEOUT: 300
       run: |
-        ssh -i ~/.ssh/id_ed25519 kronnos@208.109.235.177 "cd ~/torcoroma_project && git pull origin master"
-        ssh -i ~/.ssh/id_ed25519 kronnos@208.109.235.177 "cd ~/torcoroma_project && docker-compose up -d --build"
-        ssh -i ~/.ssh/id_ed25519 kronnos@208.109.235.177 "cd ~/torcoroma_project && docker exec torcoroma_web_app composer install --no-dev --optimize-autoloader --no-interaction"
-        ssh -i ~/.ssh/id_ed25519 kronnos@208.109.235.177 "cd ~/torcoroma_project && docker exec torcoroma_web_app npm ci && npm run build"
-        ssh -i ~/.ssh/id_ed25519 kronnos@208.109.235.177 "cd ~/torcoroma_project && docker exec torcoroma_web_app php artisan migrate --force"
-        ssh -i ~/.ssh/id_ed25519 kronnos@208.109.235.177 "cd ~/torcoroma_project && docker exec torcoroma_web_app php artisan config:cache"
-        ssh -i ~/.ssh/id_ed25519 kronnos@208.109.235.177 "cd ~/torcoroma_project && docker exec torcoroma_web_app php artisan route:cache"
+        ssh -i ~/.ssh/id_ed25519 kronnos@208.109.235.177 << 'ENDSSH'
+          cd ~/torcoroma_project
+
+          # Pull latest changes
+          git pull origin master
+
+          # Build and restart containers
+          docker-compose down
+          docker-compose up -d --build
+
+          # Wait for containers to be ready
+          sleep 30
+
+          # Run deployment commands
+          docker exec torcoroma_web_app php artisan down
+          docker exec torcoroma_web_app composer install --no-dev --optimize-autoloader --no-interaction
+          docker exec torcoroma_web_app npm ci
+          docker exec torcoroma_web_app npm run build
+          docker exec torcoroma_web_app php artisan migrate --force
+          docker exec torcoroma_web_app php artisan config:cache
+          docker exec torcoroma_web_app php artisan route:cache
+          docker exec torcoroma_web_app php artisan view:cache
+          docker exec torcoroma_web_app php artisan up
+
+          # Clean up
+          docker system prune -f

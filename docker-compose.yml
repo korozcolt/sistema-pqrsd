@@ -1,11 +1,18 @@
 version: "3.8"
 
 services:
+    nginx:
+        image: nginx:alpine
+        container_name: torcoroma_nginx
+        ports:
+            - "8080:80"
+        volumes:
+            - ./nginx.conf:/etc/nginx/conf.d/default.conf
+            - .:/var/www/html
+        depends_on:
+            - laravel
+
     laravel:
-        deploy:
-            resources:
-                limits:
-                    memory: 1024M
         build:
             context: .
             dockerfile: Dockerfile
@@ -26,13 +33,13 @@ services:
             - REDIS_PORT=6379
             - SESSION_DRIVER=database
             - CACHE_STORE=redis
-        ports:
-            - "8080:8080" # Mapea al puerto 8080 en el host
         volumes:
             - .:/var/www/html
         depends_on:
-            - mysql
-            - redis
+            mysql:
+                condition: service_healthy
+            redis:
+                condition: service_healthy
 
     mysql:
         image: mysql:8
@@ -46,14 +53,24 @@ services:
             - mysql_data:/var/lib/mysql
         ports:
             - "3306:3306"
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
 
     redis:
-        image: redis:6
+        image: redis:6-alpine
         container_name: torcoroma_redis
         ports:
             - "6379:6379"
         volumes:
             - redis_data:/data
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
 
 volumes:
     mysql_data:
