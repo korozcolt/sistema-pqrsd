@@ -98,5 +98,150 @@
     "Last 90 Days": "Últimos 90 Días",
     "Custom Range": "Rango Personalizado",
     "Apply": "Aplicar",
-    "Export": "Exportar"
+    "Export": "Exportar",
+    "auth": {
+        "E-Mail Address": "Correo electrónico",
+        "Password": "Contraseña",
+        "Remember Me": "Recuérdame",
+        "Login": "Acceder",
+        "Logout": "Cerrar sesión",
+        "Register": "Registro",
+        "Name": "Nombre",
+        "Confirm Password": "Confirmar contraseña",
+        "Reset Password": "Restablecer contraseña",
+        "Forgot Your Password?": "¿Olvidaste tu contraseña?",
+        "Send Password Reset Link": "Enviar enlace para restablecer contraseña",
+        "Verify Email Address": "Confirmar correo electrónico"
+    },
+    "navigation": {
+        "Dashboard": "Panel de Control",
+        "Tickets": "Tickets",
+        "Users": "Usuarios",
+        "Departments": "Departamentos",
+        "Settings": "Configuración",
+        "Administration": "Administración",
+        "Management": "Gestión",
+        "Ticket Settings": "Configuración de Tickets"
+    },
+    "tickets": {
+        "status": {
+            "pending": "Pendiente",
+            "in_progress": "En Progreso",
+            "resolved": "Resuelto",
+            "closed": "Cerrado",
+            "rejected": "Rechazado",
+            "reopened": "Reabierto"
+        },
+        "priority": {
+            "low": "Baja",
+            "medium": "Media",
+            "high": "Alta",
+            "urgent": "Urgente"
+        },
+        "type": {
+            "petition": "Petición",
+            "complaint": "Queja",
+            "claim": "Reclamo",
+            "suggestion": "Sugerencia"
+        },
+        "fields": {
+            "ticket_number": "Número de Ticket",
+            "title": "Título",
+            "description": "Descripción",
+            "status": "Estado",
+            "priority": "Prioridad",
+            "type": "Tipo",
+            "department": "Departamento",
+            "created_by": "Creado por",
+            "assigned_to": "Asignado a",
+            "created_at": "Creado el",
+            "updated_at": "Actualizado el",
+            "response_due_date": "Fecha límite de respuesta",
+            "resolution_due_date": "Fecha límite de resolución",
+            "first_response_at": "Primera respuesta",
+            "resolution_at": "Fecha de resolución"
+        }
+    },
+    "comments": {
+        "add_comment": "Agregar Comentario",
+        "internal_note": "Nota Interna",
+        "public_response": "Respuesta Pública",
+        "response_by": "Respondido por",
+        "commented_at": "Comentado el",
+        "no_comments": "No hay comentarios aún"
+    },
+    "attachments": {
+        "title": "Archivos Adjuntos",
+        "add_file": "Agregar Archivo",
+        "file_name": "Nombre del Archivo",
+        "file_size": "Tamaño",
+        "file_type": "Tipo",
+        "uploaded_by": "Subido por",
+        "uploaded_at": "Subido el",
+        "download": "Descargar"
+    },
+    "departments": {
+        "name": "Nombre",
+        "code": "Código",
+        "description": "Descripción",
+        "email": "Correo electrónico",
+        "phone": "Teléfono",
+        "address": "Dirección",
+        "status": {
+            "active": "Activo",
+            "inactive": "Inactivo",
+            "deleted": "Eliminado"
+        }
+    },
+    "sla": {
+        "title": "Acuerdos de Nivel de Servicio",
+        "response_time": "Tiempo de Respuesta",
+        "resolution_time": "Tiempo de Resolución",
+        "is_active": "Activo",
+        "hours": "horas",
+        "days": "días"
+    },
+    "users": {
+        "roles": {
+            "superadmin": "Super Administrador",
+            "admin": "Administrador",
+            "receptionist": "Recepcionista",
+            "user_web": "Usuario Web"
+        },
+        "fields": {
+            "name": "Nombre",
+            "email": "Correo electrónico",
+            "role": "Rol",
+            "password": "Contraseña",
+            "new_password": "Nueva Contraseña"
+        }
+    },
+    "actions": {
+        "create": "Crear",
+        "edit": "Editar",
+        "delete": "Eliminar",
+        "view": "Ver",
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "confirm": "Confirmar",
+        "back": "Volver",
+        "search": "Buscar",
+        "filter": "Filtrar",
+        "export": "Exportar",
+        "import": "Importar",
+        "download": "Descargar",
+        "upload": "Subir",
+        "respond": "Responder",
+        "close": "Cerrar",
+        "reopen": "Reabrir"
+    },
+    "messages": {
+        "created_successfully": "Creado exitosamente",
+        "updated_successfully": "Actualizado exitosamente",
+        "deleted_successfully": "Eliminado exitosamente",
+        "confirm_delete": "¿Está seguro que desea eliminar?",
+        "no_records": "No hay registros para mostrar",
+        "loading": "Cargando...",
+        "required_field": "Este campo es obligatorio"
+    }
 }

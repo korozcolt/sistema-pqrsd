@@ -4,95 +4,100 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Enums\StatusTicket;
-use App\Enums\TicketType;
-use App\Enums\Priority;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Enums\StatusTicket;
+use App\Enums\Priority;
+use App\Enums\TicketType;
 
 class Ticket extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'user_id',
-        'department_id',
         'ticket_number',
         'title',
         'description',
+        'user_id',
+        'department_id',
+        'type',
         'status',
         'priority',
-        'type',
         'response_due_date',
         'resolution_due_date',
         'first_response_at',
-        'resolution_at',
+        'resolution_at'
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'type' => TicketType::class,
-            'status' => StatusTicket::class,
-            'priority' => Priority::class,
-            'response_due_date' => 'date',
-            'resolution_due_date' => 'date',
-            'first_response_at' => 'datetime',
-            'resolution_at' => 'datetime',
-        ];
-    }
+    protected $casts = [
+        'type' => TicketType::class,
+        'status' => StatusTicket::class,
+        'priority' => Priority::class,
+        'response_due_date' => 'datetime',
+        'resolution_due_date' => 'datetime',
+        'first_response_at' => 'datetime',
+        'resolution_at' => 'datetime',
+    ];
 
-    // Relationships
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function department()
+    public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class);
     }
 
-    public function tags()
+    public function sla(): BelongsTo
     {
-        return $this->belongsToMany(Tag::class, 'ticket_tags')
-            ->withTimestamps();
+        return $this->belongsTo(SLA::class, 'type', 'ticket_type')
+                    ->where('priority', $this->priority)
+                    ->where('is_active', true);
     }
 
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(TicketComment::class);
     }
 
-    public function logs()
-    {
-        return $this->hasMany(TicketLog::class);
-    }
-
-    public function attachments()
+    public function attachments(): HasMany
     {
         return $this->hasMany(TicketAttachment::class);
     }
 
-    public function reminders()
+    public function logs(): HasMany
+    {
+        return $this->hasMany(TicketLog::class);
+    }
+
+    public function reminders(): HasMany
     {
         return $this->hasMany(Reminder::class);
     }
 
-    // Scope para filtrar por estado
-    public function scopeStatus($query, StatusTicket $status)
+    public function tags(): BelongsToMany
     {
-        return $query->where('status', $status);
+        return $this->belongsToMany(Tag::class, 'ticket_tags');
     }
 
-    // Scope para filtrar por prioridad
-    public function scopePriority($query, Priority $priority)
+    protected static function booted()
     {
-        return $query->where('priority', $priority);
-    }
+        static::created(function ($ticket) {
+            // Generar número de ticket si no existe
+            if (!$ticket->ticket_number) {
+                $ticket->ticket_number = 'TK-' . str_pad($ticket->id, 5, '0', STR_PAD_LEFT);
+                $ticket->save();
+            }
 
-    // Scope para filtrar por tipo
-    public function scopeType($query, TicketType $type)
-    {
-        return $query->where('type', $type);
+            // Buscar SLA aplicable y establecer fechas
+            if ($sla = $ticket->sla()->first()) {
+                $ticket->response_due_date = now()->addHours($sla->response_time);
+                $ticket->resolution_due_date = now()->addHours($sla->resolution_time);
+                $ticket->save();
+            }
+        });
     }
 }

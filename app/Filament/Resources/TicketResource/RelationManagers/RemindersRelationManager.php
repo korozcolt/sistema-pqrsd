@@ -2,49 +2,38 @@
 
 namespace App\Filament\Resources\TicketResource\RelationManagers;
 
-use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RemindersRelationManager extends RelationManager
 {
     protected static string $relationship = 'reminders';
-
-    public function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('reminder_type')
-                    ->required()
-                    ->maxLength(255),
-            ]);
-    }
+    protected static ?string $title = 'Reminders';
+    protected static ?string $recordTitleAttribute = 'reminder_type';
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('reminder_type')
             ->columns([
-                Tables\Columns\TextColumn::make('reminder_type'),
+                Tables\Columns\TextColumn::make('reminder_type')
+                    ->badge(),
+
+                // Corrección aquí - usar el nombre completo de la relación
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Sent To'),
+
+                Tables\Columns\IconColumn::make('is_read')
+                    ->boolean(),
+
+                Tables\Columns\TextColumn::make('sent_at')
+                    ->dateTime(),
+
+                Tables\Columns\TextColumn::make('read_at')
+                    ->dateTime()
+                    ->placeholder('Not read yet'),
             ])
-            ->filters([
-                //
-            ])
-            ->headerActions([
-                Tables\Actions\CreateAction::make(),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+            ->defaultSort('sent_at', 'desc')
+            ->paginated(false);
     }
 }

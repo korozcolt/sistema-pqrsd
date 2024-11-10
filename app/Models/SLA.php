@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Enums\Priority;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\TicketType;
+use App\Enums\Priority;
 
 class SLA extends Model
 {
@@ -18,21 +18,20 @@ class SLA extends Model
         'priority',
         'response_time',
         'resolution_time',
-        'is_active',
+        'is_active'
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'ticket_type' => TicketType::class,
-            'priority' => Priority::class,
-            'is_active' => 'boolean',
-        ];
-    }
+    protected $casts = [
+        'ticket_type' => TicketType::class,
+        'priority' => Priority::class,
+        'is_active' => 'boolean',
+        'response_time' => 'integer',
+        'resolution_time' => 'integer'
+    ];
 
-    // Scope para SLAs activos
-    public function scopeActive($query)
+    public function tickets()
     {
-        return $query->where('is_active', true);
+        return $this->hasMany(Ticket::class, 'type', 'ticket_type')
+                    ->where('priority', $this->priority);
     }
 }

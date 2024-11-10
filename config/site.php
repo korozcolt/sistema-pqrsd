@@ -37,5 +37,6 @@ return [
 
     // Configuración de Correo
     'subject' => 'Asunto del correo',
+    'pqrs_email' => 'ing.korozco@gmail.com',
 
 ];

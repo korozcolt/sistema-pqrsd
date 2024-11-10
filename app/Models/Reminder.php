@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\ReminderType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Ticket;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Reminder extends Model
 {
@@ -23,18 +25,18 @@ class Reminder extends Model
     ];
 
     protected $casts = [
+        'reminder_type' => ReminderType::class,
         'is_read' => 'boolean',
         'sent_at' => 'datetime',
         'read_at' => 'datetime',
     ];
 
-    // Relationships
-    public function ticket()
+    public function ticket(): BelongsTo
     {
         return $this->belongsTo(Ticket::class);
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'sent_to');
     }
@@ -43,5 +45,26 @@ class Reminder extends Model
     public function scopeUnread($query)
     {
         return $query->where('is_read', false);
+    }
+
+    public function markAsRead(): void
+    {
+        $this->update([
+            'is_read' => true,
+            'read_at' => now()
+        ]);
+    }
+
+    public function markAsUnread(): void
+    {
+        $this->update([
+            'is_read' => false,
+            'read_at' => null
+        ]);
+    }
+
+    public function isRead(): bool
+    {
+        return $this->is_read;
     }
 }

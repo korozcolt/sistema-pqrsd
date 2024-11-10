@@ -2,49 +2,49 @@
 
 namespace App\Filament\Resources\TicketResource\RelationManagers;
 
-use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class LogsRelationManager extends RelationManager
 {
     protected static string $relationship = 'logs';
-
-    public function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('change_reason')
-                    ->required()
-                    ->maxLength(255),
-            ]);
-    }
+    protected static ?string $title = 'Ticket History';
+    protected static ?string $recordTitleAttribute = 'changed_at';
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('change_reason')
             ->columns([
-                Tables\Columns\TextColumn::make('change_reason'),
+                Tables\Columns\TextColumn::make('changed_at')
+                    ->label('Date')
+                    ->dateTime()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Changed By')
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('previous_status')
+                    ->badge()
+                    ->color('gray'),
+
+                Tables\Columns\TextColumn::make('new_status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'pending' => 'warning',
+                        'in_progress' => 'info',
+                        'resolved' => 'success',
+                        'rejected' => 'danger',
+                        'closed' => 'gray',
+                        'reopened' => 'warning',
+                        default => 'primary',
+                    }),
+
+                Tables\Columns\TextColumn::make('change_reason')
+                    ->limit(50),
             ])
-            ->filters([
-                //
-            ])
-            ->headerActions([
-                Tables\Actions\CreateAction::make(),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+            ->defaultSort('changed_at', 'desc')
+            ->paginated(false);
     }
 }
