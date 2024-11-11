@@ -17,12 +17,12 @@ enum StatusTicket: string implements HasLabel, HasColor, HasIcon {
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::Pending => 'Pending',
-            self::In_Progress => 'In Progress',
-            self::Closed => 'Closed',
-            self::Resolved => 'Resolved',
-            self::Rejected => 'Rejected',
-            self::Reopened => 'Reopened',
+            self::Pending => 'Pendiente',
+            self::In_Progress => 'En Progreso',
+            self::Closed => 'Cerrado',
+            self::Resolved => 'Resuelto',
+            self::Rejected => 'Rechazado',
+            self::Reopened => 'Reabierto',
         };
     }
 
@@ -46,7 +46,7 @@ enum StatusTicket: string implements HasLabel, HasColor, HasIcon {
             self::Closed => 'heroicon-o-check-circle',
             self::Resolved => 'heroicon-o-check-circle',
             self::Rejected => 'heroicon-o-x-circle',
-            self::Reopened => 'heroicon-o-refresh',
+            self::Reopened => 'heroicon-o-swatch',
         };
     }
 

@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use App\Enums\TicketType;
 use App\Enums\Priority;
 
+/**
+ * @mixin IdeHelperSLA
+ */
 class SLA extends Model
 {
     use HasFactory;

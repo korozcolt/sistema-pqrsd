@@ -4,11 +4,8 @@ namespace App\Listeners;
 
 use App\Events\TicketCreated;
 use App\Models\Reminder;
-use Carbon\Carbon;
 use App\Enums\ReminderType;
-use App\Notifications\TicketReminderNotification;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Notification;
+use Carbon\Carbon;
 
 class CreateTicketReminder
 {
@@ -16,41 +13,45 @@ class CreateTicketReminder
     {
         $ticket = $event->ticket;
 
-        if ($ticket->resolution_due_date) {
-            $reminder = Reminder::create([
-                'ticket_id' => $ticket->id,
-                'sent_to' => $ticket->user_id,
-                'reminder_type' => ReminderType::ResolutionDue,
-                'sent_at' => Carbon::parse($ticket->resolution_due_date)->subDay(),
-            ]);
-
-            // Notificar al usuario y al administrador
-            $ticket->user->notify(new TicketReminderNotification($ticket, 'resolution_due'));
-            Notification::route('mail', Config::get('site.pqrs_email'))
-                ->notify(new TicketReminderNotification($ticket, 'resolution_due'));
-        }
-
-        // Recordatorio para tiempo de resolución
-        if ($ticket->resolution_due_date) {
-            $reminderSentAt = Carbon::parse($ticket->resolution_due_date)->subDay();
-
-            Reminder::create([
-                'ticket_id' => $ticket->id,
-                'sent_to' => $ticket->user_id,
-                'reminder_type' => ReminderType::ResolutionDue,
-                'sent_at' => $reminderSentAt,
-            ]);
-        }
-
-        // Recordatorio para tiempo de respuesta
         if ($ticket->response_due_date) {
-            $responseReminderSentAt = Carbon::parse($ticket->response_due_date)->subHours(2);
+            // Recordatorio para mitad de tiempo de respuesta
+            $halfTimeResponse = Carbon::parse($ticket->created_at)
+                ->addHours(Carbon::parse($ticket->response_due_date)->diffInHours($ticket->created_at) / 2);
 
             Reminder::create([
                 'ticket_id' => $ticket->id,
                 'sent_to' => $ticket->user_id,
-                'reminder_type' => ReminderType::ResponseDue,
-                'sent_at' => $responseReminderSentAt,
+                'reminder_type' => ReminderType::HalfTimeResponse,
+                'sent_at' => $halfTimeResponse,
+            ]);
+
+            // Recordatorio 24h antes del vencimiento de respuesta
+            Reminder::create([
+                'ticket_id' => $ticket->id,
+                'sent_to' => $ticket->user_id,
+                'reminder_type' => ReminderType::DayBeforeResponse,
+                'sent_at' => Carbon::parse($ticket->response_due_date)->subDay(),
+            ]);
+        }
+
+        if ($ticket->resolution_due_date) {
+            // Recordatorio para mitad de tiempo de resolución
+            $halfTimeResolution = Carbon::parse($ticket->created_at)
+                ->addHours(Carbon::parse($ticket->resolution_due_date)->diffInHours($ticket->created_at) / 2);
+
+            Reminder::create([
+                'ticket_id' => $ticket->id,
+                'sent_to' => $ticket->user_id,
+                'reminder_type' => ReminderType::HalfTimeResolution,
+                'sent_at' => $halfTimeResolution,
+            ]);
+
+            // Recordatorio 24h antes del vencimiento de resolución
+            Reminder::create([
+                'ticket_id' => $ticket->id,
+                'sent_to' => $ticket->user_id,
+                'reminder_type' => ReminderType::DayBeforeResolution,
+                'sent_at' => Carbon::parse($ticket->resolution_due_date)->subDay(),
             ]);
         }
     }

@@ -15,10 +15,10 @@ enum Priority: string implements HasLabel, HasColor, HasIcon {
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::Low => 'Low',
-            self::Medium => 'Medium',
-            self::High => 'High',
-            self::Urgent => 'Urgent',
+            self::Low => 'Baja',
+            self::Medium => 'Media',
+            self::High => 'Alta',
+            self::Urgent => 'Urgente',
         };
     }
 

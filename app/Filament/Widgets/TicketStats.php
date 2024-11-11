@@ -3,13 +3,13 @@
 namespace App\Filament\Widgets;
 
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
-use Filament\Widgets\StatsOverviewWidget\Stat;
 use App\Models\Ticket;
 use App\Enums\StatusTicket;
 use App\Enums\Priority;
 use App\Enums\UserRole;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class TicketStats extends BaseWidget
 {
@@ -20,12 +20,10 @@ class TicketStats extends BaseWidget
     {
         $query = Ticket::query();
 
-        // Si es un usuario web, solo ve sus tickets
         if (Auth::user()->role === UserRole::UserWeb) {
             $query->where('user_id', Auth::id());
         }
 
-        // Estadísticas generales
         $totalTickets = $query->count();
         $pendingTickets = $query->clone()->where('status', StatusTicket::Pending)->count();
         $inProgressTickets = $query->clone()->where('status', StatusTicket::In_Progress)->count();
@@ -34,7 +32,6 @@ class TicketStats extends BaseWidget
             ->whereIn('status', [StatusTicket::Pending, StatusTicket::In_Progress])
             ->count();
 
-        // Obtener tendencia de los últimos 7 días
         $last7Days = collect(range(6, 0))->map(function ($daysAgo) use ($query) {
             $date = now()->subDays($daysAgo)->format('Y-m-d');
             return $query->clone()
@@ -42,7 +39,6 @@ class TicketStats extends BaseWidget
                 ->count();
         })->toArray();
 
-        // Obtener tendencia de resolución de los últimos 7 días
         $resolutionTrend = collect(range(6, 0))->map(function ($daysAgo) use ($query) {
             $date = now()->subDays($daysAgo)->format('Y-m-d');
             return $query->clone()
@@ -52,38 +48,56 @@ class TicketStats extends BaseWidget
         })->toArray();
 
         return [
-            Stat::make('Total Tickets', $totalTickets)
+            Stat::make('Total de Tickets', $totalTickets)
                 ->description($this->getTicketTrend())
                 ->descriptionIcon($this->getTicketTrendIcon())
                 ->chart($last7Days)
-                ->color('gray'),
+                ->color('gray')
+                ->extraAttributes([
+                    'title' => 'Total de tickets creados'
+                ]),
 
-            Stat::make('Pending', $pendingTickets)
-                ->description('Awaiting response')
+            Stat::make('Pendientes', $pendingTickets)
+                ->description('Esperando respuesta')
                 ->descriptionIcon('heroicon-m-clock')
-                ->color('warning'),
+                ->color('warning')
+                ->extraAttributes([
+                    'title' => 'Tickets que requieren atención'
+                ]),
 
-            Stat::make('In Progress', $inProgressTickets)
-                ->description('Being processed')
+            Stat::make('En Proceso', $inProgressTickets)
+                ->description('En atención')
                 ->descriptionIcon('heroicon-m-arrow-path')
                 ->chart($this->getProgressChart())
-                ->color('info'),
+                ->color('info')
+                ->extraAttributes([
+                    'title' => 'Tickets que están siendo procesados'
+                ]),
 
-            Stat::make('Urgent', $urgentTickets)
-                ->description('High priority tickets')
+            Stat::make('Urgentes', $urgentTickets)
+                ->description('Tickets de alta prioridad')
                 ->descriptionIcon('heroicon-m-exclamation-triangle')
-                ->color('danger'),
+                ->color('danger')
+                ->extraAttributes([
+                    'title' => 'Tickets urgentes pendientes de resolución'
+                ]),
 
-            Stat::make('Resolution Rate', $this->getResolutionRate() . '%')
-                ->description('Last 30 days')
+            Stat::make('Tasa de Resolución', $this->getResolutionRate() . '%')
+                ->description('Últimos 30 días')
                 ->descriptionIcon('heroicon-m-chart-bar')
                 ->chart($resolutionTrend)
-                ->color('success'),
+                ->color('success')
+                ->extraAttributes([
+                    'title' => 'Porcentaje de tickets resueltos en los últimos 30 días'
+                ]),
 
-            Stat::make('Avg Response Time', $this->getAverageResponseTime())
-                ->description('Last 30 days')
+            Stat::make('Tiempo Promedio de Respuesta', $this->getAverageResponseTime())
+                ->description('Últimos 30 días')
                 ->descriptionIcon('heroicon-m-clock')
-                ->color('gray'),
+                ->color('gray')
+                ->extraAttributes([
+                    'title' => 'Tiempo promedio de primera respuesta a tickets'
+                ]),
         ];
     }
 
@@ -104,13 +118,13 @@ class TicketStats extends BaseWidget
             ->count();
 
         if ($previousPeriod === 0) {
-            return 'No previous data';
+            return 'Sin datos previos';
         }
 
         $percentageChange = (($currentPeriod - $previousPeriod) / $previousPeriod) * 100;
 
         return number_format(abs($percentageChange), 1) . '% ' .
-               ($percentageChange >= 0 ? 'increase' : 'decrease');
+               ($percentageChange >= 0 ? 'de incremento' : 'de decremento');
     }
 
     private function getTicketTrendIcon(): string
@@ -185,9 +199,9 @@ class TicketStats extends BaseWidget
         }
 
         if ($averageMinutes < 1440) { // 24 hours
-            return round($averageMinutes / 60, 1) . ' hours';
+            return round($averageMinutes / 60, 1) . ' horas';
         }
 
-        return round($averageMinutes / 1440, 1) . ' days';
+        return round($averageMinutes / 1440, 1) . ' días';
     }
 }

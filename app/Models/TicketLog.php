@@ -10,6 +10,9 @@ use App\Models\Ticket;
 use App\Models\User;
 use App\Models\Department;
 
+/**
+ * @mixin IdeHelperTicketLog
+ */
 class TicketLog extends Model
 {
     use HasFactory;

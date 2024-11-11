@@ -3,7 +3,7 @@
 namespace App\Filament\Widgets;
 
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
-use Filament\Widgets\StatsOverviewWidget\Stat;
+use Filament\Widgets\StatsOverviewWidget\Card;  // Cambiado a Card para Filament 3.x
 use App\Models\Ticket;
 use App\Models\SLA;
 use App\Enums\StatusTicket;
@@ -16,32 +16,36 @@ class SLACompliance extends BaseWidget
 
     protected function getStats(): array
     {
-        // Calcular cumplimiento de SLA de respuesta
         $responseCompliance = $this->calculateResponseCompliance();
-
-        // Calcular cumplimiento de SLA de resolución
         $resolutionCompliance = $this->calculateResolutionCompliance();
-
-        // Calcular tiempo promedio de resolución
         $avgResolutionTimes = $this->calculateAverageResolutionTimes();
 
         return [
-            Stat::make('SLA Response Compliance', number_format($responseCompliance['percentage'], 1) . '%')
+            Card::make('Cumplimiento de Tiempo de Respuesta', number_format($responseCompliance['percentage'], 1) . '%')
                 ->description($responseCompliance['description'])
-                ->descriptionIcon('heroicon-m-clock')  // Cambiado
+                ->descriptionIcon('heroicon-m-clock')
                 ->color($this->getColorForPercentage($responseCompliance['percentage']))
-                ->chart($responseCompliance['chart']),
+                ->chart($responseCompliance['chart'])
+                ->extraAttributes([
+                    'tooltip' => 'Porcentaje de tickets respondidos dentro del SLA establecido'
+                ]),
 
-            Stat::make('SLA Resolution Compliance', number_format($resolutionCompliance['percentage'], 1) . '%')
+            Card::make('Cumplimiento de Tiempo de Resolución', number_format($resolutionCompliance['percentage'], 1) . '%')
                 ->description($resolutionCompliance['description'])
-                ->descriptionIcon('heroicon-m-check-circle')  // Este está bien
+                ->descriptionIcon('heroicon-m-check-circle')
                 ->color($this->getColorForPercentage($resolutionCompliance['percentage']))
-                ->chart($resolutionCompliance['chart']),
+                ->chart($resolutionCompliance['chart'])
+                ->extraAttributes([
+                    'tooltip' => 'Porcentaje de tickets resueltos dentro del SLA establecido'
+                ]),
 
-            Stat::make('Average Resolution Time', $avgResolutionTimes['overall_formatted'])
+            Card::make('Tiempo Promedio de Resolución', $avgResolutionTimes['overall_formatted'])
                 ->description($avgResolutionTimes['description'])
-                ->descriptionIcon('heroicon-m-clock')  // Cambiado
-                ->chart($avgResolutionTimes['chart']),
+                ->descriptionIcon('heroicon-m-clock')
+                ->chart($avgResolutionTimes['chart'])
+                ->extraAttributes([
+                    'tooltip' => 'Tiempo promedio que toma resolver un ticket'
+                ]),
         ];
     }
 
@@ -57,7 +61,7 @@ class SLACompliance extends BaseWidget
         if ($tickets->isEmpty()) {
             return [
                 'percentage' => 100,
-                'description' => 'No tickets to measure',
+                'description' => 'Sin tickets para medir',
                 'chart' => array_fill(0, 7, 0)
             ];
         }
@@ -94,7 +98,7 @@ class SLACompliance extends BaseWidget
 
         return [
             'percentage' => $percentage,
-            'description' => "{$compliantTickets->count()} of {$tickets->count()} tickets within SLA",
+            'description' => "{$compliantTickets->count()} de {$tickets->count()} tickets dentro del SLA",
             'chart' => $chart
         ];
     }
@@ -112,7 +116,7 @@ class SLACompliance extends BaseWidget
         if ($tickets->isEmpty()) {
             return [
                 'percentage' => 100,
-                'description' => 'No tickets to measure',
+                'description' => 'Sin tickets para medir',
                 'chart' => array_fill(0, 7, 0)
             ];
         }
@@ -126,7 +130,6 @@ class SLACompliance extends BaseWidget
 
         $percentage = ($compliantTickets->count() / $tickets->count()) * 100;
 
-        // Generar datos para el gráfico de los últimos 7 días
         $chart = collect(range(6, 0))->map(function ($daysAgo) use ($tickets) {
             $date = now()->subDays($daysAgo)->format('Y-m-d');
             $dayTickets = $tickets->filter(function ($ticket) use ($date) {
@@ -149,7 +152,7 @@ class SLACompliance extends BaseWidget
 
         return [
             'percentage' => $percentage,
-            'description' => "{$compliantTickets->count()} of {$tickets->count()} tickets resolved within SLA",
+            'description' => "{$compliantTickets->count()} de {$tickets->count()} tickets resueltos dentro del SLA",
             'chart' => $chart
         ];
     }
@@ -170,38 +173,36 @@ class SLACompliance extends BaseWidget
 
         $overallAvg = $avgTimes->average() ?? 0;
 
-        // Preparar datos para el gráfico
         $chart = $avgTimes->values()->map(function ($value) {
             return $value ?? 0;
         })->toArray();
 
         return [
             'overall_formatted' => $this->formatHours($overallAvg),
-            'description' => 'Last 30 days average',
+            'description' => 'Promedio últimos 30 días',
             'byType' => $avgTimes->toArray(),
-            'chart' => array_pad($chart, 7, 0) // Asegurar que siempre hay 7 valores
+            'chart' => array_pad($chart, 7, 0)
         ];
     }
 
     private function formatHours(?float $hours): string
     {
-        // Si es nulo o 0, retornar N/A
         if ($hours === null || $hours === 0) {
             return 'N/A';
         }
 
         if ($hours < 24) {
-            return round($hours, 1) . ' hrs';
+            return round($hours, 1) . ' horas';
         }
 
         $days = floor($hours / 24);
         $remainingHours = $hours % 24;
 
         if ($remainingHours < 1) {
-            return $days . ' days';
+            return $days . ' días';
         }
 
-        return $days . ' days ' . round($remainingHours, 1) . ' hrs';
+        return $days . ' días ' . round($remainingHours, 1) . ' horas';
     }
 
     private function getColorForPercentage(float $percentage): string

@@ -12,7 +12,7 @@ use Flowframe\Trend\TrendValue;
 
 class TicketStatusChart extends ChartWidget
 {
-    protected static ?string $heading = 'Tickets by Status';
+    protected static ?string $heading = 'Distribución de Tickets';
     protected static ?int $sort = 4;
     protected int | string | array $columnSpan = 'full';
     protected static bool $isLazy = true;
@@ -22,10 +22,10 @@ class TicketStatusChart extends ChartWidget
     protected function getFilters(): ?array
     {
         return [
-            'today' => 'Today',
-            'week' => 'Last 7 days',
-            'month' => 'Last 30 days',
-            'year' => 'This year',
+            'today' => 'Hoy',
+            'week' => 'Últimos 7 días',
+            'month' => 'Últimos 30 días',
+            'year' => 'Este año',
         ];
     }
 
@@ -33,55 +33,72 @@ class TicketStatusChart extends ChartWidget
     {
         $query = Ticket::query();
 
-        // Filtrar por usuario si es user_web
         if (Auth::user()->role === UserRole::UserWeb) {
             $query->where('user_id', Auth::id());
         }
 
-        // Aplicar filtro de tiempo
         $query->when($this->filter === 'today', fn($q) => $q->whereDate('created_at', today()))
-            ->when($this->filter === 'week', fn($q) => $q->where('created_at', '>=', now()->subDays(7)))
-            ->when($this->filter === 'month', fn($q) => $q->where('created_at', '>=', now()->subDays(30)))
-            ->when($this->filter === 'year', fn($q) => $q->whereYear('created_at', now()->year));
+            ->when($this->filter === 'week', fn($q) => $q->where('created_at', '>=', now()->startOfWeek()))
+            ->when($this->filter === 'month', fn($q) => $q->where('created_at', '>=', now()->startOfMonth()))
+            ->when($this->filter === 'year', fn($q) => $q->where('created_at', '>=', now()->startOfYear()));
 
-        // Obtener datos agrupados por status
+        $total = $query->count();
+
         $data = $query->get()
             ->groupBy('status')
-            ->map(fn($tickets) => $tickets->count());
+            ->map(function($tickets) use ($total) {
+                $count = $tickets->count();
+                return [
+                    'count' => $count,
+                    'percentage' => $total > 0 ? round(($count / $total) * 100, 1) : 0
+                ];
+            });
 
-        // Asegurar que todos los estados estén representados
-        $allStatuses = collect(StatusTicket::cases())->map(fn($status) => $status->value);
-        $filledData = $allStatuses->mapWithKeys(fn($status) => [$status => $data[$status] ?? 0]);
+        $allStatuses = collect(StatusTicket::cases());
+        $filledData = $allStatuses->mapWithKeys(function($status) use ($data) {
+            $statusData = $data[$status->value] ?? ['count' => 0, 'percentage' => 0];
+            return [$status->value => $statusData['count']];
+        });
 
-        // Colores para cada estado
         $colors = [
-            StatusTicket::Pending->value => '#fbbf24',    // warning
-            StatusTicket::In_Progress->value => '#60a5fa', // info
-            StatusTicket::Closed->value => '#6b7280',      // gray
-            StatusTicket::Resolved->value => '#34d399',    // success
-            StatusTicket::Rejected->value => '#ef4444',    // danger
-            StatusTicket::Reopened->value => '#f97316',    // orange
+            StatusTicket::Pending->value => '#fbbf24',
+            StatusTicket::In_Progress->value => '#3b82f6',
+            StatusTicket::Closed->value => '#4b5563',
+            StatusTicket::Resolved->value => '#10b981',
+            StatusTicket::Rejected->value => '#dc2626',
+            StatusTicket::Reopened->value => '#ea580c',
         ];
 
-        // Etiquetas personalizadas para el gráfico
         $labels = [
-            StatusTicket::Pending->value => 'Pending',
-            StatusTicket::In_Progress->value => 'In Progress',
-            StatusTicket::Closed->value => 'Closed',
-            StatusTicket::Resolved->value => 'Resolved',
-            StatusTicket::Rejected->value => 'Rejected',
-            StatusTicket::Reopened->value => 'Reopened',
+            StatusTicket::Pending->value => 'Pendientes',
+            StatusTicket::In_Progress->value => 'En Proceso',
+            StatusTicket::Closed->value => 'Cerrados',
+            StatusTicket::Resolved->value => 'Resueltos',
+            StatusTicket::Rejected->value => 'Rechazados',
+            StatusTicket::Reopened->value => 'Reabiertos',
         ];
+
+        $labelsWithPercentages = $allStatuses->mapWithKeys(function($status) use ($labels, $data) {
+            $statusData = $data[$status->value] ?? ['count' => 0, 'percentage' => 0];
+            $count = $statusData['count'];
+            $percentage = $statusData['percentage'];
+            return [
+                $status->value => "{$labels[$status->value]}: $count ($percentage%)"
+            ];
+        });
 
         return [
             'datasets' => [
                 [
-                    'label' => 'Tickets by Status',
+                    'label' => 'Tickets por Estado',
                     'data' => $filledData->values()->toArray(),
-                    'backgroundColor' => $allStatuses->map(fn($status) => $colors[$status])->toArray(),
+                    'backgroundColor' => $allStatuses->map(fn($status) => $colors[$status->value])->toArray(),
+                    'borderColor' => '#ffffff',
+                    'borderWidth' => 2,
+                    'hoverOffset' => 15,
                 ],
             ],
-            'labels' => $allStatuses->map(fn($status) => $labels[$status])->toArray(),
+            'labels' => $labelsWithPercentages->values()->toArray(),
         ];
     }
 
@@ -96,14 +113,40 @@ class TicketStatusChart extends ChartWidget
             'plugins' => [
                 'legend' => [
                     'position' => 'bottom',
+                    'labels' => [
+                        'padding' => 20,
+                        'usePointStyle' => true,
+                        'pointStyle' => 'circle',
+                        'font' => [
+                            'size' => 12,
+                            'weight' => 'bold',
+                        ],
+                    ],
                 ],
-                'tooltips' => [
+                'tooltip' => [
                     'enabled' => true,
+                    'backgroundColor' => 'rgba(0, 0, 0, 0.8)',
+                    'padding' => 12,
+                    'titleFont' => [
+                        'size' => 14,
+                    ],
+                    'bodyFont' => [
+                        'size' => 13,
+                    ],
                 ],
             ],
             'maintainAspectRatio' => false,
             'responsive' => true,
             'cutout' => '70%',
+            'animation' => [
+                'animateScale' => true,
+                'animateRotate' => true,
+            ],
         ];
+    }
+
+    public static function canView(): bool
+    {
+        return true;
     }
 }

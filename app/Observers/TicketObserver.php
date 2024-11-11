@@ -55,6 +55,10 @@ class TicketObserver
 
         $changes = $ticket->getDirty();
 
+        if (isset($changes['status']) && in_array($ticket->status, ['closed', 'resolved', 'rejected'])) {
+            $ticket->reminders()->delete();
+        }
+
         if (array_intersect_key($changes, array_flip(['status', 'department_id', 'priority']))) {
             $oldStatusValue = $ticket->getOriginal('status');
             $oldPriorityValue = $ticket->getOriginal('priority');

@@ -12,6 +12,9 @@ use App\Enums\StatusTicket;
 use App\Enums\Priority;
 use App\Enums\TicketType;
 
+/**
+ * @mixin IdeHelperTicket
+ */
 class Ticket extends Model
 {
     use HasFactory, SoftDeletes;

@@ -15,10 +15,10 @@ enum TicketType: string implements HasLabel, HasColor, HasIcon {
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::Petition => 'Petition',
-            self::Complaint => 'Complaint',
-            self::Claim => 'Claim',
-            self::Suggestion => 'Suggestion',
+            self::Petition => 'Petición',
+            self::Complaint => 'Queja',
+            self::Claim => 'Reclamo',
+            self::Suggestion => 'Sugerencia',
         };
     }
 

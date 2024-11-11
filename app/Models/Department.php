@@ -9,6 +9,9 @@ use App\Enums\StatusGlobal;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Str;
 
+/**
+ * @mixin IdeHelperDepartment
+ */
 class Department extends Model
 {
     use HasFactory, SoftDeletes;
