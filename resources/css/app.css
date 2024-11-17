@@ -1,3 +1,30 @@
+@import 'pages/policy.css';
+@import 'pages/services.css';
+@import 'layout.css';
+@import 'animations.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    body {
+        font-family: 'Inter', sans-serif;
+        @apply text-gray-800;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-semibold;
+    }
+}
+
+/* Custom Components */
+@layer components {
+    .btn-primary {
+        @apply px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors;
+    }
+
+    .section-title {
+        @apply text-3xl font-bold mb-6;
+    }
+}

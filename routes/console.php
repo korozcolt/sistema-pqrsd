@@ -9,3 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 Schedule::job(new ProcessTicketReminders)->hourly();
+Schedule::command('sitemap:generate')->daily();

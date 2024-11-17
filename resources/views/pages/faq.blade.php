@@ -23,7 +23,7 @@
         <div class="container">
             <div class="section-title">
                 <span>PQR's</span>
-                <h2>Preguntas, Peticiones, Quejas y Recursos</h2>
+                <h2>Preguntas frecuentes</h2>
             </div>
             <div class="faq-contant">
                 <div class="row align-items-center">
@@ -99,10 +99,6 @@
                     </div>
                 </div>
             </div>
-
-            @include('pages.layouts.form-pqrs')
-            <hr />
-            @include('pages.layouts.search-pqrs')
         </div>
     </div>
     <!-- End Faq Area -->

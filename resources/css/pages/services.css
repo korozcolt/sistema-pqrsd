@@ -1,0 +1,43 @@
+/* Espaciado para secciones de servicio */
+.service-section {
+    padding: 80px 0;        /* Padding vertical aumentado */
+    margin: 40px 0;         /* Margen entre secciones */
+    position: relative;     /* Para el scroll-margin */
+    scroll-margin-top: 90px;
+}
+
+/* Ajuste para secciones alternas */
+.service-section.bg-light {
+    margin: 0;              /* Removemos margen cuando hay cambio de fondo */
+    padding: 100px 0;       /* Aumentamos padding para compensar */
+}
+
+/* Ajustes para los contenedores de tarjetas */
+.feature-card,
+.route-card {
+    margin-bottom: 30px;    /* Espacio entre tarjetas */
+    height: 100%;           /* Altura completa para alineación */
+}
+
+/* Ajustes para títulos de sección */
+.section-title {
+    margin-bottom: 60px;    /* Más espacio después de los títulos */
+}
+
+/* Espaciado para la navegación de servicios */
+.services-navigation {
+    margin-bottom: 40px;    /* Espacio después de la navegación */
+    padding: 15px 0;        /* Padding interno aumentado */
+}
+
+/* Ajustes responsive */
+@media (max-width: 768px) {
+    .service-section {
+        padding: 60px 0;    /* Padding reducido en móviles */
+        margin: 20px 0;     /* Margen reducido en móviles */
+    }
+
+    .section-title {
+        margin-bottom: 40px;  /* Espacio reducido en móviles */
+    }
+}

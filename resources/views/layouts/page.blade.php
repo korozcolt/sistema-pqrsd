@@ -3,12 +3,28 @@
 
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- ===============================================-->
-    <!--    Document Title-->
-    <!-- ===============================================-->
-    <title>{{ $metaTitle . ' - ' . ($info->title ?? '') ?? config('app.name', 'COOPERATIVA | TORCOROMA') }}</title>
+
+    <!-- SEO Meta Tags -->
+    <title>{{ $seo['title'] }}</title>
+    <meta name="description" content="{{ $seo['description'] }}">
+    <meta name="keywords" content="{{ $seo['keywords'] }}">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="{{ $seo['title'] }}">
+    <meta property="og:description" content="{{ $seo['description'] }}">
+    <meta property="og:image" content="{{ url($seo['image']) }}">
+    <meta property="og:url" content="{{ $seo['url'] }}">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $seo['title'] }}">
+    <meta name="twitter:description" content="{{ $seo['description'] }}">
+    <meta name="twitter:image" content="{{ url($seo['image']) }}">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ $seo['url'] }}">
     <!-- ===============================================-->
     <!--    Favicons-->
     <!-- ===============================================-->
@@ -20,9 +36,9 @@
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Estilos principales -->
     <!-- Admin and Custom CSS -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
@@ -52,7 +68,10 @@
             window.LogRocket && window.LogRocket.init('f6nw7w/torocoromaweb');
         </script>
     @endif
-
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script async src="https://www.google.com/recaptcha/api.js"></script>
 </head>
 
@@ -84,6 +103,13 @@
     </div>
     <!-- End Footer bottom Area -->
 
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', config('site.whatsapp')) }}" class="whatsapp-float"
+        target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
+        <img src="{{ asset('images/icons-whatsapp.png') }}" alt="WhatsApp" width="50" height="50">
+    </a>
+    <!-- End WhatsApp Float Button -->
+
     <!-- Go Top -->
     <div class="go-top">
         <i class='bx bx-chevrons-up'></i>
@@ -112,11 +138,11 @@
     <script src="{{ asset('js/jquery.ajaxchimp.min.js') }}"></script>
     <!--Animate JS -->
     <script src="{{ asset('js/wow.min.js') }}"></script>
-    <!-- App JS -->
-    <script src="{{ asset('js/app.js') }}"></script>
     <!-- Custom JS -->
     <script src="{{ asset('js/custom.js') }}"></script>
-    @include('sweetalert::alert')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <x-sweet-alert />
+    @stack('scripts')
     @stack('modals')
 </body>
 

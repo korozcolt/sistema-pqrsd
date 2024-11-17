@@ -1,3 +1,4 @@
+
 // Function to get the status label based on the response.status
 function getStatusLabel(status) {
     switch (status) {

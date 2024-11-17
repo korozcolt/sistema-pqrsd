@@ -9,12 +9,16 @@ class HomeController extends Controller
 {
     public function __invoke($page)
     {
+        // Obtenemos el título traducido o establecemos uno por defecto
         $metaTitle = __('Meta Title: ' . $page);
-        if($metaTitle == 'Meta Title: ' . $page){
-            $metaTitle = NULL;
+        if($metaTitle == 'Meta Title: ' . $page) {
+            $metaTitle = ucfirst(str_replace('_', ' ', $page)); // Convertimos _home a Home
         }
 
-        return view('pages.'.$page,['info' => $this->pageInfo(),'metaTitle' => $metaTitle]);
+        return view('pages.'.$page,[
+            'info' => $this->pageInfo(),
+            'metaTitle' => $metaTitle
+        ]);
     }
 
     public function index(){
