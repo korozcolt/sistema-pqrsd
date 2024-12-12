@@ -10,6 +10,7 @@ enum StatusGlobal: string implements HasLabel, HasColor, HasIcon {
     case Active = 'active'; // Activo
     case Inactive = 'inactive'; // Inactivo
     case Deleted = 'deleted'; // Eliminado
+    case Draft = 'draft'; // Borrador
 
     public function getLabel(): ?string
     {
@@ -17,6 +18,7 @@ enum StatusGlobal: string implements HasLabel, HasColor, HasIcon {
             self::Active => 'Activo',
             self::Inactive => 'Inactivo',
             self::Deleted => 'Eliminado',
+            self::Draft => 'Borrador',
         };
     }
 
@@ -26,6 +28,7 @@ enum StatusGlobal: string implements HasLabel, HasColor, HasIcon {
             self::Active => 'success',
             self::Inactive => 'danger',
             self::Deleted => 'danger',
+            self::Draft => 'secondary',
         };
     }
 
@@ -35,6 +38,7 @@ enum StatusGlobal: string implements HasLabel, HasColor, HasIcon {
             self::Active => 'heroicon-o-check-circle',
             self::Inactive => 'heroicon-o-x-circle',
             self::Deleted => 'heroicon-o-trash',
+            self::Draft => 'heroicon-o-pencil',
         };
     }
 
@@ -44,6 +48,7 @@ enum StatusGlobal: string implements HasLabel, HasColor, HasIcon {
             self::Active => 'bg-green-100',
             self::Inactive => 'bg-orange-100',
             self::Deleted => 'bg-red-100',
+            self::Draft => 'bg-gray-100',
         };
     }
 
@@ -53,11 +58,29 @@ enum StatusGlobal: string implements HasLabel, HasColor, HasIcon {
             self::Active => 'Activo',
             self::Inactive => 'Inactivo',
             self::Deleted => 'Eliminado',
+            self::Draft => 'Borrador',
         };
     }
 
     public function getLabelHtml(): ?string
     {
         return '<span class="py-1 px-3 rounded '.$this->getColorHtml().'">'.$this->getLabelText().'</span>';
+    }
+
+    public function isEditable(): bool
+    {
+        return match($this) {
+            self::Draft => true,
+            default => false
+        };
+    }
+
+    public function canTransitionTo(self $newStatus): bool
+    {
+        return match($this) {
+            self::Draft => true,
+            self::Active => $newStatus === self::Inactive,
+            self::Inactive => $newStatus === self::Active,
+        };
     }
 }

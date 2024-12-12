@@ -2,62 +2,57 @@
 
 namespace App\Helpers;
 
-use Illuminate\Support\Number;
+use Illuminate\Support\Facades\Config;
 
 class SiteSetting
 {
+    public static function get($key, $default = null)
+    {
+        return Config::get('site.'.$key, $default);
+    }
 
     public static function getLogo()
     {
-        $logo = config('site.logo');
-        return $logo;
+        return static::get('assets.logo');
     }
 
     public static function getFavicon()
     {
-        $favicon = config('site.favicon');
-        return $favicon;
+        return static::get('assets.favicon');
     }
 
     public static function getTitle()
     {
-        $title = config('site.name');
-        return $title;
+        return static::get('company.name');
     }
 
-    //email
     public static function getEmail()
     {
-        $email = config('site.email');
-        return $email;
+        return static::get('company.contact.emails.main');
     }
 
-    //phone
-    public static function getPhone()
-    {
-        $phone = config('site.phone');
-        return $phone;
-    }
-
-    //phone2
-    public static function getPhone2()
-    {
-        $phone2 = config('site.phone2');
-        return $phone2;
-    }
-
-    //address
-    public static function getAddress()
-    {
-        $address = config('site.address');
-        return $address;
-    }
-
-    //email2
     public static function getEmail2()
     {
-        $email2 = config('site.email2');
-        return $email2;
+        return static::get('company.contact.emails.secondary');
     }
 
+    public static function getPhone()
+    {
+        return static::get('company.contact.phones.main');
+    }
+
+    public static function getPhone2()
+    {
+        return static::get('company.contact.phones.secondary');
+    }
+
+    public static function getAddress()
+    {
+        return static::get('company.contact.address');
+    }
+
+    public static function getSocial($key)
+    {
+        return static::get('social.'.$key);
+    }
 }

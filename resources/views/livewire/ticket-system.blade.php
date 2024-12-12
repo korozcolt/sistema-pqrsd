@@ -1,5 +1,5 @@
 <div>
-    <div class="ticket-system p-2">
+    <div class="ticket-system p-4">
         <div class="tab-navigation mb-6">
             <div class="flex space-x-4">
                 <button wire:click="changeTab('create')"

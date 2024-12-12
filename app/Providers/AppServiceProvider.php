@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Ticket;
-use App\Observers\TicketObserver;
 use App\Rules\Recaptcha;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
@@ -25,5 +23,15 @@ class AppServiceProvider extends ServiceProvider
     {
         \App\Models\Ticket::observe(\App\Observers\TicketObserver::class);
         Validator::extend('recaptcha', Recaptcha::class);
+
+        // Compresión GZIP
+        if (extension_loaded('zlib')) {
+            ob_start('ob_gzhandler');
+        }
+
+        // Cacheo de respuestas
+        if (!app()->isLocal()) {
+            config(['cache.default' => 'redis']);
+        }
     }
 }
