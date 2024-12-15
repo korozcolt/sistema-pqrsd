@@ -7,6 +7,7 @@ use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
 enum ContentStatus: string implements HasLabel, HasColor, HasIcon {
+
     case Draft = 'draft';
     case Published = 'published';
     case Archived = 'archived';

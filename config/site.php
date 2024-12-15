@@ -18,7 +18,8 @@ return [
                 'pqrs' => 'ing.korozco@gmail.com'
             ],
             'address' => 'Tu dirección completa'
-        ]
+        ],
+        'description' => 'Empresa líder en transporte terrestre de pasajeros en la costa caribe colombiana desde 1953.',
     ],
 
     // Social Media

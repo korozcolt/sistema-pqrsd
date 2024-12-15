@@ -7,6 +7,7 @@ use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
 enum ComponentType: string implements HasLabel, HasColor, HasIcon {
+
     case Modal = 'modal';
     case Banner = 'banner';
     case Slider = 'slider';
