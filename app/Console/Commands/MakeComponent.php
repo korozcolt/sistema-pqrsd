@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\DB;
 class MakeComponent extends Command
 {
     protected $signature = 'cms:make
-                          {type : Type of component (section/widget)}
-                          {name : Name of the component}
-                          {--position=content : Position in layout}
-                          {--description= : Component description}
-                          {--editable : Whether the component is editable}';
+                            {type : Type of component (section/widget)}
+                            {name : Name of the component}
+                            {--position=content : Position in layout}
+                            {--description= : Component description}
+                            {--editable : Whether the component is editable}';
 
     protected $description = 'Create a new CMS component';
 
@@ -54,12 +54,12 @@ class MakeComponent extends Command
 class CreatePage extends Command
 {
     protected $signature = 'cms:create-page
-                          {name : Name of the page}
-                          {--layout=default : Layout template}
-                          {--slug= : Custom URL slug}
-                          {--title= : Meta title}
-                          {--description= : Meta description}
-                          {--status=draft : Page status}';
+                            {name : Name of the page}
+                            {--layout=default : Layout template}
+                            {--slug= : Custom URL slug}
+                            {--title= : Meta title}
+                            {--description= : Meta description}
+                            {--status=draft : Page status}';
 
     protected $description = 'Create a new CMS page';
 
@@ -85,11 +85,11 @@ class CreatePage extends Command
 class AssignComponent extends Command
 {
     protected $signature = 'cms:assign
-                          {page : Page slug or ID}
-                          {component : Component identifier}
-                          {--position=content : Layout position}
-                          {--order=0 : Display order}
-                          {--config= : JSON configuration}';
+                            {page : Page slug or ID}
+                            {component : Component identifier}
+                            {--position=content : Layout position}
+                            {--order=0 : Display order}
+                            {--config= : JSON configuration}';
 
     protected $description = 'Assign a component to a page';
 
@@ -100,7 +100,7 @@ class AssignComponent extends Command
             : Page::where('slug', $this->argument('page'))->firstOrFail();
 
         $component = Section::where('identifier', $this->argument('component'))
-            ->orWhere(function($query) {
+            ->orWhere(function ($query) {
                 $query->where('identifier', $this->argument('component'));
             })->firstOrFail();
 
@@ -167,7 +167,7 @@ class ListComponents extends Command
         $type = $this->argument('type');
 
         if ($type) {
-            $model = match($type) {
+            $model = match ($type) {
                 'sections' => Section::class,
                 'widgets' => Widget::class,
                 'pages' => Page::class,
@@ -220,7 +220,7 @@ class RemoveComponent extends Command
             : Page::where('slug', $this->argument('page'))->firstOrFail();
 
         $component = Section::where('identifier', $this->argument('component'))
-            ->orWhere(function($query) {
+            ->orWhere(function ($query) {
                 $query->where('identifier', $this->argument('component'));
             })->firstOrFail();
 
@@ -292,7 +292,7 @@ class ImportPage extends Command
 
         $config = json_decode(file_get_contents($file), true);
 
-        DB::transaction(function() use ($config) {
+        DB::transaction(function () use ($config) {
             $page = Page::create($config['page']);
 
             foreach ($config['sections'] as $section) {
