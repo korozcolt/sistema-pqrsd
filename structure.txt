@@ -1,0 +1,4739 @@
+Listado de rutas de carpetas
+El n�mero de serie del volumen es DAA5-A265
+C:.
+|   .editorconfig
+|   .env
+|   .env.example
+|   .gitattributes
+|   .gitignore
+|   .phpstorm.meta.php
+|   artisan
+|   composer.json
+|   composer.lock
+|   docker-compose.yml
+|   package-lock.json
+|   package.json
+|   phpunit.xml
+|   postcss.config.js
+|   README.md
+|   structure.txt
+|   tailwind.config.js
+|   vite.config.js
+|   _ide_helper.php
+|   _ide_helper_models.php
+|
++---.github
+|   \---workflows
+|           deploy.yml
+|
++---app
+|   +---Broadcasting
+|   |       TicketChannel.php
+|   |
+|   +---Console
+|   |   \---Commands
+|   |           CheckTicketReminders.php
+|   |           GenerateSitemap.php
+|   |           MakeComponent.php
+|   |           TestMail.php
+|   |           UpdateReminderTypes.php
+|   |
+|   +---Enums
+|   |       ComponentType.php
+|   |       ContentStatus.php
+|   |       MenuLocation.php
+|   |       Priority.php
+|   |       ReminderType.php
+|   |       SectionType.php
+|   |       StatusGlobal.php
+|   |       StatusTicket.php
+|   |       TicketType.php
+|   |       UserRole.php
+|   |
+|   +---Events
+|   |       TicketCreated.php
+|   |       TicketStatusChanged.php
+|   |
+|   +---Filament
+|   |   +---Resources
+|   |   |   |   ContentTypeResource.php
+|   |   |   |   DepartmentResource.php
+|   |   |   |   MenuResource.php
+|   |   |   |   PageResource.php
+|   |   |   |   ReminderResource.php
+|   |   |   |   SLAResource.php
+|   |   |   |   TagResource.php
+|   |   |   |   ThemeResource.php
+|   |   |   |   TicketResource.php
+|   |   |   |   UserResource.php
+|   |   |   |   WidgetResource.php
+|   |   |   |
+|   |   |   +---ContentTypeResource
+|   |   |   |   +---Pages
+|   |   |   |   |       CreateContentType.php
+|   |   |   |   |       EditContentType.php
+|   |   |   |   |       ListContentTypes.php
+|   |   |   |   |
+|   |   |   |   \---RelationManagers
+|   |   |   |           ContentsRelationManager.php
+|   |   |   |
+|   |   |   +---DepartmentResource
+|   |   |   |   +---Pages
+|   |   |   |   |       CreateDepartment.php
+|   |   |   |   |       EditDepartment.php
+|   |   |   |   |       ListDepartments.php
+|   |   |   |   |       ViewDepartment.php
+|   |   |   |   |
+|   |   |   |   \---RelationManagers
+|   |   |   |           TicketsRelationManager.php
+|   |   |   |
+|   |   |   +---MenuResource
+|   |   |   |   +---Pages
+|   |   |   |   |       CreateMenu.php
+|   |   |   |   |       EditMenu.php
+|   |   |   |   |       ListMenus.php
+|   |   |   |   |
+|   |   |   |   \---RelationManagers
+|   |   |   |           MenuItemsRelationManager.php
+|   |   |   |
+|   |   |   +---PageResource
+|   |   |   |   +---Pages
+|   |   |   |   |       CreatePage.php
+|   |   |   |   |       EditPage.php
+|   |   |   |   |       ListPages.php
+|   |   |   |   |
+|   |   |   |   \---RelationManagers
+|   |   |   |           ContentsRelationManager.php
+|   |   |   |           SectionsRelationManager.php
+|   |   |   |
+|   |   |   +---ReminderResource
+|   |   |   |   \---Pages
+|   |   |   |           CreateReminder.php
+|   |   |   |           EditReminder.php
+|   |   |   |           ListReminders.php
+|   |   |   |           ViewReminder.php
+|   |   |   |
+|   |   |   +---SLAResource
+|   |   |   |   \---Pages
+|   |   |   |           CreateSLA.php
+|   |   |   |           EditSLA.php
+|   |   |   |           ListSLAS.php
+|   |   |   |           ViewSLA.php
+|   |   |   |
+|   |   |   +---TagResource
+|   |   |   |   \---Pages
+|   |   |   |           CreateTag.php
+|   |   |   |           EditTag.php
+|   |   |   |           ListTags.php
+|   |   |   |           ViewTag.php
+|   |   |   |
+|   |   |   +---ThemeResource
+|   |   |   |   \---Pages
+|   |   |   |           CreateTheme.php
+|   |   |   |           EditTheme.php
+|   |   |   |           ListThemes.php
+|   |   |   |
+|   |   |   +---TicketResource
+|   |   |   |   +---Pages
+|   |   |   |   |       CreateTicket.php
+|   |   |   |   |       EditTicket.php
+|   |   |   |   |       ListTickets.php
+|   |   |   |   |       ViewTicket.php
+|   |   |   |   |
+|   |   |   |   +---RelationManagers
+|   |   |   |   |       AttachmentsRelationManager.php
+|   |   |   |   |       CommentsRelationManager.php
+|   |   |   |   |       LogsRelationManager.php
+|   |   |   |   |       RemindersRelationManager.php
+|   |   |   |   |       TagsRelationManager.php
+|   |   |   |   |
+|   |   |   |   \---Widgets
+|   |   |   |           CommentsList.php
+|   |   |   |
+|   |   |   +---UserResource
+|   |   |   |   +---Pages
+|   |   |   |   |       CreateUser.php
+|   |   |   |   |       EditUser.php
+|   |   |   |   |       ListUsers.php
+|   |   |   |   |       ViewUser.php
+|   |   |   |   |
+|   |   |   |   \---RelationManagers
+|   |   |   |           AttachmentsRelationManager.php
+|   |   |   |           CommentsRelationManager.php
+|   |   |   |           TicketsRelationManager.php
+|   |   |   |
+|   |   |   \---WidgetResource
+|   |   |       +---Pages
+|   |   |       |       CreateWidget.php
+|   |   |       |       EditWidget.php
+|   |   |       |       ListWidgets.php
+|   |   |       |
+|   |   |       \---RelationManagers
+|   |   |               DisplayRulesRelationManager.php
+|   |   |
+|   |   \---Widgets
+|   |           LatestTickets.php
+|   |           PendingReminders.php
+|   |           SLACompliance.php
+|   |           TicketStats.php
+|   |           TicketStatusChart.php
+|   |
+|   +---Helpers
+|   |       SiteSetting.php
+|   |
+|   +---Http
+|   |   +---Controllers
+|   |   |   |   ContactController.php
+|   |   |   |   Controller.php
+|   |   |   |   HomeController.php
+|   |   |   |
+|   |   |   \---Auth
+|   |   |           VerifyEmailController.php
+|   |   |
+|   |   \---Middleware
+|   |           MarkRemindersAsRead.php
+|   |
+|   +---Jobs
+|   |       ProcessTicketReminders.php
+|   |
+|   +---Listeners
+|   |       CreateTicketLog.php
+|   |       CreateTicketReminder.php
+|   |
+|   +---Livewire
+|   |   |   TicketSystem.php
+|   |   |
+|   |   +---Actions
+|   |   |       Logout.php
+|   |   |
+|   |   +---Cms
+|   |   +---Forms
+|   |   |       LoginForm.php
+|   |   |
+|   |   \---Sections
+|   |           Banner.php
+|   |           Contact.php
+|   |           Features.php
+|   |           Hero.php
+|   |           Redbus.php
+|   |           Services.php
+|   |           Stats.php
+|   |           Testimonials.php
+|   |           Text.php
+|   |
+|   +---Mail
+|   |       ContactForm.php
+|   |
+|   +---Models
+|   |       Content.php
+|   |       ContentType.php
+|   |       Department.php
+|   |       DisplayRule.php
+|   |       Menu.php
+|   |       MenuItem.php
+|   |       Page.php
+|   |       Reminder.php
+|   |       Section.php
+|   |       SLA.php
+|   |       Tag.php
+|   |       Theme.php
+|   |       Ticket.php
+|   |       TicketAttachment.php
+|   |       TicketComment.php
+|   |       TicketLog.php
+|   |       User.php
+|   |       Widget.php
+|   |
+|   +---Notifications
+|   |       NewTicketCommentNotification.php
+|   |       TicketCreated.php
+|   |       TicketReminderNotification.php
+|   |       TicketStatusUpdated.php
+|   |
+|   +---Observers
+|   |       TicketObserver.php
+|   |
+|   +---Providers
+|   |   |   AppServiceProvider.php
+|   |   |   SectionServiceProvider.php
+|   |   |   SeoServiceProvider.php
+|   |   |   VoltServiceProvider.php
+|   |   |
+|   |   \---Filament
+|   |           AdminPanelProvider.php
+|   |
+|   +---Rules
+|   |       Recaptcha.php
+|   |
+|   +---Services
+|   |   |   PageBuilder.php
+|   |   |   SectionRenderer.php
+|   |   |   SeoManager.php
+|   |   |
+|   |   +---Components
+|   |   |       BaseComponent.php
+|   |   |
+|   |   \---Templates
+|   |           PageTemplate.php
+|   |
+|   +---Traits
+|   |       WithCmsComponent.php
+|   |
+|   \---View
+|       \---Components
+|               AppLayout.php
+|               GuestLayout.php
+|               RenderSection.php
+|               SeoMeta.php
+|
++---bootstrap
+|   |   app.php
+|   |   providers.php
+|   |
+|   \---cache
+|           .gitignore
+|           packages.php
+|           services.php
+|
++---config
+|       app.php
+|       auth.php
+|       cache.php
+|       database.php
+|       filesystems.php
+|       ide-helper.php
+|       image.php
+|       logging.php
+|       mail-theme.php
+|       mail.php
+|       notifications.php
+|       queue.php
+|       sanctum.php
+|       services.php
+|       session.php
+|       site.php
+|       sweetalert.php
+|
++---database
+|   |   .gitignore
+|   |
+|   +---factories
+|   |       UserFactory.php
+|   |
+|   +---migrations
+|   |       0001_01_01_000000_create_users_table.php
+|   |       0001_01_01_000001_create_cache_table.php
+|   |       0001_01_01_000002_create_jobs_table.php
+|   |       2024_10_17_213850_create_departments_table.php
+|   |       2024_10_17_213855_create_tickets_table.php
+|   |       2024_10_17_213859_create_slas_table.php
+|   |       2024_10_17_213903_create_ticket_logs_table.php
+|   |       2024_10_17_213908_create_ticket_attachments_table.php
+|   |       2024_10_17_213912_create_reminders_table.php
+|   |       2024_11_09_012720_create_tags_table.php
+|   |       2024_11_09_013512_create_ticket_tags_table.php
+|   |       2024_11_09_013535_create_ticket_comments_table.php
+|   |       2024_11_10_020441_update_ticket_logs_constraints.php
+|   |       2024_11_10_021641_update_reminders_table_add_enum_and_columns.php
+|   |       2024_11_11_041901_update_reminders_type_column.php
+|   |       2024_11_11_043610_update_reminder_types_in_reminders_table.php
+|   |       2024_11_15_174133_create_personal_access_tokens_table.php
+|   |       2024_12_02_200631_create_content_types_table.php
+|   |       2024_12_02_200634_create_pages_table.php
+|   |       2024_12_02_200639_create_sections_table.php
+|   |       2024_12_02_200645_create_contents_table.php
+|   |       2024_12_02_200651_create_menus_table.php
+|   |       2024_12_02_200658_create_menu_items_table.php
+|   |       2024_12_02_200703_create_widgets_table.php
+|   |       2024_12_02_200708_create_display_rules_table.php
+|   |       2024_12_03_014835_add_status_to_pages_table.php
+|   |       2024_12_03_043317_create_themes_table.php
+|   |       2024_12_03_043817_add_theme_id_to_page_table.php
+|   |       2024_12_05_044626_make_theme_id_nullable_in_pages_table.php
+|   |       2024_12_05_045323_add_status_to_content_types_table.php
+|   |       2024_12_05_045742_add_identifier_to_sections_table.php
+|   |       2024_12_05_045919_add_settings_to_sections_table.php
+|   |       2024_12_09_143242_add_to_section_and_content_some_columns.php
+|   |       2024_12_12_120811_add_new_columns_to_sections_and_contents.php
+|   |       2024_12_21_160156_add_new_columns_to_sections.php
+|   |
+|   \---seeders
+|           DatabaseSeeder.php
+|           DepartmentSeeder.php
+|           HomePageSeeder.php
+|           SLASeeder.php
+|           TestPageSeeder.php
+|
++---lang
+|   \---en
+|           auth.php
+|           pagination.php
+|           passwords.php
+|           validation.php
+|
++---public
+|   |   .htaccess
+|   |   android-chrome-192x192.png
+|   |   android-chrome-512x512.png
+|   |   apple-touch-icon.png
+|   |   favicon-16x16.png
+|   |   favicon-32x32.png
+|   |   favicon.ico
+|   |   index.php
+|   |   mix-manifest.json
+|   |   robots.txt
+|   |   site.webmanifest
+|   |   sitemap.xml
+|   |   web.config
+|   |
+|   +---build
+|   |   |   manifest.json
+|   |   |
+|   |   \---assets
+|   |           app-CoGGVGjb.css
+|   |           app-Dln4QXg7.js
+|   |
+|   +---css
+|   |   |   admin.css
+|   |   |   animate.min.css
+|   |   |   app.css
+|   |   |   bootstrap.min.css
+|   |   |   botman.css
+|   |   |   boxicons.min.css
+|   |   |   magnific-popup.css
+|   |   |   meanmenu.min.css
+|   |   |   odometer.css
+|   |   |   owl.carousel.min.css
+|   |   |   owl.theme.default.min.css
+|   |   |   responsive.css
+|   |   |   responsive.css.map
+|   |   |   responsive.scss
+|   |   |   style.css
+|   |   |   style.css.map
+|   |   |   style.scss
+|   |   |
+|   |   \---filament
+|   |       +---filament
+|   |       |       app.css
+|   |       |
+|   |       +---forms
+|   |       |       forms.css
+|   |       |
+|   |       \---support
+|   |               support.css
+|   |
+|   +---docs
+|   |       Cartilla-de-derechos-y-deberes-de-transporte-terrestre.pdf
+|   |       F-GT-10_Reporte_PQR_Cliente.pdf
+|   |       F-GT-12_Autorizacion_Para_Transporte_Menores_de_Edad_Sin_Acompa�ante.pdf
+|   |
+|   +---fonts
+|   |   |   ._boxicons.eot
+|   |   |   ._boxicons.svg
+|   |   |   ._boxicons.ttf
+|   |   |   ._boxicons.woff
+|   |   |   ._boxicons.woff2
+|   |   |   boxicons.eot
+|   |   |   boxicons.svg
+|   |   |   boxicons.ttf
+|   |   |   boxicons.woff
+|   |   |   boxicons.woff2
+|   |   |
+|   |   \---vendor
+|   |       +---@coreui
+|   |       |   \---icons
+|   |       |           CoreUI-Icons-Linear-Free.eot
+|   |       |           CoreUI-Icons-Linear-Free.svg
+|   |       |           CoreUI-Icons-Linear-Free.ttf
+|   |       |           CoreUI-Icons-Linear-Free.woff
+|   |       |
+|   |       +---font-awesome
+|   |       |       fontawesome-webfont.eot
+|   |       |       fontawesome-webfont.svg
+|   |       |       fontawesome-webfont.ttf
+|   |       |       fontawesome-webfont.woff
+|   |       |       fontawesome-webfont.woff2
+|   |       |
+|   |       \---simple-line-icons
+|   |               Simple-Line-Icons.eot
+|   |               Simple-Line-Icons.svg
+|   |               Simple-Line-Icons.ttf
+|   |               Simple-Line-Icons.woff
+|   |               Simple-Line-Icons.woff2
+|   |
+|   +---images
+|   |   |   about-bottom.jpg
+|   |   |   about-bottom.webp
+|   |   |   about-page-main.jpg
+|   |   |   about-page-main.webp
+|   |   |   about-page.jpg
+|   |   |   about-page.webp
+|   |   |   banner-01.jpg
+|   |   |   banner-01.webp
+|   |   |   banner-010_.jpg
+|   |   |   banner-010_.webp
+|   |   |   banner-01_08.jpg
+|   |   |   banner-01_08.webp
+|   |   |   banner-02.jpg
+|   |   |   banner-02.webp
+|   |   |   buses_1.png
+|   |   |   buses_1.webp
+|   |   |   buses_2.png
+|   |   |   buses_2.webp
+|   |   |   icons-whatsapp.png
+|   |   |   logo-iso.png
+|   |   |   logo.png
+|   |   |   logosupersolidaria.webp
+|   |   |   sipor_logo.png
+|   |   |   sipor_logo.webp
+|   |   |   slide1.jpg
+|   |   |   slide1.webp
+|   |   |   slide2.jpg
+|   |   |   slide2.webp
+|   |   |   slide3.jpg
+|   |   |   slide3.webp
+|   |   |   supertransporte_logo.png
+|   |   |   supertransporte_logo.webp
+|   |   |
+|   |   \---vendor
+|   |       \---trumbowyg
+|   |           \---dist
+|   |               \---ui
+|   |                       icons.svg
+|   |
+|   +---img
+|   |   |   counter-bg1.png
+|   |   |   error.png
+|   |   |   favicon.png
+|   |   |   logo.png
+|   |   |   shipmante-bg1.jpg
+|   |   |   sign.png
+|   |   |
+|   |   +---about
+|   |   |       about1.jpg
+|   |   |       about2.jpg
+|   |   |       about3.jpg
+|   |   |
+|   |   +---blog
+|   |   |       blog-comments1.jpg
+|   |   |       blog-comments2.jpg
+|   |   |       blog-comments3.jpg
+|   |   |       blog-details.jpg
+|   |   |       blog1.jpg
+|   |   |       blog10.jpg
+|   |   |       blog11.jpg
+|   |   |       blog12.jpg
+|   |   |       blog13.jpg
+|   |   |       blog15.jpg
+|   |   |       blog16.jpg
+|   |   |       blog2.jpg
+|   |   |       blog3.jpg
+|   |   |       blog4.jpg
+|   |   |       blog5.jpg
+|   |   |       blog6.jpg
+|   |   |       blog7.jpg
+|   |   |       blog8.jpg
+|   |   |       blog9.jpg
+|   |   |
+|   |   +---choose
+|   |   |       choose1.jpg
+|   |   |
+|   |   +---clients
+|   |   |       client1.jpg
+|   |   |       client1.png
+|   |   |       client2.jpg
+|   |   |       client4.jpg
+|   |   |       client5.jpg
+|   |   |       client6.jpg
+|   |   |
+|   |   +---feedback
+|   |   |       feedback1.jpg
+|   |   |       feedback2.jpg
+|   |   |       feedback3.jpg
+|   |   |       feedback4.jpg
+|   |   |       feedback5.jpg
+|   |   |
+|   |   +---freight
+|   |   |       freight1.jpg
+|   |   |       freight2.jpg
+|   |   |       freight3.jpg
+|   |   |
+|   |   +---gallery
+|   |   |       gallery1.jpg
+|   |   |       gallery2.jpg
+|   |   |       gallery3.jpg
+|   |   |       gallery4.jpg
+|   |   |       gallery5.jpg
+|   |   |       gallery6.jpg
+|   |   |
+|   |   +---hero-slider
+|   |   |       hero-slider1.jpg
+|   |   |       hero-slider2.jpg
+|   |   |       hero-slider3.jpg
+|   |   |       hero-slider4.jpg
+|   |   |
+|   |   +---page-banner
+|   |   |       banner1.jpg
+|   |   |       banner2.jpg
+|   |   |       banner3.jpg
+|   |   |
+|   |   +---partner
+|   |   |       partner1.png
+|   |   |       partner2.png
+|   |   |       partner3.png
+|   |   |       partner4.png
+|   |   |       partner5.png
+|   |   |       partner6.png
+|   |   |
+|   |   +---popup
+|   |   |       video-bg.jpg
+|   |   |
+|   |   +---safely
+|   |   |       safely1.jpg
+|   |   |
+|   |   +---services
+|   |   |       service-bg1.jpg
+|   |   |       services1.jpg
+|   |   |       services2.jpg
+|   |   |       services3.jpg
+|   |   |       services4.jpg
+|   |   |       services5.jpg
+|   |   |       services6.jpg
+|   |   |       services7.jpg
+|   |   |       single-services1.jpg
+|   |   |       single-services2.jpg
+|   |   |
+|   |   +---shape
+|   |   |       shape1.png
+|   |   |       shape2.png
+|   |   |       shape3.png
+|   |   |       shape4.png
+|   |   |       shape5.png
+|   |   |       shape6.png
+|   |   |       tinified.zip
+|   |   |
+|   |   +---shipping
+|   |   |       shipping1.jpg
+|   |   |
+|   |   +---speciality
+|   |   |       speciality1.jpg
+|   |   |       speciality2.jpg
+|   |   |       speciality3.jpg
+|   |   |
+|   |   \---team
+|   |           team1.jpg
+|   |           team2.jpg
+|   |           team3.jpg
+|   |           team4.jpg
+|   |           team5.jpg
+|   |           team6.jpg
+|   |
+|   +---js
+|   |   |   admin.js
+|   |   |   app.js
+|   |   |   app.js.LICENSE.txt
+|   |   |   bootstrap.js
+|   |   |   bootstrap.min.js
+|   |   |   contact-form-script.js
+|   |   |   custom.js
+|   |   |   form-validator.min.js
+|   |   |   jquery.ajaxchimp.min.js
+|   |   |   jquery.appear.js
+|   |   |   jquery.magnific-popup.min.js
+|   |   |   jquery.min.js
+|   |   |   meanmenu.min.js
+|   |   |   odometer.min.js
+|   |   |   owl.carousel.min.js
+|   |   |   popper.min.js
+|   |   |   wow.min.js
+|   |   |
+|   |   \---filament
+|   |       +---filament
+|   |       |       app.js
+|   |       |       echo.js
+|   |       |
+|   |       +---forms
+|   |       |   \---components
+|   |       |           color-picker.js
+|   |       |           date-time-picker.js
+|   |       |           file-upload.js
+|   |       |           key-value.js
+|   |       |           markdown-editor.js
+|   |       |           rich-editor.js
+|   |       |           select.js
+|   |       |           tags-input.js
+|   |       |           textarea.js
+|   |       |
+|   |       +---notifications
+|   |       |       notifications.js
+|   |       |
+|   |       +---support
+|   |       |       async-alpine.js
+|   |       |       support.js
+|   |       |
+|   |       +---tables
+|   |       |   \---components
+|   |       |           table.js
+|   |       |
+|   |       \---widgets
+|   |           \---components
+|   |               |   chart.js
+|   |               |
+|   |               \---stats-overview
+|   |                   \---stat
+|   |                           chart.js
+|   |
+|   +---media
+|   |   \---1
+|   |       |   avatar.png
+|   |       |
+|   |       \---conversions
+|   |               avatar-thumb_150.jpg
+|   |               avatar-thumb_200.jpg
+|   |               avatar-thumb_75.jpg
+|   |
+|   +---storage
+|   |       .gitignore
+|   |
+|   +---vendor
+|   |   +---log-viewer
+|   |   |   |   app.css
+|   |   |   |   app.js
+|   |   |   |   app.js.LICENSE.txt
+|   |   |   |   mix-manifest.json
+|   |   |   |
+|   |   |   \---img
+|   |   |           log-viewer-128.png
+|   |   |           log-viewer-32.png
+|   |   |           log-viewer-64.png
+|   |   |
+|   |   \---sweetalert
+|   |           sweetalert.all.js
+|   |
+|   \---webfonts
+|           fa-brands-400.eot
+|           fa-brands-400.svg
+|           fa-brands-400.ttf
+|           fa-brands-400.woff
+|           fa-brands-400.woff2
+|           fa-regular-400.eot
+|           fa-regular-400.svg
+|           fa-regular-400.ttf
+|           fa-regular-400.woff
+|           fa-regular-400.woff2
+|           fa-solid-900.eot
+|           fa-solid-900.svg
+|           fa-solid-900.ttf
+|           fa-solid-900.woff
+|           fa-solid-900.woff2
+|
++---resources
+|   +---css
+|   |   |   animations.css
+|   |   |   app.css
+|   |   |   layout.css
+|   |   |
+|   |   \---pages
+|   |           policy.css
+|   |           services.css
+|   |
+|   +---emails
+|   |       supportMail.blade.php
+|   |
+|   +---js
+|   |   |   app.js
+|   |   |
+|   |   +---layout
+|   |   \---pages
+|   +---lang
+|   |   |   es.json
+|   |   |
+|   |   +---en
+|   |   |       auth.php
+|   |   |       pagination.php
+|   |   |       passwords.php
+|   |   |       validation.php
+|   |   |
+|   |   +---es
+|   |   |       auth.php
+|   |   |       pagination.php
+|   |   |       passwords.php
+|   |   |       validation.php
+|   |   |
+|   |   \---vendor
+|   |       +---filament
+|   |       |   +---ar
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---az
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---bg
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---bn
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---bs
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---ca
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---ckb
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---cs
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---cy
+|   |       |   |   \---components
+|   |       |   |           copyable.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---da
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---de
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---el
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---en
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---es
+|   |       |   |   |   components.php
+|   |       |   |   |   custom.php
+|   |       |   |   |   filament.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   resources.php
+|   |       |   |   |   widgets.php
+|   |       |   |   |
+|   |       |   |   +---components
+|   |       |   |   |       button.php
+|   |       |   |   |       copyable.php
+|   |       |   |   |       modal.php
+|   |       |   |   |       pagination.php
+|   |       |   |   |
+|   |       |   |   \---pages
+|   |       |   |           auth.php
+|   |       |   |
+|   |       |   +---eu
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---fa
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---fi
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---fr
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---he
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---hi
+|   |       |   |   \---components
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---hr
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---hu
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---hy
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---id
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---it
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---ja
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---ka
+|   |       |   |   \---components
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---km
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---ko
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---ku
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---lt
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---lv
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---mn
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---ms
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---nl
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---no
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---np
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---pl
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---pt_BR
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---pt_PT
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---ro
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---ru
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---sk
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---sq
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---sv
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---sw
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---th
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---tr
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---uk
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---uz
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---vi
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   +---zh_CN
+|   |       |   |   \---components
+|   |       |   |           button.php
+|   |       |   |           copyable.php
+|   |       |   |           modal.php
+|   |       |   |           pagination.php
+|   |       |   |
+|   |       |   \---zh_TW
+|   |       |       \---components
+|   |       |               button.php
+|   |       |               pagination.php
+|   |       |
+|   |       +---filament-actions
+|   |       |   +---ar
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---az
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---bg
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---bn
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---bs
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---ca
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---ckb
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---cs
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---da
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---de
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---el
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---en
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---es
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---fa
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---fi
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---fr
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---he
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---hi
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       edit.php
+|   |       |   |       modal.php
+|   |       |   |
+|   |       |   +---hr
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---hu
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---hy
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---id
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---it
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---ja
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---kh
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       edit.php
+|   |       |   |
+|   |       |   +---km
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---ko
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---ku
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---lt
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---lv
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---mn
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---ms
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---my
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       modal.php
+|   |       |   |
+|   |       |   +---ne
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---nl
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---no
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---np
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---pl
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---pt_BR
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---pt_PT
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---ro
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---ru
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---sk
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---sq
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---sv
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---sw
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---th
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---tr
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---uk
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---uz
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---vi
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   +---zh_CN
+|   |       |   |       associate.php
+|   |       |   |       attach.php
+|   |       |   |       create.php
+|   |       |   |       delete.php
+|   |       |   |       detach.php
+|   |       |   |       dissociate.php
+|   |       |   |       edit.php
+|   |       |   |       export.php
+|   |       |   |       force-delete.php
+|   |       |   |       group.php
+|   |       |   |       import.php
+|   |       |   |       modal.php
+|   |       |   |       replicate.php
+|   |       |   |       restore.php
+|   |       |   |       view.php
+|   |       |   |
+|   |       |   \---zh_TW
+|   |       |           associate.php
+|   |       |           attach.php
+|   |       |           create.php
+|   |       |           delete.php
+|   |       |           detach.php
+|   |       |           dissociate.php
+|   |       |           edit.php
+|   |       |           export.php
+|   |       |           force-delete.php
+|   |       |           group.php
+|   |       |           import.php
+|   |       |           modal.php
+|   |       |           replicate.php
+|   |       |           restore.php
+|   |       |           view.php
+|   |       |
+|   |       +---filament-forms
+|   |       |   +---ar
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---az
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---bg
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---bn
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---bs
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---ca
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---ckb
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---cs
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---cy
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---da
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---de
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---en
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---es
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---eu
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---fa
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---fi
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---fr
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---he
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---hi
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---hr
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---hu
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---hy
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---id
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---it
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---ja
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---ka
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---km
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---ko
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---ku
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---lt
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---lv
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---mn
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---ms
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---my
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---nl
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---no
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---np
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---pl
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---pt_BR
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---pt_PT
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---ro
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---ru
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---sk
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---sq
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---sv
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---sw
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---th
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---tr
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---uk
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---uz
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---vi
+|   |       |   |       components.php
+|   |       |   |       validation.php
+|   |       |   |
+|   |       |   +---zh_CN
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   \---zh_TW
+|   |       |           components.php
+|   |       |
+|   |       +---filament-infolists
+|   |       |   +---ar
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---az
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---bg
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---bs
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---ca
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---ckb
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---cs
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---da
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---de
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---en
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---es
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---fa
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---fi
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---fr
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---hr
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---hu
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---ja
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---km
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---ko
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---ku
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---lt
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---nl
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---no
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---np
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---pt_BR
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---pt_PT
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---ru
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---sk
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---sv
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---th
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---tr
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---uk
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---uz
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---vi
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   +---zh_CN
+|   |       |   |       components.php
+|   |       |   |
+|   |       |   \---zh_TW
+|   |       |           components.php
+|   |       |
+|   |       +---filament-notifications
+|   |       |   +---ar
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---az
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---bg
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---bn
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---bs
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---ca
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---ckb
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---cs
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---cy
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---da
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---de
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---el
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---en
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---es
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---eu
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---fa
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---fi
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---fr
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---he
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---hr
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---hu
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---id
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---it
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---ja
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---km
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---ko
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---ku
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---lt
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---lv
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---ms
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---nl
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---no
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---np
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---pl
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---pt_BR
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---pt_PT
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---ro
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---ru
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---sk
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---sl
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---sq
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---sv
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---sw
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---th
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---tr
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---uk
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---uz
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---vi
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   +---zh_CN
+|   |       |   |       database.php
+|   |       |   |
+|   |       |   \---zh_TW
+|   |       |           database.php
+|   |       |
+|   |       +---filament-panels
+|   |       |   +---ar
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---az
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---bg
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---bn
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   \---auth
+|   |       |   |   |           login.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---bs
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   \---auth
+|   |       |   |   |           login.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---ca
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---ckb
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---cs
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---da
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---de
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---el
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   \---auth
+|   |       |   |   |       |   edit-profile.php
+|   |       |   |   |       |   login.php
+|   |       |   |   |       |   register.php
+|   |       |   |   |       |
+|   |       |   |   |       +---email-verification
+|   |       |   |   |       |       email-verification-prompt.php
+|   |       |   |   |       |
+|   |       |   |   |       \---password-reset
+|   |       |   |   |               request-password-reset.php
+|   |       |   |   |               reset-password.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---en
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---es
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---fa
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---fi
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---fr
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---he
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---hi
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   \---auth
+|   |       |   |   |           login.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---hr
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---hu
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---hy
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   \---auth
+|   |       |   |   |           login.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---id
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---it
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---ja
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---km
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---ko
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---ku
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---lt
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---lv
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---mn
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---ms
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---my
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   \---auth
+|   |       |   |   |           login.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---nl
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---no
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---np
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---pl
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---pt_BR
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---pt_PT
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---ro
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---ru
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---sk
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---sl
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---sq
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---sv
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---sw
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   \---auth
+|   |       |   |   |           login.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---th
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---tr
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---uk
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---uz
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---vi
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |   unsaved-changes-alert.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   +---zh_CN
+|   |       |   |   |   global-search.php
+|   |       |   |   |   layout.php
+|   |       |   |   |
+|   |       |   |   +---pages
+|   |       |   |   |   |   dashboard.php
+|   |       |   |   |   |
+|   |       |   |   |   +---auth
+|   |       |   |   |   |   |   edit-profile.php
+|   |       |   |   |   |   |   login.php
+|   |       |   |   |   |   |   register.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   +---email-verification
+|   |       |   |   |   |   |       email-verification-prompt.php
+|   |       |   |   |   |   |
+|   |       |   |   |   |   \---password-reset
+|   |       |   |   |   |           request-password-reset.php
+|   |       |   |   |   |           reset-password.php
+|   |       |   |   |   |
+|   |       |   |   |   \---tenancy
+|   |       |   |   |           edit-tenant-profile.php
+|   |       |   |   |
+|   |       |   |   +---resources
+|   |       |   |   |   \---pages
+|   |       |   |   |           create-record.php
+|   |       |   |   |           edit-record.php
+|   |       |   |   |           list-records.php
+|   |       |   |   |           view-record.php
+|   |       |   |   |
+|   |       |   |   \---widgets
+|   |       |   |           account-widget.php
+|   |       |   |           filament-info-widget.php
+|   |       |   |
+|   |       |   \---zh_TW
+|   |       |       |   global-search.php
+|   |       |       |   layout.php
+|   |       |       |
+|   |       |       +---pages
+|   |       |       |   |   dashboard.php
+|   |       |       |   |
+|   |       |       |   \---auth
+|   |       |       |           login.php
+|   |       |       |
+|   |       |       +---resources
+|   |       |       |   \---pages
+|   |       |       |           create-record.php
+|   |       |       |           edit-record.php
+|   |       |       |           list-records.php
+|   |       |       |           view-record.php
+|   |       |       |
+|   |       |       \---widgets
+|   |       |               account-widget.php
+|   |       |               filament-info-widget.php
+|   |       |
+|   |       \---filament-tables
+|   |           +---ar
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---az
+|   |           |       table.php
+|   |           |
+|   |           +---bg
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---bn
+|   |           |       table.php
+|   |           |
+|   |           +---bs
+|   |           |       table.php
+|   |           |
+|   |           +---ca
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---ckb
+|   |           |       table.php
+|   |           |
+|   |           +---cs
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---cy
+|   |           |       table.php
+|   |           |
+|   |           +---da
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---de
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---el
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---en
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---es
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---eu
+|   |           |       table.php
+|   |           |
+|   |           +---fa
+|   |           |       table.php
+|   |           |
+|   |           +---fi
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---fr
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---he
+|   |           |       table.php
+|   |           |
+|   |           +---hi
+|   |           |       table.php
+|   |           |
+|   |           +---hr
+|   |           |       table.php
+|   |           |
+|   |           +---hu
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---hy
+|   |           |       table.php
+|   |           |
+|   |           +---id
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---it
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---ja
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---ka
+|   |           |       table.php
+|   |           |
+|   |           +---km
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---ko
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---ku
+|   |           |       table.php
+|   |           |
+|   |           +---lt
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---lv
+|   |           |       table.php
+|   |           |
+|   |           +---mn
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---ms
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---nl
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---no
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---np
+|   |           |       table.php
+|   |           |
+|   |           +---pl
+|   |           |       table.php
+|   |           |
+|   |           +---pt_BR
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---pt_PT
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---ro
+|   |           |       table.php
+|   |           |
+|   |           +---ru
+|   |           |       table.php
+|   |           |
+|   |           +---sk
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---sl
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---sq
+|   |           |       table.php
+|   |           |
+|   |           +---sv
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---sw
+|   |           |       table.php
+|   |           |
+|   |           +---th
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---tr
+|   |           |       table.php
+|   |           |
+|   |           +---uk
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---uz
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---vi
+|   |           |   |   table.php
+|   |           |   |
+|   |           |   \---filters
+|   |           |           query-builder.php
+|   |           |
+|   |           +---zh_CN
+|   |           |       table.php
+|   |           |
+|   |           \---zh_TW
+|   |                   table.php
+|   |
+|   \---views
+|       |   dashboard.blade.php
+|       |   profile.blade.php
+|       |   test.blade.php
+|       |   welcome.blade.php
+|       |
+|       +---components
+|       |   |   action-message.blade.php
+|       |   |   application-logo.blade.php
+|       |   |   auth-session-status.blade.php
+|       |   |   danger-button.blade.php
+|       |   |   dropdown-link.blade.php
+|       |   |   dropdown.blade.php
+|       |   |   input-error.blade.php
+|       |   |   input-label.blade.php
+|       |   |   modal.blade.php
+|       |   |   nav-link.blade.php
+|       |   |   primary-button.blade.php
+|       |   |   render-section.blade.php
+|       |   |   responsive-nav-link.blade.php
+|       |   |   secondary-button.blade.php
+|       |   |   seo-meta.blade.php
+|       |   |   sweet-alert.blade.php
+|       |   |   text-input.blade.php
+|       |   |
+|       |   +---forms
+|       |   +---layouts
+|       |   |       app.blade.php
+|       |   |
+|       |   \---ui
+|       +---emails
+|       |       contact.blade.php
+|       |       contact.text.blade.php
+|       |
+|       +---filament
+|       |   \---resources
+|       |       \---ticket-resource
+|       |           \---widgets
+|       |                   comments-list.blade.php
+|       |
+|       +---layouts
+|       |       app.blade.php
+|       |       footer.blade.php
+|       |       guest.blade.php
+|       |       navbar.blade.php
+|       |       page.blade.php
+|       |       preloader.blade.php
+|       |       search.blade.php
+|       |       socialnetworks.blade.php
+|       |       tracking.blade.php
+|       |
+|       +---livewire
+|       |   |   .gitkeep
+|       |   |   ticket-system.blade.php
+|       |   |
+|       |   +---layout
+|       |   |       navigation.blade.php
+|       |   |
+|       |   +---pages
+|       |   |   \---auth
+|       |   |           confirm-password.blade.php
+|       |   |           forgot-password.blade.php
+|       |   |           login.blade.php
+|       |   |           register.blade.php
+|       |   |           reset-password.blade.php
+|       |   |           verify-email.blade.php
+|       |   |
+|       |   +---profile
+|       |   |       delete-user-form.blade.php
+|       |   |       update-password-form.blade.php
+|       |   |       update-profile-information-form.blade.php
+|       |   |
+|       |   +---sections
+|       |   |       banner.blade.php
+|       |   |       contact.blade.php
+|       |   |       features.blade.php
+|       |   |       hero.blade.php
+|       |   |       redbus.blade.php
+|       |   |       services.blade.php
+|       |   |       stats.blade.php
+|       |   |       testimonials.blade.php
+|       |   |       text.blade.php
+|       |   |
+|       |   \---welcome
+|       |           navigation.blade.php
+|       |
+|       +---pages
+|       |   |   about.blade.php
+|       |   |   api.blade.php
+|       |   |   contact.blade.php
+|       |   |   faq.blade.php
+|       |   |   policy.blade.php
+|       |   |   service.blade.php
+|       |   |   tickets.blade.php
+|       |   |   _home.blade.php
+|       |   |
+|       |   \---layouts
+|       |           form-pqrs.blade.php
+|       |           search-pqrs.blade.php
+|       |
+|       +---sections
+|       |       custom.blade.php
+|       |       redbus.blade.php
+|       |
+|       \---vendor
+|           +---emails
+|           |       contact.blade.php
+|           |
+|           +---mail
+|           |   +---html
+|           |   |   |   button.blade.php
+|           |   |   |   footer.blade.php
+|           |   |   |   header.blade.php
+|           |   |   |   layout.blade.php
+|           |   |   |   message.blade.php
+|           |   |   |   panel.blade.php
+|           |   |   |   subcopy.blade.php
+|           |   |   |   table.blade.php
+|           |   |   |
+|           |   |   \---themes
+|           |   |           default.css
+|           |   |
+|           |   \---text
+|           |           button.blade.php
+|           |           footer.blade.php
+|           |           header.blade.php
+|           |           layout.blade.php
+|           |           message.blade.php
+|           |           panel.blade.php
+|           |           subcopy.blade.php
+|           |           table.blade.php
+|           |
+|           +---notifications
+|           |       email.blade.php
+|           |
+|           \---sweetalert
+|                   alert.blade.php
+|
++---routes
+|       api.php
+|       auth.php
+|       console.php
+|       web.php
+|
++---storage
+|   +---app
+|   |   |   .gitignore
+|   |   |
+|   |   +---private
+|   |   |       .gitignore
+|   |   |
+|   |   \---public
+|   |           .gitignore
+|   |
+|   +---framework
+|   |   |   .gitignore
+|   |   |
+|   |   +---cache
+|   |   |   |   .gitignore
+|   |   |   |
+|   |   |   \---data
+|   |   |           .gitignore
+|   |   |
+|   |   +---sessions
+|   |   |       .gitignore
+|   |   |
+|   |   +---testing
+|   |   |   |   .gitignore
+|   |   |   |
+|   |   |   \---disks
+|   |   |       \---local
+|   |   \---views
+|   |           .gitignore
+|   |           04a20dd3e2434f42be8e37bdeb5a52b0.php
+|   |           04dc4292412d96647881c7d8aec62b19.php
+|   |           05cc6e1b9a19f70ac7e25a026c239a6f.php
+|   |           0609a5924efe990cd961292932aee42a.php
+|   |           066681f7623bd038bb69b0533d74c835.php
+|   |           067810809b769a64690026cc907b8548.php
+|   |           08dd0de2483c37b0c064016f51852493.php
+|   |           095ac13bd9120e4729b5cac498451775.php
+|   |           0aa62f60337cc0d41eb658ed474a7221.php
+|   |           0ac6c921adfa4c7c7f33452cd40d1fbb.php
+|   |           0c8e32e9f3202a3d11e3e3c6dd1acbd8.php
+|   |           0caeda07401dc350a0b6a89e7e10be0c.php
+|   |           0cc97c713821f971c2236bc8248ebd60.php
+|   |           0e0af40fac12468137e23ab74ed70a17.php
+|   |           0e18e4f606c5e39ac3edc600cebf2d6a.php
+|   |           0e6b865fb563d6726576980a7a2640bf.php
+|   |           0f1ce3d00dce144db39f4a55a8a89b6a.php
+|   |           0fcb0e774381c0cea63d1239c53d7a3e.blade.php
+|   |           11a60b04da770c4e4fc3a9dcd4e9911b.blade.php
+|   |           12e62f9948d8446a64195df938b3d8c4.php
+|   |           143d3270f9d09e684f176fb15f30f944.php
+|   |           143fc54151e7747f43756c66758d72e3.php
+|   |           1b39f9c8ac320abee2a93eda7f6a8688.php
+|   |           1dc89e2b9d86d5d5d550869350609c13.blade.php
+|   |           1f2d8414704547df2b968ad4999305e2.php
+|   |           2049a1754fdece5d47fec4f09b8cf66b.php
+|   |           24df2039ca2553dede44c819ca2b3052.blade.php
+|   |           24e9f894cb59bd55bdb59ce8895d8564.php
+|   |           2500c3051ef9921605fd9f6aed1a8b0a.php
+|   |           250b72d74d7ee1c669eec7249b89dc45.php
+|   |           2604bd6583f4e64c8e93a0b7cbe599dc.php
+|   |           261564fd0f086ad0a4f22c3d60cbb954.php
+|   |           26d4d11566b10a815cd0990b97861e91.php
+|   |           26e3f0d6082a44c19f887dca79420c70.php
+|   |           270ab4f0c6282ef30f67aa86ea13e3ca.php
+|   |           2762d28b00c5ebbd4a4090ea98f52f1a.php
+|   |           2a748696efcf2ff24b2d5372023e8581.php
+|   |           2d8616b45478dd3ee3ddbb61f678487b.php
+|   |           2ff1a37e9f771131cd170ebd54dda8cb.php
+|   |           3074764e3ed66d09f4230b309b7392d1.php
+|   |           31e0ad53b6ff21cfea571c973a28d3aa.php
+|   |           34f200532630661f591128f18f03188b.php
+|   |           35613029dd1d4b93403ed718d4b572ef.php
+|   |           36280ca4d9120b40db2115ea9f5a2039.php
+|   |           36904ace4a4056dda9c54e67234c7485.php
+|   |           36c3251b3732e1f7a6ed5010f91e19d3.php
+|   |           39d7073561582bec86b7739cea09d24f.php
+|   |           3cb9a3bcba3d5ed74b50b372dcdebf59.php
+|   |           3df8a86f1cdde343ea9cb346ee877f18.php
+|   |           413941c32dc4a8e9f9cce1cc6abefc71.php
+|   |           4943bc92ebba41e8b0e508149542e0ad.blade.php
+|   |           4948361dccea84092871bc9656a854cb.php
+|   |           496db9a3318f9071b29f4d18caed6f97.php
+|   |           4973dd2ea3313bbcd9e6517566cdd771.php
+|   |           49a1bc8913e35c32d88681eb6e3bd236.php
+|   |           4e61d256007f66dc5ff8b8990f52b163.php
+|   |           4ff19e4248733b33a8ec4fc56e3e43e3.php
+|   |           5006cc2dfe3759b9c6600e2f72762ace.php
+|   |           506faf89e9620e9953317d41ad9c0b9f.php
+|   |           50c331ac5756a1476f8a78f8a96716d8.php
+|   |           520f3dce755f57ea22aa371b709c729e.php
+|   |           525f5eafb99652a58be6ac8a754c1aa1.php
+|   |           527a8e27203b5f7ea53785b4ccb41550.php
+|   |           547cb5cc03e9d1338a6927ffde256663.blade.php
+|   |           55dd53b560c555b96c6d86f95d34f44b.php
+|   |           55f4b9eccfb49f9ac42fea0421ea882c.php
+|   |           567aa77200e767a3939d34939867f6af.blade.php
+|   |           597b287eb33f7a917c46284a8775114d.php
+|   |           59f4a8a938ce6fdd5cc57fcc87831e05.php
+|   |           5ccab473df6d49638dfa9eb895089421.php
+|   |           61373a2a51c3628472ee558954a25a0b.php
+|   |           647ba0b41955e032431756c99d458221.php
+|   |           65ab28afe8dcc235961dfdd7389732b8.php
+|   |           65f30b016c6849a3993dd50908b49325.php
+|   |           67cb0d4e2ca01a709e917c01807425c0.php
+|   |           6c05341c6ea22537fa6c7c4b0da480b0.php
+|   |           6dbe675d8f6de93e3b28480722569e04.php
+|   |           701f44a26323f96773f2f8ff7d6fb40c.php
+|   |           710604c67917f627c0d7fa5205773725.php
+|   |           72436722a1933fff1bb008ebb9044905.php
+|   |           73195670f4e2a4cabcd4155dfa2ed16c.php
+|   |           73bbd30bcaa9aeb55e00fe99af45e9e7.php
+|   |           74a8f0cc4f4769bfcf61c8e5547be2d2.php
+|   |           752a3117dba61bc869ca6bc19dafd94c.php
+|   |           757f78daea9a98869e27462aef14e4eb.blade.php
+|   |           766b6429e90f76e583a4b572629aec32.blade.php
+|   |           78e0941321f3777ad58b8d005567beae.php
+|   |           794567c2518021cf872f386eb19e26fb.php
+|   |           79a60609d420eab15fbffe06dba9af44.php
+|   |           79bce41690852dd549fe5a33dfa0b879.php
+|   |           7fc6461fa471cd81ac4c7e9cb5cd90e4.php
+|   |           8127cc91645f8ef43c615109d249237f.php
+|   |           827a2af7470e9175d5b8c8a7075df46a.blade.php
+|   |           8313b5c5010ede8eab6927f115c4cb86.php
+|   |           83f13a7b3eb615fe991f1c7aa737b963.php
+|   |           8783b33f92743982279aab87ca7ac924.php
+|   |           87de52b79b425691ca98f3d026ed8d2e.php
+|   |           8850f54ce41318df7914a895ca8ffc44.php
+|   |           89bc5399f7f231c8897914c07e2b0cca.php
+|   |           89c201c9f5a7301cd070a84651d29aaa.php
+|   |           8b33b926710b5442109dfa53bb417286.php
+|   |           8ca0b526c2feeff40b90d537bdc40b80.php
+|   |           8ed733841c3ae98c8cce9176307cab21.php
+|   |           8fa35160d54a04644137ff80099305b4.php
+|   |           90d02dcf2aca15bb91a80d41e3fe9b9c.php
+|   |           92bc14da1ec0459cbf1dac42a12baa53.php
+|   |           93fdb7a0907e79c6853ca7353d75000d.php
+|   |           94f543e199123959ab9db82e1895f140.php
+|   |           969053bb7f2d86b55481bafe5bf68fcb.php
+|   |           97a18834a2ac2cb8a48e126e9afcd5ae.php
+|   |           99aa06d3014798d86001c324468d497f.blade.php
+|   |           9a4e1a8a66c8280259d53aacb308b893.blade.php
+|   |           9aa9b9724ee6edafee133b550a6c75da.php
+|   |           9d88efb821f0ce7da8f01fed2ee59f15.php
+|   |           9e5232befc881c7146e6f196dee711c6.php
+|   |           a0be58634360e26aad03f3c92aabcd1a.php
+|   |           a306f0b2b9243f759e5cf7e05667728b.php
+|   |           a313b88552f7162cc3fa34f53f0125b7.php
+|   |           a3ab5331dcb5c3f7bfa8b45325cbbc3e.php
+|   |           a4d1dffb8c73b2383cb238f8fae45757.php
+|   |           a52436c7b4d1bd90bc5d09876bac1232.blade.php
+|   |           a554b5930f3bf666b05e1f3e89fc58d6.php
+|   |           a79222e8db98c8add2115ca019af2780.php
+|   |           a8411f4d29db71f04166d80273656c15.php
+|   |           a98b647137547ffe2b58e6dcb752324c.php
+|   |           a9b6c7873dd0173437fde458c32a97ca.php
+|   |           ab525e3370360f35c3d2b06da4c75a9f.php
+|   |           ab57fafcc5c3a24bb6fa17c647931818.php
+|   |           ac88ff63e98c7bb6dcb78958446a91d0.php
+|   |           aedb0749a121e25b9e5552fb06d7e4dd.php
+|   |           b0ef7653ae19406b624c0b7831ca2399.php
+|   |           b2c608f91630b57d8d42cd8e06c70e44.php
+|   |           b2cc522e3d997a2738e87388a29c0ce1.php
+|   |           b5294d39840cbcce97dc1033a22429bb.php
+|   |           b53783c534d0aa580c20d5279850b3d7.php
+|   |           b72a669b62c26f37f366d2da01b525e3.php
+|   |           ba30a69f1135311fb4b4706cd28e20e5.php
+|   |           c0254c3614feb40249e36ebcca3ac747.php
+|   |           c04a2eef48b6b02919d744af326df515.php
+|   |           c22e5dd1c1a38c1fef3d00f5530c461a.php
+|   |           c25ccb780742ff4dceedf3d76e7fcdc7.blade.php
+|   |           c3362b479b1f37bebe88a517aa8fa50f.php
+|   |           c35b740bdf9bd7e249221deff6ba624c.php
+|   |           c5907ff4708f8230fe7eaf75c20b1f46.php
+|   |           c5ef2b8e0bb8b658aeb10244ce360bd9.php
+|   |           c70491579b55a01b5d8c7e6c5c8f6bba.php
+|   |           cb0b7daba758c98a9a3d5af0fa5b1012.php
+|   |           ccf52885518524191ff55c5b643f6bd3.php
+|   |           cda039a6684f8ea06b150fc0881f4236.php
+|   |           cda15453da59987a0b2033525854e170.php
+|   |           cdfdd6a3af653579dcbcc7294824991e.php
+|   |           ce7552de053a0ab0f2c96ce90b671629.php
+|   |           cece0f539d3df70ecb8c871cff97fecd.php
+|   |           cfcf414e2008a5c88468fb43f482618d.php
+|   |           d062030e13753035c3b5789fe56aa4b6.php
+|   |           d0e6fd9b6156693530a37c65f7cc7e69.php
+|   |           d3b8f1f9f96270a2e8b416bba30bcad1.php
+|   |           d3dd1d05a964258e1e4d242389aeaf2b.php
+|   |           d7fbdaf71a25156e3772839e74b024e3.php
+|   |           d89e1b214ed3cdeea50f8708cf40a0dc.php
+|   |           d8edd9178f245a663e04deac200fd9c5.php
+|   |           e2094e156a45f6c888def1d627a5b431.php
+|   |           e3670a54cf3461c9567c672293537c35.php
+|   |           e37ad1a6927fa7c41694a22a0c59f292.php
+|   |           e3822b5cda85c2140ea568849445b78f.php
+|   |           e61665c58bff205f6b710386bc7648bd.php
+|   |           e722d6a99d043707581db3ad4c75c188.php
+|   |           e97eeaf1450a56880cf9f41a77acd69b.php
+|   |           ecdf98b142e409fc59d0f6177ce0fdd5.php
+|   |           eeb545c356a817f56ecf5e68001e6e4d.blade.php
+|   |           ef076f61587f864775eaf77e9eb7d697.php
+|   |           f0b24d01ba888a44f8e83e1a7addd1b4.php
+|   |           f2b70316ac417340269bb61a3327a7eb.php
+|   |           f48d4e11b9e3a24dd3a2cb9546765aee.blade.php
+|   |           f68667f78f867a53ca3844dc2df89b66.php
+|   |           f74e3193460f90c478d976f1f05438ee.php
+|   |           f887eb5b1aaa07dace6d682c884a0ac3.php
+|   |           f967adbfafc8be841fc6b927680f54bd.php
+|   |           f9f5dbfaea9cd33839eae0dd84a2480d.php
+|   |           fd7fbe1cfe8778b5d07155f9af375818.php
+|   |           fdd467d57998f8a10fb29b18b6e19a16.php
+|   |           fe829198f35596562ac3aeced2a885ee.php
+|   |
+|   \---logs
+|           .gitignore
+|           laravel.log
+|
++---tests
+|   |   Pest.php
+|   |   TestCase.php
+|   |
+|   +---Feature
+|   |   |   ExampleTest.php
+|   |   |   ProfileTest.php
+|   |   |
+|   |   \---Auth
+|   |           AuthenticationTest.php
+|   |           EmailVerificationTest.php
+|   |           PasswordConfirmationTest.php
+|   |           PasswordResetTest.php
+|   |           PasswordUpdateTest.php
+|   |           RegistrationTest.php
+|   |
+|   \---Unit
+|           ExampleTest.php
+|

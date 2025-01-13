@@ -7,9 +7,21 @@ use App\Enums\StatusGlobal;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
+use Str;
 
 class Section extends Model
 {
+
+    use SoftDeletes, SortableTrait;
+
+    public $sortable = [
+        'order_column_name' => 'order',
+        'sort_when_creating' => true,
+        'sort_on_has_many' => true,
+    ];
+
     protected $fillable = [
         'name',
         'identifier',
@@ -23,7 +35,8 @@ class Section extends Model
         'display_rules',
         'styles',
         'is_global',
-        'is_active'
+        'is_active',
+        'content',
     ];
 
     protected $casts = [
@@ -33,13 +46,8 @@ class Section extends Model
         'styles' => 'array',
         'is_global' => 'boolean',
         'is_active' => 'boolean',
-        'type' => SectionType::class
+        'type' => SectionType::class,
     ];
-
-    public function getViewComponent(): string
-    {
-        return $this->type->getViewComponent();
-    }
 
     public function getContent()
     {
@@ -68,8 +76,19 @@ class Section extends Model
         return $this->belongsTo(Page::class);
     }
 
-    public function contents()
+    public function getViewComponent(): string
     {
-        return $this->hasMany(Content::class);
+        return $this->type ? "sections.{$this->type}" : 'sections.custom';
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('order');
+    }
+
 }

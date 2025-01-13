@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Cms;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;

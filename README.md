@@ -1,66 +1,105 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
+    <img src="https://torcoromaweb.com/images/logo.png" alt="Logo Torcoroma WEB" width="200"/>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Torcoroma WEB 🌐
 
-## About Laravel
+**Plataforma Innovadora de Soporte al Cliente**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+[![Versión PHP](https://img.shields.io/badge/PHP-8.0%2B-blue?style=for-the-badge&logo=php)](https://www.php.net/)
+[![Versión Laravel](https://img.shields.io/badge/Laravel-10.x-red?style=for-the-badge&logo=laravel)](https://laravel.com/)
+[![Estado de Construcción](https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge&logo=github)](https://github.com/korozcolt/torcoroma-web)
+[![Licencia](https://img.shields.io/badge/licencia-MIT-green?style=for-the-badge)](LICENSE)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+</div>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🚀 Descripción del Proyecto
 
-## Learning Laravel
+Torcoroma WEB es una solución integral de soporte al cliente que incluye un ChatBot inteligente y un Sistema de Tickets avanzado, diseñado para agilizar las consultas de los clientes y mejorar la eficiencia de la comunicación.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## ✨ Características Principales
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- 💬 **ChatBot Avanzado**: Gestión inteligente de conversaciones
+- 🎫 **Sistema de Tickets**: Seguimiento eficiente del soporte al cliente
+- 🤖 **Respuestas Automatizadas**: Interacciones inteligentes con comprensión de contexto
+- 📊 **Análisis Detallados**: Insights sobre interacciones con clientes
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🖥️ Requisitos del Servidor
 
-## Laravel Sponsors
+### 📋 Extensiones PHP Mínimas
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- ✅ PHP >= 8.0
+- ✅ Extensión BCMath
+- ✅ Extensión Ctype
+- ✅ Extensión cURL
+- ✅ Extensión DOM
+- ✅ Extensión Fileinfo
+- ✅ Extensión JSON
+- ✅ Extensión Mbstring
+- ✅ Extensión OpenSSL
+- ✅ Extensión PCRE
+- ✅ Extensión PDO
+- ✅ Extensión Tokenizer
+- ✅ Extensión XML
 
-### Premium Partners
+## 🛠️ Desarrollo Local
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Inicio Rápido
 
-## Contributing
+```bash
+# Clonar el repositorio
+git clone https://github.com/korozcolt/torcoroma-web.git
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# Navegar al directorio del proyecto
+cd torcoroma-web
 
-## Code of Conduct
+# Instalar dependencias
+composer install
+npm install
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# Iniciar servidor de desarrollo local
+php artisan serve
+```
 
-## Security Vulnerabilities
+## 👥 Equipo
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Desarrolladores Principales
 
-## License
+| Nombre | Rol | Contacto | Contribuciones |
+|--------|-----|----------|----------------|
+| Kristian Orozco | Desarrollador Líder | [@kronnos](https://github.com/korozcolt/) | Arquitectura, Backend, ChatBot |
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Contribuidores
+
+[![Contribuidores](https://img.shields.io/github/contributors/korozcolt/torcoroma-web?style=for-the-badge)](https://github.com/korozcolt/torcoroma-web/graphs/contributors)
+
+- Agradecemos a todos los contribuidores que hacen posible este proyecto
+- Las contribuciones son bienvenidas bajo los términos de la Licencia Apache 2.0
+
+## 📄 Licencia
+
+### Licencia Apache 2.0
+
+[![Licencia Apache](https://img.shields.io/badge/Licencia-Apache%202.0-blue?style=for-the-badge)](http://www.apache.org/licenses/LICENSE-2.0)
+
+#### Resumen de Términos Clave
+
+- ✅ Uso comercial permitido
+- ✅ Modificación
+- ✅ Distribución
+- ✅ Uso privado
+- 🔒 Cambios deben ser documentados
+- 📝 Atribución al proyecto original requerida
+
+#### Texto Completo de la Licencia
+
+### Responsabilidad Legal
+
+- El software se proporciona "tal cual", sin garantías
+- Torcoroma WEB no se hace responsable de daños derivados del uso
+- Se recomienda revisión legal antes de uso comercial
+
+---
+
+<div align="center">
+    <sub>🛡️ Licenciado bajo Apache 2.0 | © 2024 Torcoroma WEB</sub>
+</div>

@@ -4,20 +4,36 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Http;
 use App\Helpers\SiteSetting;
+use App\Models\Page;
 
 class HomeController extends Controller
 {
     public function __invoke($page)
     {
-        // Obtenemos el título traducido o establecemos uno por defecto
+        // Obtener la página con sus secciones ordenadas y activas
+        $pageData = Page::where('slug', $page)
+            ->with(['sections' => function($query) {
+                $query->where('is_active', true)
+                    ->orderBy('order');
+            }])
+            ->firstOrFail();
+
+        // Obtener el título traducido o establecer uno por defecto
         $metaTitle = __('Meta Title: ' . $page);
         if($metaTitle == 'Meta Title: ' . $page) {
-            $metaTitle = ucfirst(str_replace('_', ' ', $page)); // Convertimos _home a Home
+            $metaTitle = ucfirst(str_replace('_', ' ', $page));
         }
 
-        return view('pages.'.$page,[
+        // Determinar si estamos en modo prueba
+        $isTestMode = request()->segment(1) === 'test';
+
+        // Seleccionar la vista basada en el modo
+        $view = $isTestMode ? 'pages.test' : 'pages.' . $page;
+
+        return view($view, [
             'info' => $this->pageInfo(),
-            'metaTitle' => $metaTitle
+            'metaTitle' => $metaTitle,
+            'page' => $pageData
         ]);
     }
 

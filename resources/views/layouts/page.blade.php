@@ -78,27 +78,29 @@
 <body>
     <!-- Preloder -->
     @include('layouts.preloader')
-    <!-- End Preloder -->
-    <!-- Heder Area -->
+
+    <!-- Header Area -->
     <header class="header-area">
         @include('layouts.socialnetworks')
         @include('layouts.navbar')
     </header>
-    <!-- End Heder Area -->
 
     <!-- Search Overlay -->
     @include('layouts.search')
-    <!-- End Search Overlay -->
-    @yield('content-page')
-    <!-- Footer Area-->
+
+    <!-- Main Content -->
+    <main>
+        @yield('content-page')
+    </main>
+
+    <!-- Footer Area -->
     @include('layouts.footer')
-    <!-- End Footer Area -->
 
     <!-- Footer bottom Area -->
     <div class="footer-bottom">
         <div class="container">
-            <p>Copyright @ {{ date('Y') }} Torcoroma SA. All Rights Reserved. Powered By <a
-                    href="https://www.facebook.com/kronnosco.la/" target="_blank">Kronnos</a></p>
+            <p>Copyright @ {{ date('Y') }} Torcoroma SA. All Rights Reserved. Powered By
+                    <a href="https://www.facebook.com/kronnosco.la/" target="_blank">Kronnos</a></p>
         </div>
     </div>
     <!-- End Footer bottom Area -->

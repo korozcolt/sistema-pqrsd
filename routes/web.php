@@ -3,8 +3,17 @@
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PageController;
+use App\Models\Page;
+
+
 
 Route::prefix('/')->group(function () {
+    Route::prefix('test')->group(function () {
+        Route::get('/{page}', [HomeController::class, '__invoke'])
+            ->name('test.page')
+            ->where('page', 'about|faq|contact|_home|service|api|policy');
+    });
     // ---------* PAGE STATIC *----------------- //
     Route::get('/',[HomeController::class,'index'])->name('page._home');
     // ---------* PAGE DYNAMIC *---------------- //
