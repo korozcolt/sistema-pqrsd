@@ -1,84 +1,74 @@
-version: "3.8"
-
 services:
-    laravel:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        container_name: torcoroma_web_app
-        environment:
-            - APP_NAME=Torcoroma WEB
-            - APP_ENV=local
-            - APP_DEBUG=true
-            - APP_URL=https://torcoroma.kronnos.dev
-            - APP_TIMEZONE=UTC
-            - DB_CONNECTION=mysql
-            - DB_HOST=torcoroma_mysql
-            - DB_PORT=3306
-            - DB_DATABASE=torcoroma_web_project
-            - DB_USERNAME=root
-            - DB_PASSWORD=root
-            - REDIS_CLIENT=phpredis
-            - REDIS_HOST=torcoroma_redis
-            - REDIS_PORT=6379
-            - SESSION_DRIVER=database
-            - CACHE_STORE=redis
-        ports:
-            - "127.0.0.1:8080:8000"
-        volumes:
-            - ./:/var/www/html
-            - /var/www/html/vendor
-            - /var/www/html/node_modules
-        networks:
-            - torcoroma_network
-        depends_on:
-            mysql:
-                condition: service_healthy
-            redis:
-                condition: service_healthy
-        restart: unless-stopped
+ app:
+   build:
+     context: .
+     dockerfile: Dockerfile
+   container_name: torcoroma_app
+   environment:
+     - DB_CONNECTION=mysql
+     - DB_HOST=torcoroma_mysql
+     - DB_PORT=3306
+     - DB_DATABASE=torcoroma_web
+     - DB_USERNAME=archivemaster
+     - DB_PASSWORD=YAXcB61Kcx16A7FBn34k
+   volumes:
+     - .:/var/www
+     - ./docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro
+   depends_on:
+     mysql:
+       condition: service_healthy
+     redis:
+       condition: service_healthy
+   networks:
+     - torcoroma_network
 
-    mysql:
-        image: mysql:8
-        container_name: torcoroma_mysql
-        environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: torcoroma_web_project
-            MYSQL_USER: root
-            MYSQL_PASSWORD: root
-        volumes:
-            - mysql_data:/var/lib/mysql
-        networks:
-            - torcoroma_network
-        ports:
-            - "127.0.0.1:3306:3306"
-        healthcheck:
-            test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
-            interval: 10s
-            timeout: 5s
-            retries: 5
-        restart: unless-stopped
+ nginx:
+   image: nginx:alpine
+   container_name: torcoroma_nginx
+   volumes:
+     - .:/var/www
+     - ./docker/nginx:/etc/nginx/conf.d/
+   ports:
+     - "8080:80"
+   depends_on:
+     - app
+   networks:
+     - torcoroma_network
 
-    redis:
-        image: redis:6-alpine
-        container_name: torcoroma_redis
-        volumes:
-            - redis_data:/data
-        networks:
-            - torcoroma_network
-        ports:
-            - "127.0.0.1:6379:6379"
-        healthcheck:
-            test: ["CMD", "redis-cli", "ping"]
-            interval: 10s
-            timeout: 5s
-            retries: 5
-        restart: unless-stopped
+ mysql:
+   image: mysql:8.0
+   container_name: torcoroma_mysql
+   environment:
+     MYSQL_DATABASE: torcoroma_web
+     MYSQL_USER: archivemaster
+     MYSQL_PASSWORD: YAXcB61Kcx16A7FBn34k
+     MYSQL_ROOT_PASSWORD: YAXcB61Kcx16A7FBn34k
+   volumes:
+     - mysql_data:/var/lib/mysql
+   ports:
+     - "3308:3306"
+   networks:
+     - torcoroma_network
+   healthcheck:
+     test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+     interval: 10s
+     retries: 5
+
+ redis:
+   image: redis:7-alpine
+   container_name: torcoroma_redis
+   volumes:
+     - redis_data:/data
+   ports:
+     - "6381:6379"
+   networks:
+     - torcoroma_network
+   healthcheck:
+     test: ["CMD", "redis-cli", "ping"]
 
 networks:
-    torcoroma_network:
-        driver: bridge
+ torcoroma_network:
 
 volumes:
-    mysql_data:
-    redis_data:
+ mysql_data:
+ redis_data:

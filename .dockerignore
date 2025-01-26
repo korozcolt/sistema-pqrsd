@@ -1,0 +1,9 @@
+.git
+.gitignore
+.env
+.env.*
+.dockerignore
+docker-compose.yml
+vendor/
+node_modules/
+storage/*.key

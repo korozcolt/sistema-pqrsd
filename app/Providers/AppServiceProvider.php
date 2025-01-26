@@ -24,11 +24,9 @@ class AppServiceProvider extends ServiceProvider
         \App\Models\Ticket::observe(\App\Observers\TicketObserver::class);
         Validator::extend('recaptcha', Recaptcha::class);
 
-        // Compresión GZIP
-        if (extension_loaded('zlib')) {
+        if (extension_loaded('zlib') && !ob_get_level()) {
             ob_start('ob_gzhandler');
         }
-
         // Cacheo de respuestas
         if (!app()->isLocal()) {
             config(['cache.default' => 'redis']);
