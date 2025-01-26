@@ -1,54 +1,25 @@
-name: Deploy Laravel App
+name: Deploy to Production
 
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Check out code
-      uses: actions/checkout@v3
-
-    - name: Set up SSH key
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      run: |
-        mkdir -p ~/.ssh
-        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan -H 208.109.235.177 >> ~/.ssh/known_hosts
-
+    - uses: actions/checkout@v3
     - name: Deploy to Server
-      env:
-        COMPOSE_HTTP_TIMEOUT: 300
-      run: |
-        ssh -i ~/.ssh/id_ed25519 kronnos@208.109.235.177 << 'ENDSSH'
-          cd ~/torcoroma_project
-
-          # Pull latest changes
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_IP }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd /var/www/torcoroma.kronnos.dev
           git pull origin master
-
-          # Build and restart containers
           docker-compose down
           docker-compose up -d --build
-
-          # Wait for containers to be ready
-          sleep 30
-
-          # Run deployment commands
-          docker exec torcoroma_web_app php artisan down
-          docker exec torcoroma_web_app composer install --no-dev --optimize-autoloader --no-interaction
-          docker exec torcoroma_web_app npm ci
-          docker exec torcoroma_web_app npm run build
-          docker exec torcoroma_web_app php artisan migrate --force
-          docker exec torcoroma_web_app php artisan config:cache
-          docker exec torcoroma_web_app php artisan route:cache
-          docker exec torcoroma_web_app php artisan view:cache
-          docker exec torcoroma_web_app php artisan up
-
-          # Clean up
-          docker system prune -f
+          docker-compose exec -T app php artisan migrate --force
+          docker-compose exec -T app php artisan config:cache
+          docker-compose exec -T app php artisan route:cache
