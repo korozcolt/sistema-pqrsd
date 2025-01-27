@@ -27,10 +27,6 @@ return new class extends Migration
             $table->string('status')->default('active');
         });
 
-        Schema::table('themes', function (Blueprint $table) {
-            $table->string('status')->default('active');
-        });
-
         Schema::table('widgets', function (Blueprint $table) {
             $table->string('status')->default('active');
         });
