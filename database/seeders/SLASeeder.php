@@ -11,50 +11,51 @@ class SLASeeder extends Seeder
 {
     public function run(): void
     {
-        // Peticiones (Derecho de Petición)
-        // Estándar: 15 días hábiles
-        $this->createSLAsForType(TicketType::Petition, [
-            'low' => ['response' => 24, 'resolution' => 360], // 15 días
-            'medium' => ['response' => 16, 'resolution' => 360],
-            'high' => ['response' => 8, 'resolution' => 360],
-            'urgent' => ['response' => 4, 'resolution' => 360],
+        // Peticiones (Derecho de Petición) - según normativa colombiana
+        // Estándar: 15 días hábiles (aproximadamente 360 horas)
+        $this->createSLAsForType(TicketType::Petition->value, [
+            Priority::Low->value => ['response' => 24, 'resolution' => 360], // 15 días
+            Priority::Medium->value => ['response' => 16, 'resolution' => 360],
+            Priority::High->value => ['response' => 8, 'resolution' => 360],
+            Priority::Urgent->value => ['response' => 4, 'resolution' => 240], // 10 días para urgentes
         ]);
 
         // Quejas (Sobre el servicio)
-        // Estándar: 15 días hábiles
-        $this->createSLAsForType(TicketType::Complaint, [
-            'low' => ['response' => 24, 'resolution' => 360],
-            'medium' => ['response' => 16, 'resolution' => 360],
-            'high' => ['response' => 8, 'resolution' => 360],
-            'urgent' => ['response' => 4, 'resolution' => 360],
+        // Estándar Supertransporte: 15 días hábiles
+        $this->createSLAsForType(TicketType::Complaint->value, [
+            Priority::Low->value => ['response' => 24, 'resolution' => 360],
+            Priority::Medium->value => ['response' => 16, 'resolution' => 360],
+            Priority::High->value => ['response' => 8, 'resolution' => 360],
+            Priority::Urgent->value => ['response' => 4, 'resolution' => 240],
         ]);
 
         // Reclamos (Sobre el servicio prestado)
-        // Estándar: 15 días hábiles
-        $this->createSLAsForType(TicketType::Claim, [
-            'low' => ['response' => 24, 'resolution' => 360],
-            'medium' => ['response' => 16, 'resolution' => 360],
-            'high' => ['response' => 8, 'resolution' => 360],
-            'urgent' => ['response' => 4, 'resolution' => 360],
+        // Estándar Supertransporte: 15 días hábiles
+        $this->createSLAsForType(TicketType::Claim->value, [
+            Priority::Low->value => ['response' => 24, 'resolution' => 360],
+            Priority::Medium->value => ['response' => 16, 'resolution' => 360],
+            Priority::High->value => ['response' => 8, 'resolution' => 360],
+            Priority::Urgent->value => ['response' => 4, 'resolution' => 240],
         ]);
 
-        // Sugerencias (No tienen tiempo legal, pero establecemos un estándar)
-        // Estándar: 30 días hábiles
-        $this->createSLAsForType(TicketType::Suggestion, [
-            'low' => ['response' => 48, 'resolution' => 720], // 30 días
-            'medium' => ['response' => 36, 'resolution' => 720],
-            'high' => ['response' => 24, 'resolution' => 720],
-            'urgent' => ['response' => 12, 'resolution' => 720],
+        // Sugerencias (No tienen tiempo legal estricto)
+        // Establecemos un estándar interno de 30 días hábiles
+        $this->createSLAsForType(TicketType::Suggestion->value, [
+            Priority::Low->value => ['response' => 48, 'resolution' => 720], // 30 días
+            Priority::Medium->value => ['response' => 36, 'resolution' => 720],
+            Priority::High->value => ['response' => 24, 'resolution' => 720],
+            Priority::Urgent->value => ['response' => 12, 'resolution' => 480], // 20 días para urgentes
         ]);
+
+        $this->command->info('SLAs configurados según normativa Supertransporte Colombia 2025');
     }
 
-    private function createSLAsForType(TicketType $type, array $priorities): void
+    private function createSLAsForType(string $ticketType, array $priorities): void
     {
         foreach ($priorities as $priorityValue => $times) {
-            $priority = Priority::from($priorityValue);
             SLA::create([
-                'ticket_type' => $type,
-                'priority' => $priority->value,
+                'ticket_type' => $ticketType,
+                'priority' => $priorityValue,
                 'response_time' => $times['response'],
                 'resolution_time' => $times['resolution'],
                 'is_active' => true,

@@ -6,7 +6,7 @@ use App\Enums\Priority;
 use App\Enums\StatusTicket;
 use App\Events\TicketStatusChanged;
 use App\Models\Ticket;
-use App\Notifications\TicketCreated;
+use App\Notifications\NewTicketNotification;
 use App\Notifications\TicketStatusUpdated;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -16,11 +16,11 @@ class TicketObserver
 {
     public function created(Ticket $ticket): void
     {
-        $ticket->user->notify(new TicketCreated($ticket));
+        $ticket->user->notify(new NewTicketNotification($ticket));
 
         // Notificar al email configurado para PQRs
         Notification::route('mail', Config::get('site.pqrs_email'))
-            ->notify(new TicketCreated($ticket));
+            ->notify(new NewTicketNotification($ticket));
         event(new TicketStatusChanged(
             ticket: $ticket,
             oldStatus: null,

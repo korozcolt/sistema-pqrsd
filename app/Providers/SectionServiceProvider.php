@@ -11,9 +11,7 @@ class SectionServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->singleton(SectionRenderer::class, function ($app) {
-            return new SectionRenderer();
-        });
+        //...
     }
 
     public function boot(): void
