@@ -15,8 +15,11 @@ class DatabaseSeeder extends Seeder
     {
         //DepartmentSeeder, SLASeeder and last SiteSeeder
         $this->call([
-            DepartmentSeeder::class,
-            SLASeeder::class,
+            UserSeeder::class,            // Primero creamos usuarios
+            DepartmentSeeder::class,      // Luego departamentos
+            SLASeeder::class,             // Configuramos SLAs
+            TagSeeder::class,             // Creamos etiquetas
+            TicketSeeder::class,          // Finalmente creamos tickets de ejemplo
         ]);
     }
 }

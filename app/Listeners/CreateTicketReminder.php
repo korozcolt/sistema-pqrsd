@@ -2,14 +2,14 @@
 
 namespace App\Listeners;
 
-use App\Events\TicketCreated;
+use App\Events\TicketCreatedEvent;
 use App\Models\Reminder;
 use App\Enums\ReminderType;
 use Carbon\Carbon;
 
 class CreateTicketReminder
 {
-    public function handle(TicketCreated $event): void
+    public function handle(TicketCreatedEvent $event): void
     {
         $ticket = $event->ticket;
 
