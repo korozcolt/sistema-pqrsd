@@ -15,9 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         //DepartmentSeeder, SLASeeder and last SiteSeeder
         $this->call([
-            //DepartmentSeeder::class,
-            //SLASeeder::class,
-            HomePageSeeder::class,
+            DepartmentSeeder::class,
+            SLASeeder::class,
         ]);
     }
 }
