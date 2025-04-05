@@ -21,6 +21,8 @@ use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Filters\SelectFilter;
+use Riodwanto\FilamentAceEditor\AceEditor;
+
 
 class SectionResource extends Resource
 {
@@ -54,13 +56,15 @@ class SectionResource extends Resource
                     ])
                     ->required(),
 
-                Textarea::make('content')
-                    ->label('HTML Content')
+                AceEditor::make('content')
+                    ->mode('html')
+                    ->theme('github')
+                    ->darkTheme('dracula')
+                    ->autosize()
                     ->required()
-                    ->columnSpan('full')
-                    ->rows(20)
                     ->hint('You can use HTML tags here')
-                    ->hintColor('warning'),
+                    ->hintColor('warning')
+                    ->columnSpan('full'),
 
                 TextInput::make('order')
                     ->numeric()
@@ -69,6 +73,7 @@ class SectionResource extends Resource
 
                 Toggle::make('is_active')
                     ->label('Active')
+                    ->columnSpan('full')
                     ->default(true),
             ])->columns(2)
         ]);
