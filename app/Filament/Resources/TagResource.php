@@ -105,6 +105,16 @@ class TagResource extends Resource
         ];
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): string|array|null
+    {
+        return static::getModel()::count() > 20 ? 'danger' : 'success';
+    }
+
     public static function canCreate(): bool
     {
         return Auth::user()->role === UserRole::SuperAdmin ||
