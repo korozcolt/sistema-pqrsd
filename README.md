@@ -7,7 +7,7 @@
 
 [![Versión PHP](https://img.shields.io/badge/PHP-8.0%2B-blue?style=for-the-badge&logo=php)](https://www.php.net/)
 [![Versión Laravel](https://img.shields.io/badge/Laravel-10.x-red?style=for-the-badge&logo=laravel)](https://laravel.com/)
-[![Estado de Construcción](https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge&logo=github)](https://github.com/korozcolt/torcoroma-web)
+[![Estado de Construcción](https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge&logo=github)](https://github.com/korozcolt/torcoroma_web_project)
 [![Licencia](https://img.shields.io/badge/licencia-MIT-green?style=for-the-badge)](LICENSE)
 
 </div>
@@ -50,7 +50,7 @@ Torcoroma WEB es un sistema avanzado de gestión de Peticiones, Quejas, Reclamos
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/korozcolt/torcoroma-web.git
+git clone https://github.com/korozcolt/torcoroma_web_project.git
 
 # Navegar al directorio del proyecto
 cd torcoroma-web
@@ -104,7 +104,7 @@ El sistema utiliza las siguientes tablas principales:
 
 ### Contribuidores
 
-[![Contribuidores](https://img.shields.io/github/contributors/korozcolt/torcoroma-web?style=for-the-badge)](https://github.com/korozcolt/torcoroma-web/graphs/contributors)
+[![Contribuidores](https://img.shields.io/github/contributors/korozcolt/torcoroma_web_project?style=for-the-badge)](https://github.com/korozcolt/torcoroma_web_project/graphs/contributors)
 
 - Agradecemos a todos los contribuidores que hacen posible este proyecto
 - Las contribuciones son bienvenidas bajo los términos de la Licencia Apache 2.0
