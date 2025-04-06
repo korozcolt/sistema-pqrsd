@@ -116,6 +116,7 @@ El sistema utiliza las siguientes tablas principales:
 Si encuentra problemas al desplegar en servidor compartido:
 
 1. **Limpiar todas las cachés**:
+
    ```
    php artisan config:clear
    php artisan cache:clear
@@ -125,6 +126,7 @@ Si encuentra problemas al desplegar en servidor compartido:
    ```
 
 2. **Verificar permisos de directorios**:
+
    ```
    chmod -R 775 storage bootstrap/cache
    ```
