@@ -11,7 +11,7 @@ Artisan::command('inspire', function () {
 
 Schedule::job(new ProcessTicketReminders)->hourly();
 //Schedule::command('sitemap:generate')->daily();
-Schedule::command('log:info "Cron is working: '.date('Y-m-d H:i:s').'"')->everyMinute();
+//Schedule::command('log:info "Cron is working: '.date('Y-m-d H:i:s').'"')->everyMinute();
 Schedule::command('tickets:check-reminders')->everyFiveMinutes();
 Schedule::command('tickets:mark-inactive')->daily(); // Revisar tickets inactivos diariamente
 Schedule::command('tickets:close-inactive')->hourly(); // Cerrar tickets después del período de aviso
