@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\TicketResource\Pages;
 
-use App\Events\TicketCreated;
+use App\Events\TicketCreatedEvent;
 use App\Filament\Resources\TicketResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
@@ -15,6 +15,6 @@ class CreateTicket extends CreateRecord
     {
         $ticket = $this->record;
 
-        event(new TicketCreated($ticket));
+        event(new TicketCreatedEvent($ticket));
     }
 }

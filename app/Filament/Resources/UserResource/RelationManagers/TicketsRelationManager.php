@@ -83,36 +83,13 @@ class TicketsRelationManager extends RelationManager
                     ->sortable(),
 
                 TextColumn::make('status')
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        StatusTicket::Pending->value => 'warning',
-                        StatusTicket::In_Progress->value => 'info',
-                        StatusTicket::Resolved->value => 'success',
-                        StatusTicket::Rejected->value => 'danger',
-                        StatusTicket::Closed->value => 'gray',
-                        StatusTicket::Reopened->value => 'warning',
-                        default => 'primary',
-                    }),
+                    ->badge(),
 
                 TextColumn::make('priority')
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        Priority::Low->value => 'info',
-                        Priority::Medium->value => 'warning',
-                        Priority::High->value => 'danger',
-                        Priority::Urgent->value => 'danger',
-                        default => 'primary',
-                    }),
+                    ->badge(),
 
                 TextColumn::make('type')
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        TicketType::Petition->value => 'info',
-                        TicketType::Complaint->value => 'warning',
-                        TicketType::Claim->value => 'danger',
-                        TicketType::Suggestion->value => 'success',
-                        default => 'primary',
-                    }),
+                    ->badge(),
 
                 TextColumn::make('created_at')
                     ->dateTime()
