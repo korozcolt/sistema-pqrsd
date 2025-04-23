@@ -99,7 +99,7 @@ class PublicTicketController extends Controller
             // Manualmente crear el registro de log en lugar de confiar en el evento
             \App\Models\TicketLog::create([
                 'ticket_id' => $ticket->id,
-                'changed_by' => $user->id, // Usamos el ID del usuario que crea el ticket
+                'changed_by' => $user->id ?? \App\Models\User::where('role', UserRole::Admin->value)->first()->id ?? 1,
                 'previous_status' => null,
                 'new_status' => StatusTicket::Pending->value,
                 'previous_department_id' => null,
