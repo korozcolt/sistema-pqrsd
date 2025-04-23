@@ -26,6 +26,12 @@ class LatestTickets extends BaseWidget
                     ->when(Auth::user()->role === UserRole::UserWeb, function (Builder $query) {
                         $query->where('user_id', Auth::id());
                     })
+                    // Filtrar solo tickets abiertos y en proceso
+                    ->whereNotIn('status', [
+                        StatusTicket::Closed,
+                        StatusTicket::Resolved,
+                        StatusTicket::Rejected
+                    ])
                     ->latest()
                     ->limit(5)
             )
@@ -79,11 +85,11 @@ class LatestTickets extends BaseWidget
                     ->icon('heroicon-m-eye')
                     ->tooltip('Ver detalles del ticket'),
             ])
-            ->emptyStateHeading('No hay tickets recientes')
+            ->emptyStateHeading('No hay tickets activos')
             ->emptyStateDescription(
                 Auth::user()->role === UserRole::UserWeb
-                    ? 'No has creado ningún ticket todavía.'
-                    : 'No hay tickets registrados en el sistema.'
+                    ? 'No tienes tickets abiertos en este momento.'
+                    : 'No hay tickets activos que requieran atención.'
             )
             ->emptyStateIcon('heroicon-o-ticket')
             ->paginated(false)
@@ -94,14 +100,14 @@ class LatestTickets extends BaseWidget
     protected function getTableHeading(): string
     {
         return Auth::user()->role === UserRole::UserWeb
-            ? 'Mis Últimos Tickets'
-            : 'Tickets Recientes';
+            ? 'Mis Tickets Activos'
+            : 'Tickets Activos';
     }
 
     protected function getTableDescription(): ?string
     {
         return Auth::user()->role === UserRole::UserWeb
-            ? 'Tus tickets más recientes'
-            : 'Los últimos 5 tickets registrados en el sistema';
+            ? 'Tus tickets abiertos o en proceso'
+            : 'Los tickets que requieren atención (excluye cerrados, resueltos y rechazados)';
     }
 }

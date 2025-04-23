@@ -62,6 +62,12 @@ class PublicTicketController extends Controller
                 $user->notify(new NewUserCredentials($user, $password));
             }
 
+            // Generar un número de ticket único
+            // Obtenemos el último ID y le sumamos 1 para asegurar que sea único
+            $lastId = Ticket::max('id') ?? 0;
+            $nextId = $lastId + 1;
+            $ticketNumber = 'TK-' . str_pad($nextId, 5, '0', STR_PAD_LEFT);
+
             // Crear ticket (la notificación de ticket se maneja automáticamente)
             $ticket = Ticket::create([
                 'title' => $request->title,
@@ -70,7 +76,8 @@ class PublicTicketController extends Controller
                 'user_id' => $user->id,
                 'status' => StatusTicket::Pending,
                 'priority' => Priority::Medium,
-                'department_id' => $this->getDefaultDepartmentId()
+                'department_id' => $this->getDefaultDepartmentId(),
+                'ticket_number' => $ticketNumber // Agregamos el número de ticket generado
             ]);
 
             // Procesar archivos adjuntos si existen
