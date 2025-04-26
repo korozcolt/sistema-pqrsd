@@ -96,19 +96,28 @@ class PublicTicketController extends Controller
                 }
             }
 
-            // Manualmente crear el registro de log en lugar de confiar en el evento
-            \App\Models\TicketLog::create([
-                'ticket_id' => $ticket->id,
-                'changed_by' => $user->id ?? \App\Models\User::where('role', UserRole::Admin->value)->first()->id ?? 1,
-                'previous_status' => null,
-                'new_status' => StatusTicket::Pending->value,
-                'previous_department_id' => null,
-                'new_department_id' => $ticket->department_id,
-                'previous_priority' => null,
-                'new_priority' => Priority::Medium->value,
-                'change_reason' => 'Ticket creado desde portal público',
-                'changed_at' => now()
-            ]);
+            // Primero, asegúrate de tener un usuario válido para changed_by
+            $adminUser = User::where('role', UserRole::Admin->value)->first();
+            $changedBy = $user->id ?? ($adminUser ? $adminUser->id : 1);
+
+            // Crear el registro de log con valores de enums correctos
+            $ticketLog = new \App\Models\TicketLog();
+            $ticketLog->ticket_id = $ticket->id;
+            $ticketLog->changed_by = $changedBy;
+
+            // Los valores de enums NO deben ser nulos para los campos obligatorios
+            $ticketLog->new_status = StatusTicket::Pending; // Objeto enum, no string
+            $ticketLog->new_department_id = $ticket->department_id;
+            $ticketLog->new_priority = Priority::Medium; // Objeto enum, no string
+
+            // Estos pueden ser nulos
+            $ticketLog->previous_status = null;
+            $ticketLog->previous_department_id = null;
+            $ticketLog->previous_priority = null;
+
+            $ticketLog->change_reason = 'Ticket creado desde portal público';
+            $ticketLog->changed_at = now();
+            $ticketLog->save();
 
             return response()->json([
                 'success' => true,
@@ -249,18 +258,18 @@ class PublicTicketController extends Controller
                 $ticket->save();
 
                 // Crear log de cambio de estado manualmente
-                \App\Models\TicketLog::create([
-                    'ticket_id' => $ticket->id,
-                    'changed_by' => $user->id,
-                    'previous_status' => $oldStatus->value,
-                    'new_status' => StatusTicket::Reopened->value,
-                    'previous_department_id' => $ticket->department_id,
-                    'new_department_id' => $ticket->department_id,
-                    'previous_priority' => $ticket->priority->value,
-                    'new_priority' => $ticket->priority->value,
-                    'change_reason' => 'Reabierto por comentario del cliente',
-                    'changed_at' => now()
-                ]);
+                $ticketLog = new \App\Models\TicketLog();
+                $ticketLog->ticket_id = $ticket->id;
+                $ticketLog->changed_by = $user->id;
+                $ticketLog->previous_status = $oldStatus;
+                $ticketLog->new_status = StatusTicket::Reopened;
+                $ticketLog->previous_department_id = $ticket->department_id;
+                $ticketLog->new_department_id = $ticket->department_id;
+                $ticketLog->previous_priority = $ticket->priority;
+                $ticketLog->new_priority = $ticket->priority;
+                $ticketLog->change_reason = 'Reabierto por comentario del cliente';
+                $ticketLog->changed_at = now();
+                $ticketLog->save();
             }
 
             return response()->json([
@@ -334,18 +343,18 @@ class PublicTicketController extends Controller
             ]);
 
             // Crear log manualmente en lugar de usar el evento
-            \App\Models\TicketLog::create([
-                'ticket_id' => $ticket->id,
-                'changed_by' => $user->id,
-                'previous_status' => $oldStatus->value,
-                'new_status' => StatusTicket::Closed->value,
-                'previous_department_id' => $ticket->department_id,
-                'new_department_id' => $ticket->department_id,
-                'previous_priority' => $ticket->priority->value,
-                'new_priority' => $ticket->priority->value,
-                'change_reason' => $closureReason,
-                'changed_at' => now()
-            ]);
+            $ticketLog = new \App\Models\TicketLog();
+            $ticketLog->ticket_id = $ticket->id;
+            $ticketLog->changed_by = $user->id;
+            $ticketLog->previous_status = $oldStatus;
+            $ticketLog->new_status = StatusTicket::Closed;
+            $ticketLog->previous_department_id = $ticket->department_id;
+            $ticketLog->new_department_id = $ticket->department_id;
+            $ticketLog->previous_priority = $ticket->priority;
+            $ticketLog->new_priority = $ticket->priority;
+            $ticketLog->change_reason = $closureReason;
+            $ticketLog->changed_at = now();
+            $ticketLog->save();
 
             return response()->json([
                 'success' => true,
