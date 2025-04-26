@@ -11,11 +11,14 @@ use App\Enums\Priority;
 use App\Enums\StatusTicket;
 use App\Enums\UserRole;
 use App\Notifications\NewUserCredentials;
-use App\Events\TicketStatusChanged;
+use App\Notifications\TicketCreated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Config;
 
 class PublicTicketController extends Controller
 {
@@ -64,21 +67,23 @@ class PublicTicketController extends Controller
             }
 
             // Generar un número de ticket único
-            // Obtenemos el último ID y le sumamos 1 para asegurar que sea único
             $lastId = Ticket::max('id') ?? 0;
             $nextId = $lastId + 1;
             $ticketNumber = 'TK-' . str_pad($nextId, 5, '0', STR_PAD_LEFT);
 
-            // Crear ticket (la notificación de ticket se maneja automáticamente)
+            // Autenticar temporalmente al usuario para el observador
+            Auth::login($user);
+
+            // Crear ticket - el observador se encargará de crear los logs
             $ticket = Ticket::create([
                 'title' => $request->title,
                 'description' => $request->description,
                 'type' => $request->type,
                 'user_id' => $user->id,
-                'status' => StatusTicket::Pending,
-                'priority' => Priority::Medium,
+                'status' => StatusTicket::Pending->value, // Almacenar el valor string
+                'priority' => Priority::Medium->value, // Almacenar el valor string
                 'department_id' => $this->getDefaultDepartmentId(),
-                'ticket_number' => $ticketNumber // Agregamos el número de ticket generado
+                'ticket_number' => $ticketNumber
             ]);
 
             // Procesar archivos adjuntos si existen
@@ -96,28 +101,8 @@ class PublicTicketController extends Controller
                 }
             }
 
-            // Primero, asegúrate de tener un usuario válido para changed_by
-            $adminUser = User::where('role', UserRole::Admin->value)->first();
-            $changedBy = $user->id ?? ($adminUser ? $adminUser->id : 1);
-
-            // Crear el registro de log con valores de enums correctos
-            $ticketLog = new \App\Models\TicketLog();
-            $ticketLog->ticket_id = $ticket->id;
-            $ticketLog->changed_by = $changedBy;
-
-            // Los valores de enums NO deben ser nulos para los campos obligatorios
-            $ticketLog->new_status = StatusTicket::Pending; // Objeto enum, no string
-            $ticketLog->new_department_id = $ticket->department_id;
-            $ticketLog->new_priority = Priority::Medium; // Objeto enum, no string
-
-            // Estos pueden ser nulos
-            $ticketLog->previous_status = null;
-            $ticketLog->previous_department_id = null;
-            $ticketLog->previous_priority = null;
-
-            $ticketLog->change_reason = 'Ticket creado desde portal público';
-            $ticketLog->changed_at = now();
-            $ticketLog->save();
+            // Cerrar sesión después de crear el ticket
+            Auth::logout();
 
             return response()->json([
                 'success' => true,
@@ -239,6 +224,9 @@ class PublicTicketController extends Controller
         }
 
         try {
+            // Autenticar al usuario para que el observador pueda obtener el ID
+            Auth::login($user);
+
             $comment = $ticket->comments()->create([
                 'content' => $request->content,
                 'user_id' => $user->id,
@@ -252,25 +240,14 @@ class PublicTicketController extends Controller
             }
 
             // Si el ticket estaba cerrado o resuelto, reabrirlo
-            if (in_array($ticket->status, [StatusTicket::Closed, StatusTicket::Resolved])) {
+            if (in_array($ticket->status, [StatusTicket::Closed->value, StatusTicket::Resolved->value])) {
                 $oldStatus = $ticket->status;
-                $ticket->status = StatusTicket::Reopened;
+                $ticket->status = StatusTicket::Reopened->value;
                 $ticket->save();
-
-                // Crear log de cambio de estado manualmente
-                $ticketLog = new \App\Models\TicketLog();
-                $ticketLog->ticket_id = $ticket->id;
-                $ticketLog->changed_by = $user->id;
-                $ticketLog->previous_status = $oldStatus;
-                $ticketLog->new_status = StatusTicket::Reopened;
-                $ticketLog->previous_department_id = $ticket->department_id;
-                $ticketLog->new_department_id = $ticket->department_id;
-                $ticketLog->previous_priority = $ticket->priority;
-                $ticketLog->new_priority = $ticket->priority;
-                $ticketLog->change_reason = 'Reabierto por comentario del cliente';
-                $ticketLog->changed_at = now();
-                $ticketLog->save();
             }
+
+            // Cerrar sesión
+            Auth::logout();
 
             return response()->json([
                 'success' => true,
@@ -326,12 +303,14 @@ class PublicTicketController extends Controller
         }
 
         try {
+            // Autenticar al usuario para que el observador pueda obtener el ID
+            Auth::login($user);
+
             // Guardar el estado anterior para el log
-            $oldStatus = $ticket->status;
             $closureReason = $request->reason ?: 'Ticket cerrado por el cliente';
 
             // Actualizar estado del ticket
-            $ticket->status = StatusTicket::Closed;
+            $ticket->status = StatusTicket::Closed->value;
             $ticket->resolution_at = now();
             $ticket->save();
 
@@ -342,19 +321,8 @@ class PublicTicketController extends Controller
                 'is_internal' => false,
             ]);
 
-            // Crear log manualmente en lugar de usar el evento
-            $ticketLog = new \App\Models\TicketLog();
-            $ticketLog->ticket_id = $ticket->id;
-            $ticketLog->changed_by = $user->id;
-            $ticketLog->previous_status = $oldStatus;
-            $ticketLog->new_status = StatusTicket::Closed;
-            $ticketLog->previous_department_id = $ticket->department_id;
-            $ticketLog->new_department_id = $ticket->department_id;
-            $ticketLog->previous_priority = $ticket->priority;
-            $ticketLog->new_priority = $ticket->priority;
-            $ticketLog->change_reason = $closureReason;
-            $ticketLog->changed_at = now();
-            $ticketLog->save();
+            // Cerrar sesión
+            Auth::logout();
 
             return response()->json([
                 'success' => true,
