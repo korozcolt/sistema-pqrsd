@@ -13,35 +13,40 @@ use Illuminate\Support\Facades\Notification;
 
 class TicketObserver
 {
-    public function creating(Ticket $ticket): void
-    {
-        // Nota: La generación del ticket_number ahora se maneja automáticamente
-        // en el método booted() del modelo Ticket
-    }
-
+    /**
+     * Handle the Ticket "created" event.
+     */
     public function created(Ticket $ticket): void
     {
+        // Notificar al usuario
         $ticket->user->notify(new NewTicketNotification($ticket));
 
         // Notificar al email configurado para PQRs
         Notification::route('mail', env('TICKET_NOTIFICATION_EMAIL', 'soporte@torcoromaweb.com'))
             ->notify(new NewTicketNotification($ticket));
-        event(new TicketStatusChanged(
-            ticket: $ticket,
-            oldStatus: null,
-            newStatus: $ticket->status,
-            changedBy: Auth::id(),
-            reason: 'Ticket Created',
-            oldDepartment: null,
-            newDepartment: $ticket->department_id,
-            oldPriority: null,
-            newPriority: $ticket->priority
-        ));
+
+        // Registrar creación en el log
+        $this->logTicketChange(
+            $ticket,
+            null,  // old status
+            $ticket->status,
+            null,  // old department
+            $ticket->department_id,
+            null,  // old priority
+            $ticket->priority,
+            'Ticket Created'
+        );
     }
 
+    /**
+     * Handle the Ticket "updated" event.
+     */
     public function updated(Ticket $ticket): void
     {
-        if ($ticket->isDirty('status')) {
+        $changes = $ticket->getDirty();
+
+        // Verificar si hubo cambio de estado
+        if (isset($changes['status'])) {
             // Notificar al usuario
             $ticket->user->notify(new TicketStatusUpdated(
                 $ticket,
@@ -58,72 +63,116 @@ class TicketObserver
                 ));
         }
 
-        $changes = $ticket->getDirty();
-
+        // Si el ticket se cierra, resolver o rechaza, eliminar recordatorios
         if (isset($changes['status']) && in_array($ticket->status, ['closed', 'resolved', 'rejected'])) {
             $ticket->reminders()->delete();
         }
 
+        // Registrar cambios significativos
         if (array_intersect_key($changes, array_flip(['status', 'department_id', 'priority']))) {
-            $oldStatusValue = $ticket->getOriginal('status');
-            $oldPriorityValue = $ticket->getOriginal('priority');
-
-            event(new TicketStatusChanged(
-                ticket: $ticket,
-                oldStatus: $oldStatusValue instanceof StatusTicket ? $oldStatusValue : null,
-                newStatus: $ticket->status,
-                changedBy: Auth::id(),
-                reason: null,
-                oldDepartment: $ticket->getOriginal('department_id'),
-                newDepartment: $ticket->department_id,
-                oldPriority: $oldPriorityValue instanceof Priority ? $oldPriorityValue : null,
-                newPriority: $ticket->priority
-            ));
+            $this->logTicketChange(
+                $ticket,
+                $ticket->getOriginal('status'),
+                $ticket->status,
+                $ticket->getOriginal('department_id'),
+                $ticket->department_id,
+                $ticket->getOriginal('priority'),
+                $ticket->priority,
+                null // Sin razón específica
+            );
         }
     }
 
+    /**
+     * Handle the Ticket "deleted" event.
+     */
     public function deleted(Ticket $ticket): void
     {
-        event(new TicketStatusChanged(
-            ticket: $ticket,
-            oldStatus: $ticket->status,
-            newStatus: StatusTicket::Closed, // Cambiamos el estado a cerrado al eliminar
-            changedBy: Auth::id(),
-            reason: 'Ticket Deleted',
-            oldDepartment: $ticket->department_id,
-            newDepartment: $ticket->department_id, // Mantenemos el mismo departamento
-            oldPriority: $ticket->priority,
-            newPriority: $ticket->priority // Mantenemos la misma prioridad
-        ));
+        $this->logTicketChange(
+            $ticket,
+            $ticket->status,
+            StatusTicket::Closed->value,
+            $ticket->department_id,
+            $ticket->department_id,
+            $ticket->priority,
+            $ticket->priority,
+            'Ticket Deleted'
+        );
     }
 
+    /**
+     * Handle the Ticket "restored" event.
+     */
     public function restored(Ticket $ticket): void
     {
-        event(new TicketStatusChanged(
-            ticket: $ticket,
-            oldStatus: StatusTicket::Closed,
-            newStatus: StatusTicket::Reopened,
-            changedBy: Auth::id(),
-            reason: 'Ticket Restored',
-            oldDepartment: $ticket->department_id,
-            newDepartment: $ticket->department_id,
-            oldPriority: $ticket->priority,
-            newPriority: $ticket->priority
-        ));
+        $this->logTicketChange(
+            $ticket,
+            StatusTicket::Closed->value,
+            StatusTicket::Reopened->value,
+            $ticket->department_id,
+            $ticket->department_id,
+            $ticket->priority,
+            $ticket->priority,
+            'Ticket Restored'
+        );
     }
 
+    /**
+     * Handle the Ticket "force deleted" event.
+     */
     public function forceDeleted(Ticket $ticket): void
     {
-        event(new TicketStatusChanged(
-            ticket: $ticket,
-            oldStatus: $ticket->status,
-            newStatus: StatusTicket::Closed,
-            changedBy: Auth::id(),
-            reason: 'Ticket Permanently Deleted',
-            oldDepartment: $ticket->department_id,
-            newDepartment: $ticket->department_id,
-            oldPriority: $ticket->priority,
-            newPriority: $ticket->priority
-        ));
+        $this->logTicketChange(
+            $ticket,
+            $ticket->status,
+            StatusTicket::Closed->value,
+            $ticket->department_id,
+            $ticket->department_id,
+            $ticket->priority,
+            $ticket->priority,
+            'Ticket Permanently Deleted'
+        );
+    }
+
+    /**
+     * Crear un registro en el log de tickets
+     */
+    private function logTicketChange(
+        Ticket $ticket,
+        $oldStatus,
+        $newStatus,
+        $oldDepartment,
+        $newDepartment,
+        $oldPriority,
+        $newPriority,
+        $reason = null
+    ): void {
+        // Obtener el ID del usuario que realiza el cambio
+        $userId = Auth::id();
+
+        // Si no hay usuario autenticado, usar el ID del propietario del ticket
+        if (!$userId) {
+            $userId = $ticket->user_id;
+        }
+
+        // Asegurarse de que tenemos un valor válido para changed_by
+        if (!$userId) {
+            // Último recurso: buscar un administrador
+            $adminUser = \App\Models\User::where('role', 'admin')->first();
+            $userId = $adminUser ? $adminUser->id : 1; // Usar el ID 1 como último recurso
+        }
+
+        // Crear el registro de log
+        $ticket->logs()->create([
+            'changed_by' => $userId,
+            'previous_status' => $oldStatus,
+            'new_status' => $newStatus,
+            'previous_department_id' => $oldDepartment,
+            'new_department_id' => $newDepartment,
+            'previous_priority' => $oldPriority,
+            'new_priority' => $newPriority,
+            'change_reason' => $reason,
+            'changed_at' => now()
+        ]);
     }
 }
