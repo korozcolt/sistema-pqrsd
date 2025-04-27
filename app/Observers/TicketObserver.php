@@ -23,7 +23,7 @@ class TicketObserver
         $ticket->user->notify(new NewTicketNotification($ticket));
 
         // Notificar al email configurado para PQRs
-        Notification::route('mail', Config::get('site.pqrs_email'))
+        Notification::route('mail', env('TICKET_NOTIFICATION_EMAIL', 'soporte@torcoromaweb.com'))
             ->notify(new NewTicketNotification($ticket));
 
         // Registrar creación en el log

@@ -90,7 +90,7 @@ class ProcessTicketReminders implements ShouldQueue
         $ticket->user->notify(new TicketReminderNotification($ticket, $type));
 
         // Notificar al email de PQRs
-        Notification::route('mail', config('site.pqrs_email'))
+        Notification::route('mail', env('TICKET_NOTIFICATION_EMAIL', 'soporte@torcoromaweb.com'))
             ->notify(new TicketReminderNotification($ticket, $type));
     }
 }

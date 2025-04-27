@@ -31,7 +31,7 @@ class TestNotificationsCommand extends Command
 
     public function handle()
     {
-        $email = $this->argument('email') ?? config('site.pqrs_email');
+        $email = $this->argument('email') ?? env('TICKET_NOTIFICATION_EMAIL', 'soporte@torcoromaweb.com');
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->error("El email proporcionado no es válido: $email");
