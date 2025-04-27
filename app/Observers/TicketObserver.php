@@ -9,7 +9,6 @@ use App\Models\Ticket;
 use App\Notifications\NewTicketNotification;
 use App\Notifications\TicketStatusUpdated;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Notification;
 
 class TicketObserver

@@ -44,6 +44,72 @@ class Ticket extends Model
         'resolution_at' => 'datetime',
     ];
 
+    /**
+     * Genera un número de ticket único
+     *
+     * @return string
+     */
+    public static function generateUniqueNumber(): string
+    {
+        // Intentar varias veces si hay colisiones
+        $maxAttempts = 5;
+        $attempt = 0;
+
+        do {
+            $attempt++;
+
+            // Método 1: Basado en el máximo ID actual (incluyendo eliminados)
+            $lastId = self::withTrashed()->max('id') ?? 0;
+            $nextId = $lastId + 1;
+            $ticketNumber = 'TK-' . str_pad($nextId, 5, '0', STR_PAD_LEFT);
+
+            // Verificar si este número ya existe (incluyendo eliminados)
+            $exists = self::withTrashed()
+                ->where('ticket_number', $ticketNumber)
+                ->exists();
+
+            // Si no existe, podemos usarlo
+            if (!$exists) {
+                return $ticketNumber;
+            }
+
+            // Si llegamos aquí, hubo una colisión, intentemos otro enfoque
+            if ($attempt >= 2) {
+                // Método 2: Generar basado en timestamp + número aleatorio
+                $timestamp = now()->format('ymd');
+                $random = mt_rand(1000, 9999);
+                $ticketNumber = 'TK-' . $timestamp . $random;
+
+                $exists = self::withTrashed()
+                    ->where('ticket_number', $ticketNumber)
+                    ->exists();
+
+                if (!$exists) {
+                    return $ticketNumber;
+                }
+            }
+
+        } while ($attempt < $maxAttempts);
+
+        // Si llegamos aquí, todos los intentos fallaron
+        // Generamos uno completamente aleatorio como último recurso
+        $uniqueString = substr(md5(uniqid(mt_rand(), true)), 0, 8);
+        return 'TK-' . $uniqueString;
+    }
+
+    /**
+     * Boot the model.
+     */
+    protected static function booted()
+    {
+        static::creating(function ($ticket) {
+            // Solo asignar un número si no tiene uno ya
+            if (!$ticket->ticket_number) {
+                $ticket->ticket_number = self::generateUniqueNumber();
+            }
+        });
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -84,23 +150,5 @@ class Ticket extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'ticket_tags');
-    }
-
-    protected static function booted()
-    {
-        static::created(function ($ticket) {
-            // Generar número de ticket si no existe
-            if (!$ticket->ticket_number) {
-                $ticket->ticket_number = 'TK-' . str_pad($ticket->id, 5, '0', STR_PAD_LEFT);
-                $ticket->save();
-            }
-
-            // Buscar SLA aplicable y establecer fechas
-            if ($sla = $ticket->sla()->first()) {
-                $ticket->response_due_date = now()->addHours($sla->response_time);
-                $ticket->resolution_due_date = now()->addHours($sla->resolution_time);
-                $ticket->save();
-            }
-        });
     }
 }
