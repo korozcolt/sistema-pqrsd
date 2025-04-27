@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Config;
 
 class PublicTicketController extends Controller
 {
-    /**
+        /**
      * Crear un nuevo ticket desde el portal público
      */
     public function store(Request $request)
@@ -66,24 +66,15 @@ class PublicTicketController extends Controller
                 $user->notify(new NewUserCredentials($user, $password));
             }
 
-            // Generar un número de ticket único
-            $lastId = Ticket::max('id') ?? 0;
-            $nextId = $lastId + 1;
-            $ticketNumber = 'TK-' . str_pad($nextId, 5, '0', STR_PAD_LEFT);
-
-            // Autenticar temporalmente al usuario para el observador
-            Auth::login($user);
-
-            // Crear ticket - el observador se encargará de crear los logs
+            // Crear ticket (no necesitamos asignar ticket_number, se genera automáticamente)
             $ticket = Ticket::create([
                 'title' => $request->title,
                 'description' => $request->description,
                 'type' => $request->type,
                 'user_id' => $user->id,
-                'status' => StatusTicket::Pending->value, // Almacenar el valor string
-                'priority' => Priority::Medium->value, // Almacenar el valor string
-                'department_id' => $this->getDefaultDepartmentId(),
-                'ticket_number' => $ticketNumber
+                'status' => StatusTicket::Pending,
+                'priority' => Priority::Medium,
+                'department_id' => $this->getDefaultDepartmentId()
             ]);
 
             // Procesar archivos adjuntos si existen
@@ -100,9 +91,6 @@ class PublicTicketController extends Controller
                     ]);
                 }
             }
-
-            // Cerrar sesión después de crear el ticket
-            Auth::logout();
 
             return response()->json([
                 'success' => true,
