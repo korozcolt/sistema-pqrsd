@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notification;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Config;
 
-class NewTicketNotification extends Notification implements ShouldQueue
+class NewTicketNotification extends Notification
 {
     use Queueable;
 
