@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\NotificationTestController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -8,6 +10,10 @@ use Illuminate\Support\Facades\Route;
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 Route::get('/tracking')->name('tracking');
+
+Route::get('/test-notifications', [NotificationTestController::class, 'testNotifications'])
+    ->middleware(['auth', 'can:admin']) // Solo para administradores
+    ->name('test.notifications');
 
 //using SupportController the method verifyStatus to get the status of the ticket
 Route::get('/support/{id}/verify')->name('support.verify');
