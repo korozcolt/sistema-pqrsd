@@ -1,9 +1,9 @@
 {
-    "name": "laravel/laravel",
+    "name": "sistema-pqrsd/pqrsd-system",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
-    "license": "MIT",
+    "description": "Sistema integral de gestión de Peticiones, Quejas, Reclamos, Sugerencias y Denuncias (PQRSD) construido con Laravel y Filament.",
+    "keywords": ["laravel", "pqrsd", "tickets", "filament", "sistema-tickets"],
+    "license": "Apache-2.0",
     "require": {
         "php": "^8.2",
         "filament/actions": "^3.2",

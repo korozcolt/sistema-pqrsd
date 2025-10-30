@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
         // SuperAdmin
         User::create([
             'name' => 'Administrador Principal',
-            'email' => 'admin@cooptorcoroma.com',
+            'email' => 'admin@ejemplo.com',
             'password' => Hash::make('admin123'),
             'role' => UserRole::SuperAdmin->value, // 'superadmin'
             'email_verified_at' => now(),
@@ -22,8 +22,8 @@ class UserSeeder extends Seeder
 
         // Admin
         User::create([
-            'name' => 'Gerente PQRS',
-            'email' => 'gerente@cooptorcoroma.com',
+            'name' => 'Gerente PQRSD',
+            'email' => 'gerente@ejemplo.com',
             'password' => Hash::make('gerente123'),
             'role' => UserRole::Admin->value, // 'admin'
             'email_verified_at' => now(),
@@ -31,8 +31,8 @@ class UserSeeder extends Seeder
 
         // Recepcionista
         User::create([
-            'name' => 'Recepcionista PQRS',
-            'email' => 'recepcion@cooptorcoroma.com',
+            'name' => 'Recepcionista PQRSD',
+            'email' => 'recepcion@ejemplo.com',
             'password' => Hash::make('recepcion123'),
             'role' => UserRole::Receptionist->value, // 'receptionist'
             'email_verified_at' => now(),

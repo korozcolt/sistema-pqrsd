@@ -3,30 +3,30 @@
 return [
     // Company Information
     'company' => [
-        'name' => 'COOPERATIVA | TORCOROMA',
-        'since' => '1953',
-        'nit' => '890.400.565-5',
+        'name' => 'Sistema PQRSD',
+        'since' => date('Y'),
+        'nit' => '000.000.000-0',
         'contact' => [
             'phones' => [
-                'main' => '+57 300 123 4567',
-                'secondary' => '+57 300 123 4567',
-                'whatsapp' => '+573001234567'
+                'main' => '+57 300 000 0000',
+                'secondary' => '+57 300 000 0000',
+                'whatsapp' => '+573000000000'
             ],
             'emails' => [
-                'main' => 'contacto@tusitio.com',
-                'secondary' => 'email2@tusitio.com',
-                'pqrs' => 'ing.korozco@gmail.com'
+                'main' => 'contacto@ejemplo.com',
+                'secondary' => 'info@ejemplo.com',
+                'pqrs' => 'pqrsd@ejemplo.com'
             ],
-            'address' => 'Tu dirección completa'
+            'address' => 'Dirección de su empresa'
         ],
-        'description' => 'Empresa líder en transporte terrestre de pasajeros en la costa caribe colombiana desde 1953.',
+        'description' => 'Sistema de gestión de Peticiones, Quejas, Reclamos, Sugerencias y Denuncias.',
     ],
 
     // Social Media
     'social' => [
-        'facebook' => 'https://www.facebook.com/tusitio',
-        'twitter' => 'https://twitter.com/tusitio',
-        'instagram' => 'https://www.instagram.com/tusitio',
+        'facebook' => null,
+        'twitter' => null,
+        'instagram' => null,
         'linkedin' => null
     ],
 
@@ -47,31 +47,31 @@ return [
     // SEO
     'seo' => [
         'default' => [
-            'title' => 'Torcoroma S.A - Transporte Terrestre desde 1953',
-            'description' => 'Empresa líder en transporte terrestre de pasajeros en la costa caribe colombiana desde 1953.',
-            'keywords' => 'transporte, buses, colombia, costa caribe, pasajeros',
+            'title' => 'Sistema PQRSD - Gestión de Peticiones, Quejas, Reclamos, Sugerencias y Denuncias',
+            'description' => 'Sistema integral para la gestión de PQRSD. Gestiona eficientemente las solicitudes de tus usuarios.',
+            'keywords' => 'pqrsd, peticiones, quejas, reclamos, sugerencias, denuncias, sistema de tickets',
             'image' => '/images/logo.png'
         ],
         'pages' => [
             '_home' => [
-                'title' => 'Inicio | Torcoroma S.A',
-                'description' => 'Servicios de transporte terrestre seguros y confiables en la costa caribe colombiana.'
+                'title' => 'Inicio | Sistema PQRSD',
+                'description' => 'Sistema de gestión de Peticiones, Quejas, Reclamos, Sugerencias y Denuncias.'
             ],
             'about' => [
-                'title' => 'Sobre Nosotros | Torcoroma S.A',
-                'description' => 'Conozca nuestra historia, misión, visión y valores. Más de 60 años de experiencia.'
+                'title' => 'Acerca de | Sistema PQRSD',
+                'description' => 'Conoce más sobre nuestro sistema de gestión PQRSD.'
             ],
             'service' => [
-                'title' => 'Servicios | Torcoroma S.A',
-                'description' => 'Servicios de transporte de pasajeros y encomiendas. Cobertura en toda la costa caribe.'
+                'title' => 'Servicios | Sistema PQRSD',
+                'description' => 'Servicios de gestión y seguimiento de solicitudes PQRSD.'
             ],
             'contact' => [
-                'title' => 'Contacto | Torcoroma S.A',
-                'description' => 'Contáctenos para información sobre nuestros servicios de transporte.'
+                'title' => 'Contacto | Sistema PQRSD',
+                'description' => 'Contáctenos para más información sobre el sistema.'
             ],
             'faq' => [
-                'title' => 'Preguntas Frecuentes | Torcoroma S.A',
-                'description' => 'Respuestas a preguntas comunes sobre nuestros servicios.'
+                'title' => 'Preguntas Frecuentes | Sistema PQRSD',
+                'description' => 'Respuestas a preguntas comunes sobre el sistema PQRSD.'
             ]
         ]
     ],

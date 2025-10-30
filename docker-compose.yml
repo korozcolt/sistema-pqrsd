@@ -3,14 +3,14 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        container_name: torcoroma_app
+        container_name: pqrsd_app
         environment:
             - DB_CONNECTION=mysql
-            - DB_HOST=torcoroma_mysql
+            - DB_HOST=pqrsd_mysql
             - DB_PORT=3306
-            - DB_DATABASE=torcoroma_web
-            - DB_USERNAME=archivemaster
-            - DB_PASSWORD=YAXcB61Kcx16A7FBn34k
+            - DB_DATABASE=pqrsd
+            - DB_USERNAME=root
+            - DB_PASSWORD=root
         volumes:
             - '.:/var/www'
             - './docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro'
@@ -20,10 +20,10 @@ services:
             redis:
                 condition: service_healthy
         networks:
-            - torcoroma_network
+            - pqrsd_network
     nginx:
         image: 'nginx:alpine'
-        container_name: torcoroma_nginx
+        container_name: pqrsd_nginx
         volumes:
             - '.:/var/www'
             - './docker/nginx:/etc/nginx/conf.d/'
@@ -32,21 +32,21 @@ services:
         depends_on:
             - app
         networks:
-            - torcoroma_network
+            - pqrsd_network
     mysql:
         image: 'mysql:8.0'
-        container_name: torcoroma_mysql
+        container_name: pqrsd_mysql
         environment:
-            MYSQL_DATABASE: torcoroma_web
-            MYSQL_USER: archivemaster
-            MYSQL_PASSWORD: YAXcB61Kcx16A7FBn34k
-            MYSQL_ROOT_PASSWORD: YAXcB61Kcx16A7FBn34k
+            MYSQL_DATABASE: pqrsd
+            MYSQL_USER: root
+            MYSQL_PASSWORD: root
+            MYSQL_ROOT_PASSWORD: root
         volumes:
             - 'mysql_data:/var/lib/mysql'
         ports:
             - '3308:3306'
         networks:
-            - torcoroma_network
+            - pqrsd_network
         healthcheck:
             test:
                 - CMD
@@ -58,20 +58,20 @@ services:
             retries: 5
     redis:
         image: 'redis:7-alpine'
-        container_name: torcoroma_redis
+        container_name: pqrsd_redis
         volumes:
             - 'redis_data:/data'
         ports:
             - '6381:6379'
         networks:
-            - torcoroma_network
+            - pqrsd_network
         healthcheck:
             test:
                 - CMD
                 - redis-cli
                 - ping
 networks:
-    torcoroma_network: null
+    pqrsd_network: null
 volumes:
     mysql_data: null
     redis_data: null

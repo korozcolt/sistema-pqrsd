@@ -4,7 +4,7 @@
             <div class="col-lg-3 col-sm-6">
                 <div class="footer-widget">
                     <div class="logo">
-                        <img src="{{ asset('images/logo.png') }}" width="220" alt="logo torcoroma">
+                        <img src="{{ asset('images/logo.png') }}" width="220" alt="Logo Sistema PQRSD">
                     </div>
                     <p>Conoce todo de nosotros, aprende un poco de nuestra historia, nuestros clientes y nuestra
                         forma de ver el futuro.</p>

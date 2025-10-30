@@ -5,7 +5,7 @@
             <div class="ferry-responsive-menu">
                 <div class="logo">
                     <a href="{{ route('page', '_home') }}">
-                        <img src="{{ asset('images/logo.png') }}" alt="TORCOROMA LOGO">
+                        <img src="{{ asset('images/logo.png') }}" alt="Logo Sistema PQRSD">
                     </a>
                 </div>
             </div>
@@ -16,7 +16,7 @@
         <div class="container">
             <nav class="navbar navbar-expand-md navbar-light">
                 <a class="navbar-brand" href="/">
-                    <img src="{{ asset('images/logo.png') }}" width="150" alt="logo torcoroma">
+                    <img src="{{ asset('images/logo.png') }}" width="150" alt="Logo Sistema PQRSD">
                 </a>
 
                 <div class="collapse navbar-collapse mean-menu">
@@ -27,10 +27,10 @@
                                 class="nav-link {{ Request::path() == 'home' ? 'active' : '' }}">Inicio</a>
                         </li>
 
-                        <!-- Torcoroma -->
+                        <!-- Sistema -->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                Torcoroma <i class='bx bx-chevron-down'></i>
+                                Sistema <i class='bx bx-chevron-down'></i>
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="nav-item">
@@ -60,7 +60,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('page', 'service') }}"
-                                        class="nav-link {{ Request::path() == 'service' ? 'active' : '' }}" data-target="#buy-tickets">Compra tu tiquete</a>
+                                        class="nav-link {{ Request::path() == 'service' ? 'active' : '' }}" data-target="#buy-tickets">Información</a>
                                 </li>
                             </ul>
                         </li>

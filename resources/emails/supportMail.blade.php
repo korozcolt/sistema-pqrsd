@@ -481,7 +481,7 @@
                                                                 <td align="center"
                                                                     style="padding:0;Margin:0;font-size:0px"><img
                                                                         class="adapt-img"
-                                                                        src="https://torcoromaweb.com/images/logo.png"
+                                                                        src="{{ config('app.url') }}/images/logo.png"
                                                                         alt
                                                                         style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"
                                                                         width="423" height="119"></td>
@@ -527,7 +527,7 @@
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#666666;font-size:14px">En atención a su solicitud nos permitimos informar que este documento ha sido radicado el día de hoy bajo el N° <b>{{ $support->id_pqr }}</b> Y debidamente direccionado para su respectivo trámite.
 
-                                                                        Para hacerle seguimiento a su solicitud o saber el estado de esta, se puede comunicar al teléfono: 605 2828979 o a través de la página web https://www.torcoromaweb.com/faq.  Este correo ha sido generado por un canal exclusivo de radicación; por favor NO responda al mismo ya que no podrá ser gestionado.</p>
+                                                                        Para hacerle seguimiento a su solicitud o saber el estado de esta, puede ingresar a nuestro portal web. Este correo ha sido generado por un canal exclusivo de radicación; por favor NO responda al mismo ya que no podrá ser gestionado.</p>
                                                                     <p
                                                                         style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#666666;font-size:14px">Aquí está la información necesaria para revisar
                                                                         antes:<br></p>
@@ -672,7 +672,7 @@
                                                                 <td align="left"
                                                                     style="padding:0;Margin:0;position:relative"><img
                                                                         class="adapt-img"
-                                                                        src="https://torcoromaweb.com/images/about-bottom.webp"
+                                                                        src="{{ config('app.url') }}/images/about-bottom.webp"
                                                                         alt title width="270"
                                                                         style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"
                                                                         height="135"></td>
@@ -705,7 +705,7 @@
                                                                             <td align="left" valign="top"
                                                                                 style="padding:0;Margin:0"><a
                                                                                     target="_blank"
-                                                                                    href="https://www.facebook.com/torcoromacol"
+                                                                                    href="{{ config('site.social.facebook') ?? '#' }}"
                                                                                     style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;text-decoration:underline;color:#926B4A;font-size:14px"><img
                                                                                         title="Facebook"
                                                                                         src="https://www.citypng.com/public/uploads/preview/-11595326936asbkomoamd.png"

@@ -1,40 +1,38 @@
 <div align="center">
-    <img src="https://torcoromaweb.com/images/logo.png" alt="Logo Torcoroma WEB" width="200"/>
 
-# Torcoroma WEB 🌐
+# Sistema PQRSD 📋
 
-**Plataforma Integral de Gestión de PQRS para Transporte**
+**Plataforma Integral de Gestión de Peticiones, Quejas, Reclamos, Sugerencias y Denuncias**
 
 [![Versión PHP](https://img.shields.io/badge/PHP-8.2%2B-blue?style=for-the-badge&logo=php)](https://www.php.net/)
 [![Versión Laravel](https://img.shields.io/badge/Laravel-11.x-red?style=for-the-badge&logo=laravel)](https://laravel.com/)
-[![Estado de Construcción](https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge&logo=github)](https://github.com/korozcolt/torcoroma_web_project)
 [![Licencia](https://img.shields.io/badge/licencia-Apache%202.0-green?style=for-the-badge)](LICENSE)
 
 </div>
 
 ## 🚀 Descripción del Proyecto
 
-Torcoroma WEB es un sistema avanzado de gestión de Peticiones, Quejas, Reclamos y Sugerencias (PQRS) diseñado específicamente para empresas de transporte en Colombia. Cumple con las normativas de Supertransporte 2025 y ofrece una experiencia administrativa completa a través de un panel Filament altamente personalizado.
+Sistema PQRSD es una plataforma avanzada de gestión de Peticiones, Quejas, Reclamos, Sugerencias y Denuncias diseñada para empresas y organizaciones que necesitan gestionar de forma eficiente las solicitudes de sus usuarios. El sistema ofrece una experiencia administrativa completa a través de un panel Filament altamente personalizado.
 
 ## ✨ Características Principales
 
-- 🎫 **Sistema de Tickets PQRS**: Gestión completa del ciclo de vida de tickets según normativa colombiana
+- 🎫 **Sistema de Tickets PQRSD**: Gestión completa del ciclo de vida de tickets
 - ⏱️ **Gestión de SLA**: Configuración de tiempos de respuesta y resolución según tipos de ticket
 - 🔔 **Sistema de Recordatorios**: Notificaciones automáticas para plazos de respuesta y resolución
 - 📊 **Paneles Analíticos**: Estadísticas detalladas sobre tickets y tiempos de respuesta
 - 👥 **Control de Roles**: Jerarquía de usuarios (SuperAdmin, Admin, Recepcionista, Usuario Web)
 - 🏢 **Gestión de Departamentos**: Organización por áreas administrativas
 - 🏷️ **Sistema de Etiquetas**: Categorización flexible de tickets
-- 📱 **API RESTful**: Interfaz de programación para integración con aplicaciones móviles
+- 📱 **API RESTful**: Interfaz de programación para integración con aplicaciones externas
 - 📄 **Generador de Sitemap**: Creación automática de sitemaps para SEO
-- 🌐 **Portal Web para Clientes**: Interfaz pública para creación y seguimiento de tickets
+- 🌐 **Portal Web para Usuarios**: Interfaz pública para creación y seguimiento de tickets
 - 📣 **Notificaciones Multi-Canal**: Correo electrónico y sistema interno de notificaciones
 
 ## 🧩 Módulos del Sistema
 
-### 📋 Sistema de Tickets PQRS
+### 📋 Sistema de Tickets PQRSD
 - Creación, seguimiento y resolución de tickets
-- Categorización por tipo (Petición, Queja, Reclamo, Sugerencia)
+- Categorización por tipo (Petición, Queja, Reclamo, Sugerencia, Denuncia)
 - Asignación de prioridades (Baja, Media, Alta, Urgente)
 - Control de estados (Pendiente, En Progreso, Resuelto, Cerrado, Rechazado, Reabierto)
 - Comentarios públicos y privados
@@ -45,7 +43,7 @@ Torcoroma WEB es un sistema avanzado de gestión de Peticiones, Quejas, Reclamos
 - Autenticación segura
 - Integración con aplicaciones de terceros
 
-### 📱 Portal Web para Clientes
+### 📱 Portal Web para Usuarios
 - Formulario de creación de tickets
 - Sistema de consulta de estado
 - Comunicación directa con el equipo de soporte
@@ -81,10 +79,10 @@ Torcoroma WEB es un sistema avanzado de gestión de Peticiones, Quejas, Reclamos
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/korozcolt/torcoroma_web_project.git
+git clone https://github.com/tu-usuario/sistema-pqrsd.git
 
 # Navegar al directorio del proyecto
-cd torcoroma-web
+cd sistema-pqrsd
 
 # Instalar dependencias
 composer install
@@ -93,6 +91,11 @@ npm install
 # Configurar variables de entorno
 cp .env.example .env
 php artisan key:generate
+
+# Configurar base de datos en .env
+# DB_DATABASE=pqrsd
+# DB_USERNAME=root
+# DB_PASSWORD=root
 
 # Ejecutar migraciones y seeders
 php artisan migrate --seed
@@ -134,8 +137,8 @@ php artisan reminders:update-types
 El sistema utiliza las siguientes tablas principales:
 
 - **users**: Usuarios del sistema con roles definidos
-- **departments**: Departamentos o áreas de la empresa
-- **tickets**: Tickets PQRS con información detallada
+- **departments**: Departamentos o áreas de la organización
+- **tickets**: Tickets PQRSD con información detallada
 - **slas**: Configuración de acuerdos de nivel de servicio
 - **ticket_logs**: Historial de cambios en tickets
 - **ticket_comments**: Comentarios en tickets
@@ -188,45 +191,15 @@ storage/                       # Almacenamiento de la aplicación
 tests/                         # Pruebas automatizadas
 ```
 
-## 👥 Equipo
+## 👥 Usuarios por Defecto
 
-### Desarrolladores Principales
+Después de ejecutar los seeders, el sistema crea los siguientes usuarios:
 
-| Nombre | Rol | Contacto | Contribuciones |
-|--------|-----|----------|----------------|
-| Kristian Orozco | Desarrollador Líder | [@kronnos](https://github.com/korozcolt/) | Arquitectura, Backend, ChatBot |
-
-### Contribuidores
-
-[![Contribuidores](https://img.shields.io/github/contributors/korozcolt/torcoroma_web_project?style=for-the-badge)](https://github.com/korozcolt/torcoroma_web_project/graphs/contributors)
-
-- Agradecemos a todos los contribuidores que hacen posible este proyecto
-- Las contribuciones son bienvenidas bajo los términos de la Licencia Apache 2.0
-
-## 🌟 Nuevas Características (2025)
-
-### API RESTful Mejorada
-- Endpoints completos para gestión de tickets desde aplicaciones externas
-- Autenticación mediante tokens seguros
-- Integración con aplicaciones de terceros
-
-### Portal Web Mejorado
-- Formulario integrado para creación de tickets por usuarios
-- Sistema de seguimiento de tickets vía web
-- Diseño responsive optimizado para móviles
-- Integración de ReCaptcha para prevención de spam
-
-### Mejoras de Rendimiento
-- Optimización de consultas a la base de datos
-- Implementación de cache para aceleración de respuestas
-- Compresión de assets para reducción de tiempos de carga
-- Generación automática de sitemap para SEO
-
-### Automatizaciones
-- Sistema de recordatorios automáticos para tickets pendientes
-- Notificaciones por correo para actualizaciones de tickets
-- Cierre automático de tickets inactivos
-- Generación de reportes periódicos
+| Rol | Email | Contraseña |
+|-----|-------|------------|
+| SuperAdmin | admin@ejemplo.com | admin123 |
+| Admin | gerente@ejemplo.com | gerente123 |
+| Recepcionista | recepcion@ejemplo.com | recepcion123 |
 
 ## 🔍 Solución de Problemas Comunes
 
@@ -259,8 +232,6 @@ Si encuentra problemas al desplegar en servidor compartido:
    - Acceda al visor de logs integrado en: `https://su-dominio.com/log-viewer`
    - Temporalmente active `APP_DEBUG=true` para ver errores detallados
 
-   > **Nota**: La aplicación incluye un Log Viewer mejorado disponible en `https://tickets.torcoromaweb.com/log-viewer` que proporciona una interfaz organizada para analizar los logs del sistema.
-
 ### Problemas de Correo Electrónico
 
 Si experimenta problemas con el envío de correos:
@@ -282,20 +253,29 @@ Si experimenta problemas con el envío de correos:
 
 Si no puede acceder al panel de administración:
 
-1. **Verificar credenciales de administrador**:
+1. **Verificar URL de acceso**:
+   - Panel administrativo: `https://su-dominio.com/admin`
+
+2. **Limpiar caché de configuración**:
    ```
-   php artisan user:info admin@cooptorcoroma.com
+   php artisan config:clear
+   php artisan filament:cache-clear
    ```
 
-2. **Restablecer contraseña de administrador**:
-   ```
-   php artisan user:reset-password admin@cooptorcoroma.com
-   ```
+## 🐳 Despliegue con Docker
 
-3. **Comprobar permisos de archivos**:
-   ```
-   php artisan filament:check-permissions
-   ```
+El proyecto incluye configuración Docker para facilitar el despliegue:
+
+```bash
+# Iniciar contenedores
+docker-compose up -d
+
+# Ejecutar migraciones dentro del contenedor
+docker-compose exec app php artisan migrate --seed
+
+# Detener contenedores
+docker-compose down
+```
 
 ## 📄 Licencia
 
@@ -319,11 +299,11 @@ El texto completo de la licencia está disponible en el archivo LICENSE adjunto 
 ### Responsabilidad Legal
 
 - El software se proporciona "tal cual", sin garantías
-- Torcoroma WEB no se hace responsable de daños derivados del uso
+- No se hace responsable de daños derivados del uso
 - Se recomienda revisión legal antes de uso comercial
 
 ---
 
 <div align="center">
-    <sub>🛡️ Licenciado bajo Apache 2.0 | © 2025 Torcoroma WEB</sub>
+    <sub>🛡️ Licenciado bajo Apache 2.0 | © 2025 Sistema PQRSD</sub>
 </div>
