@@ -11,11 +11,11 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // SuperAdmin
+        // SuperAdmin Principal
         User::create([
-            'name' => 'Administrador Principal',
-            'email' => 'admin@ejemplo.com',
-            'password' => Hash::make('admin123'),
+            'name' => 'Kronnos Admin',
+            'email' => 'ing.korozco@gmail.com',
+            'password' => Hash::make('Admin123'),
             'role' => UserRole::SuperAdmin->value, // 'superadmin'
             'email_verified_at' => now(),
         ]);
