@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Ticket;
+use App\Models\TicketComment;
 use App\Observers\TicketObserver;
+use App\Observers\TicketCommentObserver;
 use App\Rules\Recaptcha;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
@@ -23,8 +25,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Registrar el observador para el modelo Ticket
+        // Registrar observers
         Ticket::observe(TicketObserver::class);
+        TicketComment::observe(TicketCommentObserver::class);
 
         // Extender validaciones
         Validator::extend('recaptcha', Recaptcha::class);

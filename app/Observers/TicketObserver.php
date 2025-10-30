@@ -37,6 +37,9 @@ class TicketObserver
             $ticket->priority,
             'Ticket Created'
         );
+
+        // Disparar evento para que listeners puedan procesarlo
+        event(new \App\Events\TicketCreatedEvent($ticket));
     }
 
     /**
@@ -62,6 +65,19 @@ class TicketObserver
                     $ticket->getOriginal('status'),
                     $ticket->status
                 ));
+
+            // Disparar evento de cambio de estado
+            event(new TicketStatusChanged(
+                ticket: $ticket,
+                oldStatus: $ticket->getOriginal('status'),
+                newStatus: $ticket->status,
+                changedBy: Auth::id(),
+                oldDepartment: $ticket->getOriginal('department_id'),
+                newDepartment: $ticket->department_id,
+                oldPriority: $ticket->getOriginal('priority'),
+                newPriority: $ticket->priority,
+                reason: null
+            ));
         }
 
         // Si el ticket se cierra, resolver o rechaza, eliminar recordatorios
@@ -69,8 +85,8 @@ class TicketObserver
             $ticket->reminders()->delete();
         }
 
-        // Registrar cambios significativos
-        if (array_intersect_key($changes, array_flip(['status', 'department_id', 'priority']))) {
+        // Registrar cambios significativos (si no hay cambio de estado)
+        if (!isset($changes['status']) && array_intersect_key($changes, array_flip(['department_id', 'priority']))) {
             $this->logTicketChange(
                 $ticket,
                 $ticket->getOriginal('status'),
