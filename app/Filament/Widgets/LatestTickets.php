@@ -2,6 +2,8 @@
 
 namespace App\Filament\Widgets;
 
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\Action;
 use App\Models\Ticket;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -36,7 +38,7 @@ class LatestTickets extends BaseWidget
                     ->limit(5)
             )
             ->columns([
-                Tables\Columns\TextColumn::make('ticket_number')
+                TextColumn::make('ticket_number')
                     ->label('Número')
                     ->searchable()
                     ->sortable()
@@ -44,42 +46,42 @@ class LatestTickets extends BaseWidget
                     ->copyMessage('Número de ticket copiado')
                     ->copyMessageDuration(1500),
 
-                Tables\Columns\TextColumn::make('title')
+                TextColumn::make('title')
                     ->label('Título')
                     ->limit(30)
                     ->searchable()
                     ->sortable()
                     ->tooltip(fn (Ticket $record): string => $record->title), // Muestra el título completo al pasar el mouse
 
-                Tables\Columns\TextColumn::make('type')
+                TextColumn::make('type')
                     ->label('Tipo')
                     ->badge(), // Ya usa las traducciones del enum
 
-                Tables\Columns\TextColumn::make('status')
+                TextColumn::make('status')
                     ->label('Estado')
                     ->badge(), // Ya usa las traducciones del enum
 
-                Tables\Columns\TextColumn::make('priority')
+                TextColumn::make('priority')
                     ->label('Prioridad')
                     ->badge(), // Ya usa las traducciones del enum
 
-                Tables\Columns\TextColumn::make('department.name')
+                TextColumn::make('department.name')
                     ->label('Departamento')
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('user.name')
+                TextColumn::make('user.name')
                     ->label('Creado por')
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->label('Fecha de Creación')
                     ->dateTime('d/m/Y H:i') // Formato de fecha en español
                     ->description(fn (Ticket $record): string => $record->created_at->diffForHumans()) // Tiempo relativo
                     ->sortable()
                     ->toggleable(),
             ])
-            ->actions([
-                Tables\Actions\Action::make('view')
+            ->recordActions([
+                Action::make('view')
                     ->label('Ver Ticket')
                     ->url(fn (Ticket $record): string => route('filament.admin.resources.tickets.view', $record))
                     ->icon('heroicon-m-eye')

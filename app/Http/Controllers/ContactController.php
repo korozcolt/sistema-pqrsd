@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Mail\ContactForm;
 use App\Rules\Recaptcha;
 use Illuminate\Http\Request;
@@ -32,7 +33,7 @@ class ContactController extends Controller
                 'text' => 'Gracias por contactarnos. Te responderemos lo antes posible.',
                 'confirmButtonText' => 'Aceptar'
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             report($e);
             return back()
                 ->with('swal', [

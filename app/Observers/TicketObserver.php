@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Models\User;
 use App\Enums\Priority;
 use App\Enums\StatusTicket;
 use App\Events\TicketStatusChanged;
@@ -158,7 +159,7 @@ class TicketObserver
         // Asegurarse de que tenemos un valor válido para changed_by
         if (!$userId) {
             // Último recurso: buscar un administrador
-            $adminUser = \App\Models\User::where('role', 'admin')->first();
+            $adminUser = User::where('role', 'admin')->first();
             $userId = $adminUser ? $adminUser->id : 1; // Usar el ID 1 como último recurso
         }
 

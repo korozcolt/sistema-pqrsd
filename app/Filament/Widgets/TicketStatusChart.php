@@ -12,7 +12,7 @@ use Flowframe\Trend\TrendValue;
 
 class TicketStatusChart extends ChartWidget
 {
-    protected static ?string $heading = 'Distribución de Tickets';
+    protected ?string $heading = 'Distribución de Tickets';
     protected static ?int $sort = 4;
     protected int | string | array $columnSpan = 'full';
     protected static bool $isLazy = true;

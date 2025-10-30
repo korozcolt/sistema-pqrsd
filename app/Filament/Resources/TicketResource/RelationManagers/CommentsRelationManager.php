@@ -2,14 +2,27 @@
 
 namespace App\Filament\Resources\TicketResource\RelationManagers;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Hidden;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Filters\TernaryFilter;
+use Filament\Actions\CreateAction;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use App\Enums\UserRole;
-use Filament\Forms\Components\Section;
 use App\Models\TicketComment;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
@@ -20,14 +33,14 @@ class CommentsRelationManager extends RelationManager
     protected static ?string $title = 'Responses & Comments';
     protected static ?string $recordTitleAttribute = 'content';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Section::make('Response Details')
                     ->description('Add an official response or internal note')
                     ->schema([
-                        Forms\Components\RichEditor::make('content')
+                        RichEditor::make('content')
                             ->label('Response')
                             ->required()
                             ->toolbarButtons([
@@ -38,13 +51,13 @@ class CommentsRelationManager extends RelationManager
                             ])
                             ->columnSpanFull(),
 
-                        Forms\Components\Toggle::make('is_internal')
+                        Toggle::make('is_internal')
                             ->label('Internal Note')
                             ->helperText('Internal notes are only visible to staff members')
                             ->default(false)
                             ->visible(fn() => Auth::user()->role !== UserRole::UserWeb),
 
-                        Forms\Components\Hidden::make('user_id')
+                        Hidden::make('user_id')
                             ->default(Auth::id()),
                     ])
             ]);
@@ -54,13 +67,13 @@ class CommentsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
+                TextColumn::make('user.name')
                     ->label('Response By')
                     ->sortable()
                     ->description(fn($record) => $record->user->role->value)
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('content')
+                TextColumn::make('content')
                     ->label('Response')
                     ->html()
                     ->limit(50)
@@ -68,26 +81,26 @@ class CommentsRelationManager extends RelationManager
                         return strip_tags($record->content);
                     }),
 
-                Tables\Columns\IconColumn::make('is_internal')
+                IconColumn::make('is_internal')
                     ->label('Internal Note')
                     ->boolean()
                     ->trueIcon('heroicon-o-lock-closed')
                     ->falseIcon('heroicon-o-globe-alt')
                     ->visible(fn() => !in_array(Auth::user()->role, [UserRole::UserWeb])),
 
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->label('Responded At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(),
             ])
             ->filters([
-                Tables\Filters\TernaryFilter::make('is_internal')
+                TernaryFilter::make('is_internal')
                     ->label('Show Internal Notes')
                     ->visible(fn() => !in_array(Auth::user()->role, [UserRole::UserWeb])),
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make()
+                CreateAction::make()
                     ->after(function (TicketComment $record) {
                         // Si no es una nota interna, actualizar first_response_at si aún no está establecido
                         if (!$record->is_internal && is_null($this->ownerRecord->first_response_at)) {
@@ -99,22 +112,22 @@ class CommentsRelationManager extends RelationManager
                             ->title('Response added successfully')
                             ->send();
                     })
-                    ->mutateFormDataUsing(function (array $data): array {
+                    ->mutateDataUsing(function (array $data): array {
                         $data['user_id'] = Auth::id();
                         return $data;
                     }),
             ])
-            ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make()
+            ->recordActions([
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make()
                         ->after(function () {
                             Notification::make()
                                 ->success()
                                 ->title('Response updated successfully')
                                 ->send();
                         }),
-                    Tables\Actions\DeleteAction::make()
+                    DeleteAction::make()
                         ->after(function () {
                             Notification::make()
                                 ->success()
@@ -123,9 +136,9 @@ class CommentsRelationManager extends RelationManager
                         }),
                 ]),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make()
                         ->visible(fn() => Auth::user()->role === UserRole::SuperAdmin),
                 ]),
             ])

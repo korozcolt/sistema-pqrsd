@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
+use App\Models\Department;
 use App\Http\Controllers\Controller;
 use App\Models\Ticket;
 use App\Models\User;
@@ -100,7 +102,7 @@ class PublicTicketController extends Controller
                     'user_created' => !$userExists
                 ]
             ], 201);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Error al crear el ticket',
@@ -242,7 +244,7 @@ class PublicTicketController extends Controller
                 'message' => 'Comentario añadido correctamente',
                 'data' => $comment
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Error al añadir comentario',
@@ -316,7 +318,7 @@ class PublicTicketController extends Controller
                 'success' => true,
                 'message' => 'Ticket cerrado correctamente'
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Error al cerrar el ticket',
@@ -351,12 +353,12 @@ class PublicTicketController extends Controller
     private function getDefaultDepartmentId()
     {
         // Buscar departamento de servicio al cliente o el primero disponible
-        $department = \App\Models\Department::where('name', 'like', '%servicio%cliente%')
+        $department = Department::where('name', 'like', '%servicio%cliente%')
             ->orWhere('code', 'SERVICLI')
             ->first();
 
         if (!$department) {
-            $department = \App\Models\Department::where('status', 'active')->first();
+            $department = Department::where('status', 'active')->first();
         }
 
         return $department ? $department->id : null;

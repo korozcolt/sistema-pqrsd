@@ -2,11 +2,28 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\RestoreAction;
+use Filament\Actions\ForceDeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\RestoreBulkAction;
+use Filament\Actions\ForceDeleteBulkAction;
+use App\Filament\Resources\UserResource\RelationManagers\TicketsRelationManager;
+use App\Filament\Resources\UserResource\Pages\ListUsers;
+use App\Filament\Resources\UserResource\Pages\CreateUser;
+use App\Filament\Resources\UserResource\Pages\ViewUser;
+use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -14,7 +31,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Enums\UserRole;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Illuminate\Support\Facades\Hash;
@@ -26,15 +42,15 @@ use Illuminate\Support\Collection;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
-    protected static ?string $navigationIcon = 'heroicon-o-users';
-    protected static ?string $navigationGroup = 'Administration';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-users';
+    protected static string | \UnitEnum | null $navigationGroup = 'Administration';
     protected static ?int $navigationSort = 1;
     protected static ?string $recordTitleAttribute = 'name';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Section::make('User Information')
                     ->description('Manage user account details here.')
                     ->schema([
@@ -82,15 +98,15 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('email')
+                TextColumn::make('email')
                     ->searchable()
                     ->sortable(),
 
-                    Tables\Columns\TextColumn::make('role')
+                    TextColumn::make('role')
                     ->badge()
                     ->formatStateUsing(function ($state) {
                         return match ($state) {
@@ -102,12 +118,12 @@ class UserResource extends Resource
                         };
                     }),
 
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
-                Tables\Columns\TextColumn::make('deleted_at')
+                TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
@@ -121,31 +137,31 @@ class UserResource extends Resource
                 TrashedFilter::make()
                     ->visible(fn() => Auth::user()->role === UserRole::SuperAdmin),
             ])
-            ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make()
+            ->recordActions([
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make()
                         ->visible(
                             fn(Model $record) =>
                             Auth::user()->role === UserRole::SuperAdmin ||
                                 (Auth::user()->role === UserRole::Admin &&
                                     $record->role !== UserRole::SuperAdmin)
                         ),
-                    Tables\Actions\DeleteAction::make()
+                    DeleteAction::make()
                         ->visible(
                             fn(Model $record) =>
                             $record->id !== Auth::id() &&
                                 Auth::user()->role === UserRole::SuperAdmin
                         ),
-                    Tables\Actions\RestoreAction::make()
+                    RestoreAction::make()
                         ->visible(fn() => Auth::user()->role === UserRole::SuperAdmin),
-                    Tables\Actions\ForceDeleteAction::make()
+                    ForceDeleteAction::make()
                         ->visible(fn() => Auth::user()->role === UserRole::SuperAdmin),
                 ]),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make()
                         ->visible(fn() => Auth::user()->role === UserRole::SuperAdmin)
                         ->action(function (Collection $records) {
                             $records = $records->filter(function ($record) {
@@ -155,9 +171,9 @@ class UserResource extends Resource
 
                             $records->each->delete();
                         }),
-                    Tables\Actions\RestoreBulkAction::make()
+                    RestoreBulkAction::make()
                         ->visible(fn() => Auth::user()->role === UserRole::SuperAdmin),
-                    Tables\Actions\ForceDeleteBulkAction::make()
+                    ForceDeleteBulkAction::make()
                         ->visible(fn() => Auth::user()->role === UserRole::SuperAdmin),
                 ]),
             ])
@@ -167,17 +183,17 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\TicketsRelationManager::class,
+            TicketsRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'view' => Pages\ViewUser::route('/{record}'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => ListUsers::route('/'),
+            'create' => CreateUser::route('/create'),
+            'view' => ViewUser::route('/{record}'),
+            'edit' => EditUser::route('/{record}/edit'),
         ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\TicketResource\RelationManagers;
 
+use Filament\Tables\Columns\TextColumn;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -18,36 +19,36 @@ class LogsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('changed_at')
+                TextColumn::make('changed_at')
                     ->label('Fecha')
                     ->dateTime()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('user.name')
+                TextColumn::make('user.name')
                     ->label('Cambiado por')
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('previous_status')
+                TextColumn::make('previous_status')
                     ->label('Estado Anterior')
                     ->badge(),
 
-                Tables\Columns\TextColumn::make('new_status')
+                TextColumn::make('new_status')
                     ->label('Nuevo Estado')
                     ->badge(),
 
-                Tables\Columns\TextColumn::make('previous_priority')
+                TextColumn::make('previous_priority')
                     ->label('Prioridad Anterior')
                     ->badge(),
 
-                Tables\Columns\TextColumn::make('new_priority')
+                TextColumn::make('new_priority')
                     ->label('Nueva Prioridad')
                     ->badge(),
 
-                Tables\Columns\TextColumn::make('department.name')
+                TextColumn::make('department.name')
                     ->label('Departamento')
                     ->formatStateUsing(fn ($state) => $state ?? '-'),
 
-                Tables\Columns\TextColumn::make('change_reason')
+                TextColumn::make('change_reason')
                     ->label('Razón del Cambio')
                     ->wrap(),
             ])
@@ -57,10 +58,10 @@ class LogsRelationManager extends RelationManager
             ->headerActions([
                 // Sin acciones de creación ya que los logs son automáticos
             ])
-            ->actions([
+            ->recordActions([
                 // Sin acciones de edición/eliminación
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 // Sin acciones masivas
             ])
             ->defaultSort('changed_at', 'desc')

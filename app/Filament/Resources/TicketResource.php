@@ -2,11 +2,34 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TrashedFilter;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\TicketResource\RelationManagers\CommentsRelationManager;
+use App\Filament\Resources\TicketResource\RelationManagers\AttachmentsRelationManager;
+use App\Filament\Resources\TicketResource\RelationManagers\LogsRelationManager;
+use App\Filament\Resources\TicketResource\RelationManagers\RemindersRelationManager;
+use App\Filament\Resources\TicketResource\RelationManagers\TagsRelationManager;
+use App\Filament\Resources\TicketResource\Pages\ListTickets;
+use App\Filament\Resources\TicketResource\Pages\CreateTicket;
+use App\Filament\Resources\TicketResource\Pages\ViewTicket;
+use App\Filament\Resources\TicketResource\Pages\EditTicket;
 use App\Filament\Resources\TicketResource\Pages;
 use App\Filament\Resources\TicketResource\RelationManagers;
 use App\Models\Ticket;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -17,51 +40,50 @@ use App\Enums\Priority;
 use App\Enums\TicketType;
 use App\Enums\UserRole;
 use Illuminate\Support\Facades\Auth;
-use Filament\Forms\Components\Section;
 use Filament\Support\Enums\FontWeight;
 use Illuminate\Database\Eloquent\Model;
 
 class TicketResource extends Resource
 {
     protected static ?string $model = Ticket::class;
-    protected static ?string $navigationIcon = 'heroicon-o-ticket';
-    protected static ?string $navigationGroup = 'Management';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-ticket';
+    protected static string | \UnitEnum | null $navigationGroup = 'Management';
     protected static ?int $navigationSort = 1;
     protected static ?string $recordTitleAttribute = 'ticket_number';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Section::make('Ticket Information')
                     ->description('Basic ticket details')
                     ->schema([
-                        Forms\Components\TextInput::make('ticket_number')
+                        TextInput::make('ticket_number')
                             ->label('Ticket Number')
                             ->default(fn () => 'TK-' . str_pad(random_int(1, 99999), 5, '0', STR_PAD_LEFT))
                             ->disabled()
                             ->dehydrated()
                             ->required(),
 
-                        Forms\Components\TextInput::make('title')
+                        TextInput::make('title')
                             ->label('Title')
                             ->required()
                             ->maxLength(255),
 
-                        Forms\Components\Select::make('type')
+                        Select::make('type')
                             ->label('Type')
                             ->options(TicketType::class)
                             ->required()
                             ->native(false),
 
-                        Forms\Components\Select::make('priority')
+                        Select::make('priority')
                             ->label('Priority')
                             ->options(Priority::class)
                             ->required()
                             ->default(Priority::Medium)
                             ->native(false),
 
-                        Forms\Components\Select::make('status')
+                        Select::make('status')
                             ->label('Status')
                             ->options(StatusTicket::class)
                             ->required()
@@ -69,14 +91,14 @@ class TicketResource extends Resource
                             ->disabled(fn () => Auth::user()->role === UserRole::UserWeb)
                             ->native(false),
 
-                        Forms\Components\Select::make('department_id')
+                        Select::make('department_id')
                             ->label('Department')
                             ->relationship('department', 'name')
                             ->searchable()
                             ->preload()
                             ->required(),
 
-                        Forms\Components\Select::make('user_id')
+                        Select::make('user_id')
                             ->label('Created By')
                             ->relationship('user', 'name')
                             ->searchable()
@@ -85,7 +107,7 @@ class TicketResource extends Resource
                             ->default(fn () => Auth::id())
                             ->disabled(fn () => Auth::user()->role === UserRole::UserWeb),
 
-                        Forms\Components\RichEditor::make('description')
+                        RichEditor::make('description')
                             ->label('Description')
                             ->required()
                             ->columnSpanFull(),
@@ -95,19 +117,19 @@ class TicketResource extends Resource
                 Section::make('SLA Information')
                     ->description('Service Level Agreement details')
                     ->schema([
-                        Forms\Components\DateTimePicker::make('response_due_date')
+                        DateTimePicker::make('response_due_date')
                             ->label('Response Due Date')
                             ->disabled(),
 
-                        Forms\Components\DateTimePicker::make('resolution_due_date')
+                        DateTimePicker::make('resolution_due_date')
                             ->label('Resolution Due Date')
                             ->disabled(),
 
-                        Forms\Components\DateTimePicker::make('first_response_at')
+                        DateTimePicker::make('first_response_at')
                             ->label('First Response')
                             ->disabled(),
 
-                        Forms\Components\DateTimePicker::make('resolution_at')
+                        DateTimePicker::make('resolution_at')
                             ->label('Resolution Date')
                             ->disabled(),
                     ])
@@ -121,83 +143,83 @@ class TicketResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('ticket_number')
+                TextColumn::make('ticket_number')
                     ->label('Ticket')
                     ->searchable()
                     ->sortable()
                     ->weight(FontWeight::Bold),
 
-                Tables\Columns\TextColumn::make('title')
+                TextColumn::make('title')
                     ->label('Title')
                     ->searchable()
                     ->limit(30),
 
-                Tables\Columns\TextColumn::make('type')
+                TextColumn::make('type')
                     ->badge(),
 
-                Tables\Columns\TextColumn::make('status')
+                TextColumn::make('status')
                     ->badge(),
 
-                Tables\Columns\TextColumn::make('priority')
+                TextColumn::make('priority')
                     ->badge(),
 
-                Tables\Columns\TextColumn::make('department.name')
+                TextColumn::make('department.name')
                     ->label('Department')
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('user.name')
+                TextColumn::make('user.name')
                     ->label('Created By')
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
 
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->label('Created')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(),
 
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->label('Updated')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('status')
+                SelectFilter::make('status')
                     ->options(StatusTicket::class)
                     ->label('Filter by Status'),
 
-                Tables\Filters\SelectFilter::make('priority')
+                SelectFilter::make('priority')
                     ->options(Priority::class)
                     ->label('Filter by Priority'),
 
-                Tables\Filters\SelectFilter::make('type')
+                SelectFilter::make('type')
                     ->options(TicketType::class)
                     ->label('Filter by Type'),
 
-                Tables\Filters\SelectFilter::make('department_id')
+                SelectFilter::make('department_id')
                     ->relationship('department', 'name')
                     ->label('Filter by Department')
                     ->searchable()
                     ->preload(),
 
-                Tables\Filters\TrashedFilter::make()
+                TrashedFilter::make()
                     ->visible(fn () => Auth::user()->role === UserRole::SuperAdmin),
             ])
-            ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make()
+            ->recordActions([
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make()
                         ->visible(fn () => Auth::user()->role !== UserRole::UserWeb),
-                    Tables\Actions\DeleteAction::make()
+                    DeleteAction::make()
                         ->visible(fn () => Auth::user()->role === UserRole::SuperAdmin),
                 ]),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make()
                         ->visible(fn () => Auth::user()->role === UserRole::SuperAdmin),
                 ]),
             ])
@@ -207,21 +229,21 @@ class TicketResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\CommentsRelationManager::class,
-            RelationManagers\AttachmentsRelationManager::class,
-            RelationManagers\LogsRelationManager::class,
-            RelationManagers\RemindersRelationManager::class,
-            RelationManagers\TagsRelationManager::class,
+            CommentsRelationManager::class,
+            AttachmentsRelationManager::class,
+            LogsRelationManager::class,
+            RemindersRelationManager::class,
+            TagsRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTickets::route('/'),
-            'create' => Pages\CreateTicket::route('/create'),
-            'view' => Pages\ViewTicket::route('/{record}'),
-            'edit' => Pages\EditTicket::route('/{record}/edit'),
+            'index' => ListTickets::route('/'),
+            'create' => CreateTicket::route('/create'),
+            'view' => ViewTicket::route('/{record}'),
+            'edit' => EditTicket::route('/{record}/edit'),
         ];
     }
 

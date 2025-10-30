@@ -2,9 +2,17 @@
 
 namespace App\Filament\Resources\UserResource\RelationManagers;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Actions\CreateAction;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Tables;
 use Filament\Tables\Table;
 use App\Enums\TicketStatus;
@@ -12,7 +20,6 @@ use App\Enums\Priority;
 use App\Enums\StatusTicket;
 use App\Enums\TicketType;
 use App\Enums\UserRole;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\RichEditor;
@@ -26,10 +33,10 @@ class TicketsRelationManager extends RelationManager
     protected static ?string $recordTitleAttribute = 'title';
     protected static ?string $title = 'User Tickets';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Section::make('Ticket Information')
                     ->schema([
                         TextInput::make('ticket_number')
@@ -110,21 +117,21 @@ class TicketsRelationManager extends RelationManager
                     ->label('Filter by Type'),
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make()
+                CreateAction::make()
                     ->visible(fn () => Auth::user()->role !== UserRole::UserWeb),
             ])
-            ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make()
+            ->recordActions([
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make()
                         ->visible(fn () => Auth::user()->role !== UserRole::UserWeb),
-                    Tables\Actions\DeleteAction::make()
+                    DeleteAction::make()
                         ->visible(fn () => Auth::user()->role === UserRole::SuperAdmin),
                 ]),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make()
                         ->visible(fn () => Auth::user()->role === UserRole::SuperAdmin),
                 ]),
             ])

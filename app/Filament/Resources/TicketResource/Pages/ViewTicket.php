@@ -2,6 +2,11 @@
 
 namespace App\Filament\Resources\TicketResource\Pages;
 
+use Filament\Actions\Action;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Toggle;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
 use App\Filament\Resources\TicketResource;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Actions;
@@ -18,11 +23,11 @@ class ViewTicket extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\Action::make('respond')
+            Action::make('respond')
                 ->label('Add Response')
                 ->icon('heroicon-o-chat-bubble-left-right')
-                ->form([
-                    Forms\Components\RichEditor::make('content')
+                ->schema([
+                    RichEditor::make('content')
                         ->label('Response')
                         ->required()
                         ->toolbarButtons([
@@ -31,7 +36,7 @@ class ViewTicket extends ViewRecord
                             'orderedList',
                             'link',
                         ]),
-                    Forms\Components\Toggle::make('is_internal')
+                    Toggle::make('is_internal')
                         ->label('Internal Note')
                         ->helperText('Internal notes are only visible to staff members')
                         ->default(false)
@@ -63,8 +68,8 @@ class ViewTicket extends ViewRecord
                         UserRole::Receptionist
                     ])
                 ),
-            Actions\EditAction::make(),
-            Actions\DeleteAction::make(),
+            EditAction::make(),
+            DeleteAction::make(),
         ];
     }
 

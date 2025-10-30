@@ -2,6 +2,9 @@
 
 namespace App\Filament\Widgets;
 
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\Action;
+use Filament\Actions\BulkAction;
 use App\Models\Reminder;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -24,40 +27,40 @@ class PendingReminders extends BaseWidget
                     ->latest('sent_at')
             )
             ->columns([
-                Tables\Columns\TextColumn::make('ticket.ticket_number')
+                TextColumn::make('ticket.ticket_number')
                     ->label('Ticket')
                     ->searchable()
                     ->url(fn ($record) => route('filament.admin.resources.tickets.view', $record->ticket_id)),
 
-                Tables\Columns\TextColumn::make('ticket.title')
+                TextColumn::make('ticket.title')
                     ->label('Título del Ticket')
                     ->limit(30),
 
-                Tables\Columns\TextColumn::make('reminder_type')
+                TextColumn::make('reminder_type')
                     ->label('Tipo de Recordatorio')
                     ->badge(),
 
-                Tables\Columns\TextColumn::make('sent_at')
+                TextColumn::make('sent_at')
                     ->label('Enviado')
                     ->dateTime()
                     ->sortable()
                     ->description(fn ($record) => $record->sent_at->diffForHumans()),
             ])
-            ->actions([
-                Tables\Actions\Action::make('view')
+            ->recordActions([
+                Action::make('view')
                     ->label('Ver Ticket')
                     ->icon('heroicon-m-eye')
                     ->url(fn ($record) => route('filament.admin.resources.tickets.view', $record->ticket_id))
                     ->openUrlInNewTab(),
 
-                Tables\Actions\Action::make('mark_read')
+                Action::make('mark_read')
                     ->label('Marcar como Leído')
                     ->icon('heroicon-m-check')
                     ->action(fn ($record) => $record->markAsRead())
                     ->color('success'),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkAction::make('mark_all_read')
+            ->toolbarActions([
+                BulkAction::make('mark_all_read')
                     ->label('Marcar Seleccionados como Leídos')
                     ->action(fn ($records) => $records->each->markAsRead())
                     ->deselectRecordsAfterCompletion()

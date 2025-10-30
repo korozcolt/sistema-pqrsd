@@ -2,9 +2,15 @@
 
 namespace App\Filament\Resources\TicketResource\RelationManagers;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\AttachAction;
+use Filament\Actions\DetachAction;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
@@ -15,22 +21,22 @@ class TagsRelationManager extends RelationManager
     protected static string $relationship = 'tags';
     protected static ?string $title = 'Ticket Tags';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('name')
+        return $schema
+            ->components([
+                Select::make('name')
                     ->label('Tag')
                     ->relationship('tag', 'name')
                     ->searchable()
                     ->preload()
                     ->createOptionForm([
-                        Forms\Components\TextInput::make('name')
+                        TextInput::make('name')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('description')
+                        TextInput::make('description')
                             ->maxLength(255),
-                        Forms\Components\ColorPicker::make('color')
+                        ColorPicker::make('color')
                             ->default('#000000'),
                     ])
                     ->required(),
@@ -41,25 +47,25 @@ class TagsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->badge()
                     ->color(fn ($record) => $record->color ?? 'gray'),
 
-                Tables\Columns\TextColumn::make('description')
+                TextColumn::make('description')
                     ->limit(30)
                     ->toggleable(),
 
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->headerActions([
-                Tables\Actions\AttachAction::make()
+                AttachAction::make()
                     ->preloadRecordSelect()
                     ->visible(fn () => Auth::user()->role !== UserRole::UserWeb),
             ])
-            ->actions([
-                Tables\Actions\DetachAction::make()
+            ->recordActions([
+                DetachAction::make()
                     ->visible(fn () => Auth::user()->role !== UserRole::UserWeb),
             ]);
     }

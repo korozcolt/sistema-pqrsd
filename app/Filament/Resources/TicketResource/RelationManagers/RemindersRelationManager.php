@@ -2,6 +2,14 @@
 
 namespace App\Filament\Resources\TicketResource\RelationManagers;
 
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\BulkAction;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -17,18 +25,18 @@ class RemindersRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('reminder_type')
+                TextColumn::make('reminder_type')
                     ->label('Tipo')
                     ->badge() // Automáticamente usará el color, icono y label del enum
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('sent_at')
+                TextColumn::make('sent_at')
                     ->label('Enviado')
                     ->dateTime()
                     ->sortable()
                     ->description(fn ($record) => $record->sent_at->diffForHumans()),
 
-                Tables\Columns\IconColumn::make('is_read')
+                IconColumn::make('is_read')
                     ->label('Estado')
                     ->boolean()
                     ->trueIcon('heroicon-m-check-circle')
@@ -36,15 +44,15 @@ class RemindersRelationManager extends RelationManager
                     ->trueColor('success')
                     ->falseColor('warning'),
 
-                Tables\Columns\TextColumn::make('read_at')
+                TextColumn::make('read_at')
                     ->label('Leído el')
                     ->dateTime()
                     ->placeholder('Pendiente de lectura')
                     ->toggleable(),
             ])
-            ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\Action::make('toggle_read')
+            ->recordActions([
+                ActionGroup::make([
+                    Action::make('toggle_read')
                         ->icon(fn ($record) => $record->is_read ? 'heroicon-m-x-mark' : 'heroicon-m-check')
                         ->label(fn ($record) => $record->is_read ? 'Marcar como no leído' : 'Marcar como leído')
                         ->action(function ($record) {
@@ -52,20 +60,20 @@ class RemindersRelationManager extends RelationManager
                         })
                         ->color(fn ($record) => $record->is_read ? 'gray' : 'success'),
 
-                    Tables\Actions\DeleteAction::make()
+                    DeleteAction::make()
                         ->visible(fn () => Auth::user()->role === UserRole::SuperAdmin),
                 ]),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\BulkAction::make('mark_all_read')
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    BulkAction::make('mark_all_read')
                         ->label('Marcar como leídos')
                         ->action(fn ($records) => $records->each->markAsRead())
                         ->deselectRecordsAfterCompletion()
                         ->icon('heroicon-m-check')
                         ->color('success'),
 
-                    Tables\Actions\DeleteBulkAction::make()
+                    DeleteBulkAction::make()
                         ->visible(fn () => Auth::user()->role === UserRole::SuperAdmin),
                 ]),
             ])

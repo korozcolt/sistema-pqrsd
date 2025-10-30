@@ -9,7 +9,7 @@ use App\Enums\UserRole;
 
 class CommentsList extends Widget
 {
-    protected static string $view = 'filament.resources.ticket-resource.widgets.comments-list';
+    protected string $view = 'filament.resources.ticket-resource.widgets.comments-list';
 
     protected int | string | array $columnSpan = 'full';
 

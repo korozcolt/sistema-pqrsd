@@ -2,6 +2,9 @@
 
 namespace App\Filament\Resources\TicketResource\Pages;
 
+use Filament\Actions\DeleteAction;
+use Filament\Actions\ForceDeleteAction;
+use Filament\Actions\RestoreAction;
 use App\Events\TicketStatusChanged;
 use App\Filament\Resources\TicketResource;
 use Filament\Actions;
@@ -59,9 +62,9 @@ class EditTicket extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
-            Actions\ForceDeleteAction::make(),
-            Actions\RestoreAction::make(),
+            DeleteAction::make(),
+            ForceDeleteAction::make(),
+            RestoreAction::make(),
         ];
     }
 }

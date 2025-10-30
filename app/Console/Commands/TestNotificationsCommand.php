@@ -2,6 +2,9 @@
 
 namespace App\Console\Commands;
 
+use Exception;
+use ReflectionClass;
+use App\Mail\ContactForm;
 use App\Enums\Priority;
 use App\Enums\ReminderType;
 use App\Enums\StatusTicket;
@@ -173,7 +176,7 @@ class TestNotificationsCommand extends Command
                 ->notify(new NewTicketNotification($this->testTicket));
 
             $this->info('✓ Notificación de nuevo ticket enviada correctamente.');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->error('Error enviando notificación: ' . $e->getMessage());
         }
     }
@@ -195,7 +198,7 @@ class TestNotificationsCommand extends Command
                 ));
 
             $this->info('✓ Notificación de cambio de estado enviada correctamente.');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->error('Error enviando notificación: ' . $e->getMessage());
         }
     }
@@ -216,7 +219,7 @@ class TestNotificationsCommand extends Command
             ]);
 
             // Usamos reflection para asignar la relación user
-            $reflectionClass = new \ReflectionClass($comment);
+            $reflectionClass = new ReflectionClass($comment);
             $reflectionProperty = $reflectionClass->getProperty('relations');
             $reflectionProperty->setAccessible(true);
             $reflectionProperty->setValue($comment, ['user' => $this->testUser]);
@@ -229,7 +232,7 @@ class TestNotificationsCommand extends Command
                 ));
 
             $this->info('✓ Notificación de nuevo comentario enviada correctamente.');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->error('Error enviando notificación: ' . $e->getMessage());
         }
     }
@@ -250,7 +253,7 @@ class TestNotificationsCommand extends Command
                 ));
 
             $this->info("✓ Notificación de recordatorio de $typeLabel enviada correctamente.");
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->error('Error enviando notificación: ' . $e->getMessage());
         }
     }
@@ -268,10 +271,10 @@ class TestNotificationsCommand extends Command
                 'message' => 'Este es un mensaje de prueba enviado desde el comando de prueba de notificaciones. Permite verificar el formato y diseño del correo que se envía cuando alguien completa el formulario de contacto en el sitio web.'
             ];
 
-            Mail::to($email)->send(new \App\Mail\ContactForm($formData));
+            Mail::to($email)->send(new ContactForm($formData));
 
             $this->info('✓ Correo de formulario de contacto enviado correctamente.');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->error('Error enviando correo: ' . $e->getMessage());
         }
     }

@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use Exception;
 use Closure;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -23,7 +24,7 @@ class Recaptcha implements ValidationRule
             if (!$response->successful() || !$response->json('success')) {
                 $fail('La verificación de reCAPTCHA ha fallado. Por favor, inténtalo de nuevo.');
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $fail('Error al verificar reCAPTCHA. Por favor, inténtalo de nuevo.');
         }
     }

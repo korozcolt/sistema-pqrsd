@@ -2,8 +2,8 @@
 
 namespace App\Filament\Widgets;
 
-use Filament\Widgets\StatsOverviewWidget as BaseWidget;
-use Filament\Widgets\StatsOverviewWidget\Card;  // Cambiado a Card para Filament 3.x
+use Filament\Widgets\StatsOverviewWidget\Stat;
+use Filament\Widgets\StatsOverviewWidget as BaseWidget;  // Cambiado a Card para Filament 3.x
 use App\Models\Ticket;
 use App\Models\SLA;
 use App\Enums\StatusTicket;
@@ -21,7 +21,7 @@ class SLACompliance extends BaseWidget
         $avgResolutionTimes = $this->calculateAverageResolutionTimes();
 
         return [
-            Card::make('Cumplimiento de Tiempo de Respuesta', number_format($responseCompliance['percentage'], 1) . '%')
+            Stat::make('Cumplimiento de Tiempo de Respuesta', number_format($responseCompliance['percentage'], 1) . '%')
                 ->description($responseCompliance['description'])
                 ->descriptionIcon('heroicon-m-clock')
                 ->color($this->getColorForPercentage($responseCompliance['percentage']))
@@ -30,7 +30,7 @@ class SLACompliance extends BaseWidget
                     'tooltip' => 'Porcentaje de tickets respondidos dentro del SLA establecido'
                 ]),
 
-            Card::make('Cumplimiento de Tiempo de Resolución', number_format($resolutionCompliance['percentage'], 1) . '%')
+            Stat::make('Cumplimiento de Tiempo de Resolución', number_format($resolutionCompliance['percentage'], 1) . '%')
                 ->description($resolutionCompliance['description'])
                 ->descriptionIcon('heroicon-m-check-circle')
                 ->color($this->getColorForPercentage($resolutionCompliance['percentage']))
@@ -39,7 +39,7 @@ class SLACompliance extends BaseWidget
                     'tooltip' => 'Porcentaje de tickets resueltos dentro del SLA establecido'
                 ]),
 
-            Card::make('Tiempo Promedio de Resolución', $avgResolutionTimes['overall_formatted'])
+            Stat::make('Tiempo Promedio de Resolución', $avgResolutionTimes['overall_formatted'])
                 ->description($avgResolutionTimes['description'])
                 ->descriptionIcon('heroicon-m-clock')
                 ->chart($avgResolutionTimes['chart'])

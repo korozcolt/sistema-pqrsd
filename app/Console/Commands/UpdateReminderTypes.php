@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use App\Models\Reminder;
 use Illuminate\Support\Facades\DB;
@@ -32,7 +33,7 @@ class UpdateReminderTypes extends Command
             $this->info("Updated {$updatedResponse} response reminders");
             $this->info('All reminder types have been updated successfully!');
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             $this->error('An error occurred: ' . $e->getMessage());
             return 1;

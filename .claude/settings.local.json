@@ -1,7 +1,17 @@
 {
   "permissions": {
     "allow": [
-      "Bash(php artisan:*)"
+      "Bash(php artisan:*)",
+      "WebFetch(domain:filamentphp.com)",
+      "Bash(git checkout:*)",
+      "Bash(composer require:*)",
+      "Bash(composer update:*)",
+      "Bash(vendor/bin/filament-v4:*)",
+      "Bash(composer dump-autoload:*)",
+      "Bash(npm install:*)",
+      "Bash(npx @tailwindcss/upgrade:*)",
+      "Bash(npm run build:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

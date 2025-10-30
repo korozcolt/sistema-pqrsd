@@ -2,9 +2,14 @@
 
 namespace App\Filament\Resources\TicketResource\RelationManagers;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\CreateAction;
+use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
@@ -17,11 +22,11 @@ class AttachmentsRelationManager extends RelationManager
     protected static ?string $title = 'Attachments';
     protected static ?string $recordTitleAttribute = 'file_name';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\FileUpload::make('file_path')
+        return $schema
+            ->components([
+                FileUpload::make('file_path')
                     ->label('File')
                     ->required()
                     ->maxSize(5120) // 5MB
@@ -42,39 +47,39 @@ class AttachmentsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('file_name')
+                TextColumn::make('file_name')
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('file_type')
+                TextColumn::make('file_type')
                     ->badge()
                     ->formatStateUsing(fn ($state) => strtoupper(str_replace('application/', '', $state))),
 
-                Tables\Columns\TextColumn::make('file_size')
+                TextColumn::make('file_size')
                     ->formatStateUsing(fn ($state) => number_format($state / 1024, 2) . ' KB'),
 
-                Tables\Columns\TextColumn::make('user.name')
+                TextColumn::make('user.name')
                     ->label('Uploaded By'),
 
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make()
+                CreateAction::make()
                     ->visible(fn () => Auth::user()->role !== UserRole::UserWeb)
-                    ->mutateFormDataUsing(function (array $data): array {
+                    ->mutateDataUsing(function (array $data): array {
                         $data['user_id'] = Auth::id();
                         return $data;
                     }),
             ])
-            ->actions([
-                Tables\Actions\Action::make('download')
+            ->recordActions([
+                Action::make('download')
                     ->icon('heroicon-o-arrow-down-tray')
                     ->url(fn ($record) => Storage::url($record->file_path))
                     ->openUrlInNewTab(),
 
-                Tables\Actions\DeleteAction::make()
+                DeleteAction::make()
                     ->visible(fn ($record) =>
                         Auth::id() === $record->user_id ||
                         Auth::user()->role === UserRole::SuperAdmin

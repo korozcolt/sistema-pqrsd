@@ -2,6 +2,10 @@
 
 namespace App\Filament\Resources\DepartmentResource\Pages;
 
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\RestoreAction;
+use Filament\Actions\ForceDeleteAction;
 use App\Filament\Resources\DepartmentResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
@@ -15,13 +19,13 @@ class ViewDepartment extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\EditAction::make()
+            EditAction::make()
                 ->visible(fn () => Auth::user()->role !== UserRole::UserWeb),
-            Actions\DeleteAction::make()
+            DeleteAction::make()
                 ->visible(fn () => Auth::user()->role === UserRole::SuperAdmin),
-            Actions\RestoreAction::make()
+            RestoreAction::make()
                 ->visible(fn () => Auth::user()->role === UserRole::SuperAdmin),
-            Actions\ForceDeleteAction::make()
+            ForceDeleteAction::make()
                 ->visible(fn () => Auth::user()->role === UserRole::SuperAdmin),
         ];
     }

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use ReflectionClass;
+use App\Mail\ContactForm;
 use App\Enums\Priority;
 use App\Enums\ReminderType;
 use App\Enums\StatusTicket;
@@ -124,7 +127,7 @@ class NotificationTestController extends Controller
                 ->notify(new NewTicketNotification($this->testTicket));
 
             return ['type' => 'new_ticket', 'status' => 'success', 'message' => 'Notificación de nuevo ticket enviada'];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return ['type' => 'new_ticket', 'status' => 'error', 'message' => $e->getMessage()];
         }
     }
@@ -143,7 +146,7 @@ class NotificationTestController extends Controller
                 ));
 
             return ['type' => 'status_change', 'status' => 'success', 'message' => 'Notificación de cambio de estado enviada'];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return ['type' => 'status_change', 'status' => 'error', 'message' => $e->getMessage()];
         }
     }
@@ -160,7 +163,7 @@ class NotificationTestController extends Controller
                 'created_at' => Carbon::now()
             ]);
 
-            $reflectionClass = new \ReflectionClass($comment);
+            $reflectionClass = new ReflectionClass($comment);
             $reflectionProperty = $reflectionClass->getProperty('relations');
             $reflectionProperty->setAccessible(true);
             $reflectionProperty->setValue($comment, ['user' => $this->testUser]);
@@ -172,7 +175,7 @@ class NotificationTestController extends Controller
                 ));
 
             return ['type' => 'new_comment', 'status' => 'success', 'message' => 'Notificación de nuevo comentario enviada'];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return ['type' => 'new_comment', 'status' => 'error', 'message' => $e->getMessage()];
         }
     }
@@ -190,7 +193,7 @@ class NotificationTestController extends Controller
                 'tiempo de respuesta' : 'tiempo de resolución';
 
             return ['type' => 'reminder_'.$typeLabel, 'status' => 'success', 'message' => "Notificación de recordatorio ($typeLabel) enviada"];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return ['type' => 'reminder', 'status' => 'error', 'message' => $e->getMessage()];
         }
     }
@@ -206,10 +209,10 @@ class NotificationTestController extends Controller
                 'message' => 'Este es un mensaje de prueba enviado desde el controlador de prueba de notificaciones.'
             ];
 
-            Mail::to($email)->send(new \App\Mail\ContactForm($formData));
+            Mail::to($email)->send(new ContactForm($formData));
 
             return ['type' => 'contact_form', 'status' => 'success', 'message' => 'Correo de formulario de contacto enviado'];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return ['type' => 'contact_form', 'status' => 'error', 'message' => $e->getMessage()];
         }
     }

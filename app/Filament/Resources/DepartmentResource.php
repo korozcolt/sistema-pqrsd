@@ -2,11 +2,33 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TrashedFilter;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\RestoreAction;
+use Filament\Actions\ForceDeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\RestoreBulkAction;
+use Filament\Actions\ForceDeleteBulkAction;
+use App\Filament\Resources\DepartmentResource\RelationManagers\TicketsRelationManager;
+use App\Filament\Resources\DepartmentResource\Pages\ListDepartments;
+use App\Filament\Resources\DepartmentResource\Pages\CreateDepartment;
+use App\Filament\Resources\DepartmentResource\Pages\ViewDepartment;
+use App\Filament\Resources\DepartmentResource\Pages\EditDepartment;
 use App\Filament\Resources\DepartmentResource\Pages;
 use App\Filament\Resources\DepartmentResource\RelationManagers;
 use App\Models\Department;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -15,30 +37,29 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Enums\StatusGlobal;
 use Illuminate\Support\Facades\Auth;
 use App\Enums\UserRole;
-use Filament\Forms\Components\Section;
 use Illuminate\Support\Str;
 
 class DepartmentResource extends Resource
 {
     protected static ?string $model = Department::class;
-    protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
-    protected static ?string $navigationGroup = 'Administration';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-building-office-2';
+    protected static string | \UnitEnum | null $navigationGroup = 'Administration';
     protected static ?int $navigationSort = 2;
     protected static ?string $recordTitleAttribute = 'name';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Section::make('Department Information')
                     ->description('Basic department details')
                     ->schema([
-                        Forms\Components\TextInput::make('name')
+                        TextInput::make('name')
                             ->label('Department Name')
                             ->required()
                             ->maxLength(255),
 
-                        Forms\Components\TextInput::make('code')
+                        TextInput::make('code')
                             ->label('Department Code')
                             ->required()
                             ->maxLength(10)
@@ -48,13 +69,13 @@ class DepartmentResource extends Resource
                             ->regex('/^[A-Z0-9]+$/')
                             ->extraInputAttributes(['style' => 'text-transform: uppercase']),
 
-                        Forms\Components\Select::make('status')
+                        Select::make('status')
                             ->label('Department Status')
                             ->options(StatusGlobal::class)
                             ->required()
                             ->default(StatusGlobal::Active),
 
-                        Forms\Components\TextInput::make('email')
+                        TextInput::make('email')
                             ->label('Contact Email')
                             ->email()
                             ->maxLength(255),
@@ -63,19 +84,19 @@ class DepartmentResource extends Resource
 
                 Section::make('Contact Information')
                     ->schema([
-                        Forms\Components\TextInput::make('phone')
+                        TextInput::make('phone')
                             ->label('Contact Phone')
                             ->tel()
                             ->required()
                             ->maxLength(20),
 
-                        Forms\Components\Textarea::make('address')
+                        Textarea::make('address')
                             ->label('Physical Address')
                             ->required()
                             ->maxLength(255)
                             ->columnSpanFull(),
 
-                        Forms\Components\Textarea::make('description')
+                        Textarea::make('description')
                             ->label('Department Description')
                             ->required()
                             ->maxLength(255)
@@ -89,76 +110,76 @@ class DepartmentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label('Department')
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('code')
+                TextColumn::make('code')
                     ->label('Code')
                     ->searchable()
                     ->sortable()
                     ->badge()
                     ->color('gray'),
 
-                Tables\Columns\TextColumn::make('status')
+                TextColumn::make('status')
                     ->badge(),
 
-                Tables\Columns\TextColumn::make('tickets_count')
+                TextColumn::make('tickets_count')
                     ->label('Tickets')
                     ->counts('tickets')
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('email')
+                TextColumn::make('email')
                     ->label('Email')
                     ->searchable()
                     ->toggleable(),
 
-                Tables\Columns\TextColumn::make('phone')
+                TextColumn::make('phone')
                     ->label('Phone')
                     ->searchable()
                     ->toggleable(),
 
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->label('Created')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->label('Updated')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('status')
+                SelectFilter::make('status')
                     ->options(StatusGlobal::class)
                     ->label('Filter by Status'),
 
-                Tables\Filters\TrashedFilter::make()
+                TrashedFilter::make()
                     ->visible(fn() => Auth::user()->role === UserRole::SuperAdmin),
             ])
-            ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make()
+            ->recordActions([
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make()
                         ->visible(fn() => Auth::user()->role !== UserRole::UserWeb),
-                    Tables\Actions\DeleteAction::make()
+                    DeleteAction::make()
                         ->visible(fn() => Auth::user()->role === UserRole::SuperAdmin),
-                    Tables\Actions\RestoreAction::make()
+                    RestoreAction::make()
                         ->visible(fn() => Auth::user()->role === UserRole::SuperAdmin),
-                    Tables\Actions\ForceDeleteAction::make()
+                    ForceDeleteAction::make()
                         ->visible(fn() => Auth::user()->role === UserRole::SuperAdmin),
                 ]),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make()
                         ->visible(fn() => Auth::user()->role === UserRole::SuperAdmin),
-                    Tables\Actions\RestoreBulkAction::make()
+                    RestoreBulkAction::make()
                         ->visible(fn() => Auth::user()->role === UserRole::SuperAdmin),
-                    Tables\Actions\ForceDeleteBulkAction::make()
+                    ForceDeleteBulkAction::make()
                         ->visible(fn() => Auth::user()->role === UserRole::SuperAdmin),
                 ]),
             ])
@@ -168,17 +189,17 @@ class DepartmentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\TicketsRelationManager::class,
+            TicketsRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDepartments::route('/'),
-            'create' => Pages\CreateDepartment::route('/create'),
-            'view' => Pages\ViewDepartment::route('/{record}'),
-            'edit' => Pages\EditDepartment::route('/{record}/edit'),
+            'index' => ListDepartments::route('/'),
+            'create' => CreateDepartment::route('/create'),
+            'view' => ViewDepartment::route('/{record}'),
+            'edit' => EditDepartment::route('/{record}/edit'),
         ];
     }
 

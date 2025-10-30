@@ -2,10 +2,28 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\SLAResource\Pages\ListSLAS;
+use App\Filament\Resources\SLAResource\Pages\CreateSLA;
+use App\Filament\Resources\SLAResource\Pages\ViewSLA;
+use App\Filament\Resources\SLAResource\Pages\EditSLA;
 use App\Filament\Resources\SLAResource\Pages;
 use App\Models\SLA;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -14,38 +32,37 @@ use App\Enums\TicketType;
 use App\Enums\Priority;
 use Illuminate\Support\Facades\Auth;
 use App\Enums\UserRole;
-use Filament\Forms\Components\Section;
 
 class SLAResource extends Resource
 {
     protected static ?string $model = SLA::class;
-    protected static ?string $navigationIcon = 'heroicon-o-clock';
-    protected static ?string $navigationGroup = 'Ticket Settings';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-clock';
+    protected static string | \UnitEnum | null $navigationGroup = 'Ticket Settings';
     protected static ?string $navigationLabel = 'SLA Configuration';
     protected static ?int $navigationSort = 1;
     protected static ?string $modelLabel = 'SLA Rule';
     protected static ?string $pluralModelLabel = 'SLA Rules';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Section::make('SLA Configuration')
                     ->description('Configure response and resolution times for different ticket types')
                     ->schema([
-                        Forms\Components\Select::make('ticket_type')
+                        Select::make('ticket_type')
                             ->label('Ticket Type')
                             ->options(TicketType::class)
                             ->required()
                             ->native(false),
 
-                        Forms\Components\Select::make('priority')
+                        Select::make('priority')
                             ->label('Priority Level')
                             ->options(Priority::class)
                             ->required()
                             ->native(false),
 
-                        Forms\Components\TextInput::make('response_time')
+                        TextInput::make('response_time')
                             ->label('Response Time (Hours)')
                             ->numeric()
                             ->required()
@@ -53,7 +70,7 @@ class SLAResource extends Resource
                             ->maxValue(168) // 1 week
                             ->helperText('Maximum response time in hours'),
 
-                        Forms\Components\TextInput::make('resolution_time')
+                        TextInput::make('resolution_time')
                             ->label('Resolution Time (Hours)')
                             ->numeric()
                             ->required()
@@ -61,7 +78,7 @@ class SLAResource extends Resource
                             ->maxValue(720) // 30 days
                             ->helperText('Maximum resolution time in hours'),
 
-                        Forms\Components\Toggle::make('is_active')
+                        Toggle::make('is_active')
                             ->label('Active')
                             ->helperText('Only active SLA rules will be applied')
                             ->default(true)
@@ -75,25 +92,25 @@ class SLAResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('ticket_type')
+                TextColumn::make('ticket_type')
                     ->label('Type')
                     ->badge(),
 
-                Tables\Columns\TextColumn::make('priority')
+                TextColumn::make('priority')
                     ->label('Priority')
                     ->badge(),
 
-                Tables\Columns\TextColumn::make('response_time')
+                TextColumn::make('response_time')
                     ->label('Response Time')
                     ->formatStateUsing(fn(int $state): string => self::formatHours($state))
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('resolution_time')
+                TextColumn::make('resolution_time')
                     ->label('Resolution Time')
                     ->formatStateUsing(fn(int $state): string => self::formatHours($state))
                     ->sortable(),
 
-                Tables\Columns\IconColumn::make('is_active')
+                IconColumn::make('is_active')
                     ->label('Status')
                     ->boolean()
                     ->trueIcon('heroicon-o-check-circle')
@@ -101,39 +118,39 @@ class SLAResource extends Resource
                     ->trueColor('success')
                     ->falseColor('danger'),
 
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->label('Last Updated')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('ticket_type')
+                SelectFilter::make('ticket_type')
                     ->options(TicketType::class)
                     ->label('Filter by Type'),
 
-                Tables\Filters\SelectFilter::make('priority')
+                SelectFilter::make('priority')
                     ->options(Priority::class)
                     ->label('Filter by Priority'),
 
-                Tables\Filters\TernaryFilter::make('is_active')
+                TernaryFilter::make('is_active')
                     ->label('Active Status')
                     ->boolean()
                     ->trueLabel('Active Only')
                     ->falseLabel('Inactive Only')
                     ->placeholder('All'),
             ])
-            ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make()
+            ->recordActions([
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    DeleteAction::make()
                         ->visible(fn() => Auth::user()->role === UserRole::SuperAdmin),
                 ]),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make()
                         ->visible(fn() => Auth::user()->role === UserRole::SuperAdmin),
                 ]),
             ])
@@ -151,10 +168,10 @@ class SLAResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSLAS::route('/'),
-            'create' => Pages\CreateSLA::route('/create'),
-            'view' => Pages\ViewSLA::route('/{record}'),
-            'edit' => Pages\EditSLA::route('/{record}/edit'),
+            'index' => ListSLAS::route('/'),
+            'create' => CreateSLA::route('/create'),
+            'view' => ViewSLA::route('/{record}'),
+            'edit' => EditSLA::route('/{record}/edit'),
         ];
     }
 

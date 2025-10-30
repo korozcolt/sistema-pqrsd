@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\TagResource\Pages;
 
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
 use App\Filament\Resources\TagResource;
 use Filament\Actions;
 use Illuminate\Support\Facades\Auth;
@@ -14,9 +16,9 @@ class ViewTag extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\EditAction::make()
+            EditAction::make()
                 ->visible(fn () => $this->getResource()::canEdit($this->getRecord())),
-            Actions\DeleteAction::make()
+            DeleteAction::make()
                 ->visible(fn () => $this->getResource()::canDelete($this->getRecord())),
         ];
     }

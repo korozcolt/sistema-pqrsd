@@ -2,16 +2,29 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\ReminderResource\Pages\ListReminders;
+use App\Filament\Resources\ReminderResource\Pages\CreateReminder;
+use App\Filament\Resources\ReminderResource\Pages\ViewReminder;
+use App\Filament\Resources\ReminderResource\Pages\EditReminder;
 use App\Filament\Resources\ReminderResource\Pages;
 use App\Models\Reminder;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use App\Enums\UserRole;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Toggle;
@@ -21,14 +34,14 @@ use Filament\Tables\Filters\TernaryFilter;
 class ReminderResource extends Resource
 {
     protected static ?string $model = Reminder::class;
-    protected static ?string $navigationIcon = 'heroicon-o-bell';
-    protected static ?string $navigationGroup = 'Ticket Settings';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-bell';
+    protected static string | \UnitEnum | null $navigationGroup = 'Ticket Settings';
     protected static ?int $navigationSort = 3;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Section::make('Reminder Information')
                     ->description('Manage reminder details here.')
                     ->schema([
@@ -42,7 +55,7 @@ class ReminderResource extends Resource
                             ->required()
                             ->searchable(),
 
-                        Forms\Components\TextInput::make('reminder_type')
+                        TextInput::make('reminder_type')
                             ->required()
                             ->maxLength(255),
 
@@ -68,25 +81,25 @@ class ReminderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('ticket.title')
+                TextColumn::make('ticket.title')
                     ->label('Ticket')
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('user.name')
+                TextColumn::make('user.name')
                     ->label('Sent To')
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('reminder_type')
+                TextColumn::make('reminder_type')
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('sent_at')
+                TextColumn::make('sent_at')
                     ->dateTime()
                     ->sortable(),
 
-                Tables\Columns\IconColumn::make('is_read')
+                IconColumn::make('is_read')
                     ->label('Read')
                     ->boolean()
                     ->trueIcon('heroicon-o-check-circle')
@@ -94,7 +107,7 @@ class ReminderResource extends Resource
                     ->trueColor('success')
                     ->falseColor('danger'),
 
-                Tables\Columns\TextColumn::make('read_at')
+                TextColumn::make('read_at')
                     ->label('Read At')
                     ->dateTime()
                     ->sortable()
@@ -116,17 +129,17 @@ class ReminderResource extends Resource
                     ->label('Overdue')
                     ->indicator('Overdue'),
             ])
-            ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make()
+            ->recordActions([
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    DeleteAction::make()
                         ->visible(fn() => Auth::user()->role === UserRole::SuperAdmin),
                 ]),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make()
                         ->visible(fn() => Auth::user()->role === UserRole::SuperAdmin),
                 ]),
             ])
@@ -143,10 +156,10 @@ class ReminderResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListReminders::route('/'),
-            'create' => Pages\CreateReminder::route('/create'),
-            'view' => Pages\ViewReminder::route('/{record}'),
-            'edit' => Pages\EditReminder::route('/{record}/edit'),
+            'index' => ListReminders::route('/'),
+            'create' => CreateReminder::route('/create'),
+            'view' => ViewReminder::route('/{record}'),
+            'edit' => EditReminder::route('/{record}/edit'),
         ];
     }
 

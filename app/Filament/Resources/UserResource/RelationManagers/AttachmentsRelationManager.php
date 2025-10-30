@@ -2,14 +2,24 @@
 
 namespace App\Filament\Resources\UserResource\RelationManagers;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\ViewAction;
+use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use App\Enums\UserRole;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,13 +29,13 @@ class AttachmentsRelationManager extends RelationManager
     protected static ?string $title = 'User Attachments';
     protected static ?string $recordTitleAttribute = 'file_name';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Section::make('Attachment Information')
                     ->schema([
-                        Forms\Components\Select::make('ticket_id')
+                        Select::make('ticket_id')
                             ->relationship('ticket', 'ticket_number')
                             ->searchable()
                             ->preload()
@@ -47,15 +57,15 @@ class AttachmentsRelationManager extends RelationManager
                                 ];
                             }),
 
-                        Forms\Components\TextInput::make('file_name')
+                        TextInput::make('file_name')
                             ->disabled()
                             ->dehydrated(false),
 
-                        Forms\Components\TextInput::make('file_type')
+                        TextInput::make('file_type')
                             ->disabled()
                             ->dehydrated(false),
 
-                        Forms\Components\TextInput::make('file_size')
+                        TextInput::make('file_size')
                             ->disabled()
                             ->dehydrated(false)
                             ->formatStateUsing(fn ($state) => number_format($state / 1024, 2) . ' KB'),
@@ -69,19 +79,19 @@ class AttachmentsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('file_name')
             ->columns([
-                Tables\Columns\TextColumn::make('ticket.ticket_number')
+                TextColumn::make('ticket.ticket_number')
                     ->label('Ticket')
                     ->searchable()
                     ->sortable()
                     ->url(fn ($record) => route('filament.admin.resources.tickets.view', $record->ticket))
                     ->openUrlInNewTab(),
 
-                Tables\Columns\TextColumn::make('file_name')
+                TextColumn::make('file_name')
                     ->label('File Name')
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('file_type')
+                TextColumn::make('file_type')
                     ->label('Type')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -91,19 +101,19 @@ class AttachmentsRelationManager extends RelationManager
                         default => 'warning',
                     }),
 
-                Tables\Columns\TextColumn::make('file_size')
+                TextColumn::make('file_size')
                     ->label('Size')
                     ->formatStateUsing(fn ($state) => number_format($state / 1024, 2) . ' KB')
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->label('Uploaded At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('file_type')
+                SelectFilter::make('file_type')
                     ->options([
                         'application/pdf' => 'PDF',
                         'image/jpeg' => 'JPEG',
@@ -113,20 +123,20 @@ class AttachmentsRelationManager extends RelationManager
                     ])
                     ->multiple(),
             ])
-            ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\Action::make('download')
+            ->recordActions([
+                ActionGroup::make([
+                    ViewAction::make(),
+                    Action::make('download')
                         ->icon('heroicon-o-arrow-down-tray')
                         ->url(fn ($record) => Storage::url($record->file_path))
                         ->openUrlInNewTab(),
-                    Tables\Actions\DeleteAction::make()
+                    DeleteAction::make()
                         ->visible(fn () => Auth::user()->role === UserRole::SuperAdmin),
                 ]),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make()
                         ->visible(fn () => Auth::user()->role === UserRole::SuperAdmin),
                 ]),
             ])

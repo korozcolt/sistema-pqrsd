@@ -2,6 +2,11 @@
 
 namespace App\Filament\Resources\UserResource\Pages;
 
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\RestoreAction;
+use App\Enums\UserRole;
+use Filament\Actions\ForceDeleteAction;
 use App\Filament\Resources\UserResource;
 use Filament\Actions;
 use Illuminate\Support\Facades\Auth;
@@ -14,14 +19,14 @@ class ViewUser extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\EditAction::make()
+            EditAction::make()
                 ->visible(fn () => $this->getResource()::canEdit($this->getRecord())),
-            Actions\DeleteAction::make()
+            DeleteAction::make()
                 ->visible(fn () => $this->getResource()::canDelete($this->getRecord())),
-            Actions\RestoreAction::make()
-                ->visible(fn () => Auth::user()->role === \App\Enums\UserRole::SuperAdmin),
-            Actions\ForceDeleteAction::make()
-                ->visible(fn () => Auth::user()->role === \App\Enums\UserRole::SuperAdmin),
+            RestoreAction::make()
+                ->visible(fn () => Auth::user()->role === UserRole::SuperAdmin),
+            ForceDeleteAction::make()
+                ->visible(fn () => Auth::user()->role === UserRole::SuperAdmin),
         ];
     }
 }

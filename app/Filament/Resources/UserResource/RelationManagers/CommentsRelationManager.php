@@ -2,14 +2,25 @@
 
 namespace App\Filament\Resources\UserResource\RelationManagers;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Filters\TernaryFilter;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use App\Enums\UserRole;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\RichEditor;
 
 class CommentsRelationManager extends RelationManager
@@ -18,13 +29,13 @@ class CommentsRelationManager extends RelationManager
     protected static ?string $title = 'User Comments';
     protected static ?string $recordTitleAttribute = 'content';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Section::make('Comment Information')
                     ->schema([
-                        Forms\Components\Select::make('ticket_id')
+                        Select::make('ticket_id')
                             ->relationship('ticket', 'ticket_number')
                             ->searchable()
                             ->preload()
@@ -34,7 +45,7 @@ class CommentsRelationManager extends RelationManager
                             ->required()
                             ->columnSpanFull(),
 
-                        Forms\Components\Toggle::make('is_internal')
+                        Toggle::make('is_internal')
                             ->label('Internal Comment')
                             ->default(false)
                             ->helperText('Internal comments are only visible to staff members'),
@@ -48,48 +59,48 @@ class CommentsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('content')
             ->columns([
-                Tables\Columns\TextColumn::make('ticket.ticket_number')
+                TextColumn::make('ticket.ticket_number')
                     ->label('Ticket')
                     ->searchable()
                     ->sortable()
                     ->url(fn ($record) => route('filament.admin.resources.tickets.view', $record->ticket))
                     ->openUrlInNewTab(),
 
-                Tables\Columns\TextColumn::make('content')
+                TextColumn::make('content')
                     ->html()
                     ->limit(50)
                     ->searchable(),
 
-                Tables\Columns\IconColumn::make('is_internal')
+                IconColumn::make('is_internal')
                     ->label('Internal')
                     ->boolean()
                     ->trueIcon('heroicon-o-lock-closed')
                     ->falseIcon('heroicon-o-lock-open'),
 
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(),
             ])
             ->filters([
-                Tables\Filters\TernaryFilter::make('is_internal')
+                TernaryFilter::make('is_internal')
                     ->label('Internal Comments Only'),
             ])
-            ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make()
+            ->recordActions([
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make()
                         ->visible(fn ($record) =>
                             Auth::user()->role !== UserRole::UserWeb ||
                             $record->user_id === Auth::id()
                         ),
-                    Tables\Actions\DeleteAction::make()
+                    DeleteAction::make()
                         ->visible(fn () => Auth::user()->role === UserRole::SuperAdmin),
                 ]),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make()
                         ->visible(fn () => Auth::user()->role === UserRole::SuperAdmin),
                 ]),
             ])
