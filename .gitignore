@@ -25,5 +25,6 @@ _ide_helper_models.php
 composer.lock
 package-lock.json
 .qodo
-"composer.lock" 
-"package-lock.json" 
+"composer.lock"
+"package-lock.json"
+/.claude

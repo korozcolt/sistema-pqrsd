@@ -11,7 +11,13 @@
       "Bash(npm install:*)",
       "Bash(npx @tailwindcss/upgrade:*)",
       "Bash(npm run build:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(gh run list:*)",
+      "Bash(git fetch:*)",
+      "Bash(git commit:*)",
+      "Bash(git pull:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []
