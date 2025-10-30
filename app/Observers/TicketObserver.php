@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\User;
+use App\Models\SLA;
 use App\Enums\Priority;
 use App\Enums\StatusTicket;
 use App\Events\TicketStatusChanged;
@@ -14,6 +15,16 @@ use Illuminate\Support\Facades\Notification;
 
 class TicketObserver
 {
+    /**
+     * Handle the Ticket "creating" event.
+     * Se ejecuta ANTES de guardar el ticket en la base de datos.
+     */
+    public function creating(Ticket $ticket): void
+    {
+        // Calcular fechas de SLA automáticamente
+        $this->calculateSLADates($ticket);
+    }
+
     /**
      * Handle the Ticket "created" event.
      */
@@ -105,16 +116,19 @@ class TicketObserver
      */
     public function deleted(Ticket $ticket): void
     {
-        $this->logTicketChange(
-            $ticket,
-            $ticket->status,
-            StatusTicket::Closed->value,
-            $ticket->department_id,
-            $ticket->department_id,
-            $ticket->priority,
-            $ticket->priority,
-            'Ticket Deleted'
-        );
+        // Solo logear si es soft delete (no force delete)
+        if ($ticket->trashed()) {
+            $this->logTicketChange(
+                $ticket,
+                $ticket->status,
+                StatusTicket::Closed->value,
+                $ticket->department_id,
+                $ticket->department_id,
+                $ticket->priority,
+                $ticket->priority,
+                'Ticket Deleted'
+            );
+        }
     }
 
     /**
@@ -139,16 +153,36 @@ class TicketObserver
      */
     public function forceDeleted(Ticket $ticket): void
     {
-        $this->logTicketChange(
-            $ticket,
-            $ticket->status,
-            StatusTicket::Closed->value,
-            $ticket->department_id,
-            $ticket->department_id,
-            $ticket->priority,
-            $ticket->priority,
-            'Ticket Permanently Deleted'
-        );
+        // No intentar logear en force delete ya que el ticket ya no existe en BD
+        // Los logs se eliminarán automáticamente por CASCADE
+    }
+
+    /**
+     * Calcular fechas de SLA automáticamente según tipo y prioridad del ticket
+     */
+    private function calculateSLADates(Ticket $ticket): void
+    {
+        // Solo calcular si no se han establecido manualmente
+        if ($ticket->response_due_date || $ticket->resolution_due_date) {
+            return;
+        }
+
+        // Buscar SLA correspondiente al tipo y prioridad del ticket
+        $sla = SLA::where('ticket_type', $ticket->type)
+            ->where('priority', $ticket->priority)
+            ->where('is_active', true)
+            ->first();
+
+        if (!$sla) {
+            // Si no hay SLA configurado, usar valores por defecto
+            $ticket->response_due_date = now()->addHours(24);
+            $ticket->resolution_due_date = now()->addDays(15);
+            return;
+        }
+
+        // Calcular fechas basadas en los tiempos del SLA (en horas)
+        $ticket->response_due_date = now()->addHours($sla->response_time);
+        $ticket->resolution_due_date = now()->addHours($sla->resolution_time);
     }
 
     /**
