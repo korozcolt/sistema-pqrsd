@@ -1,0 +1,115 @@
+name: Auto Version Bump
+
+on:
+  push:
+    branches:
+      - master
+      - main
+    paths-ignore:
+      - 'VERSION'
+      - 'CHANGELOG.md'
+      - '.github/**'
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, 'chore: bump version')"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, ctype, json, bcmath
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+
+      - name: Determine version bump type
+        id: bump_type
+        run: |
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+
+          # Detectar tipo de bump basado en Conventional Commits
+          if echo "$COMMIT_MSG" | grep -qiE "^(feat|feature)(\(.+\))?!:|BREAKING CHANGE:"; then
+            echo "type=major" >> $GITHUB_OUTPUT
+            echo "Version bump: MAJOR (breaking change detected)"
+          elif echo "$COMMIT_MSG" | grep -qiE "^(feat|feature)(\(.+\))?:"; then
+            echo "type=minor" >> $GITHUB_OUTPUT
+            echo "Version bump: MINOR (new feature)"
+          elif echo "$COMMIT_MSG" | grep -qiE "^(fix|bugfix|hotfix|perf|refactor)(\(.+\))?:"; then
+            echo "type=patch" >> $GITHUB_OUTPUT
+            echo "Version bump: PATCH (bug fix/improvement)"
+          else
+            echo "type=patch" >> $GITHUB_OUTPUT
+            echo "Version bump: PATCH (default)"
+          fi
+
+      - name: Bump version
+        run: |
+          php artisan version:bump ${{ steps.bump_type.outputs.type }} --no-commit
+
+      - name: Read new version
+        id: version
+        run: echo "number=$(cat VERSION)" >> $GITHUB_OUTPUT
+
+      - name: Update CHANGELOG
+        run: |
+          # Crear entrada en CHANGELOG si no existe
+          if [ ! -f CHANGELOG.md ]; then
+            echo "# Changelog" > CHANGELOG.md
+            echo "" >> CHANGELOG.md
+            echo "All notable changes to this project will be documented in this file." >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+          fi
+
+          # Agregar nueva versión
+          DATE=$(date +"%Y-%m-%d")
+          VERSION="${{ steps.version.outputs.number }}"
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+
+          # Crear entrada temporal
+          echo "" > /tmp/changelog_entry.md
+          echo "## [$VERSION] - $DATE" >> /tmp/changelog_entry.md
+          echo "" >> /tmp/changelog_entry.md
+          echo "### Changes" >> /tmp/changelog_entry.md
+          echo "- $COMMIT_MSG" >> /tmp/changelog_entry.md
+          echo "" >> /tmp/changelog_entry.md
+
+          # Insertar después de la primera línea
+          sed -i '1r /tmp/changelog_entry.md' CHANGELOG.md || true
+
+      - name: Commit and tag
+        run: |
+          VERSION="${{ steps.version.outputs.number }}"
+          git add VERSION config/version.php CHANGELOG.md .env
+          git commit -m "chore: bump version to $VERSION [skip ci]" || echo "No changes to commit"
+          git tag -a "v$VERSION" -m "Release version $VERSION"
+          git push origin HEAD --tags
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.version.outputs.number }}
+          release_name: Release v${{ steps.version.outputs.number }}
+          body: |
+            ## Changes in v${{ steps.version.outputs.number }}
+
+            ${{ github.event.head_commit.message }}
+
+            **Full Changelog**: https://github.com/${{ github.repository }}/compare/v${{ steps.version.outputs.number }}...v${{ steps.version.outputs.number }}
+          draft: false
+          prerelease: false
