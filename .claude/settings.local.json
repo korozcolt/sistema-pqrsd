@@ -17,7 +17,9 @@
       "Bash(git fetch:*)",
       "Bash(git commit:*)",
       "Bash(git pull:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(php test_sla.php:*)",
+      "Bash(git restore:*)"
     ],
     "deny": [],
     "ask": []
