@@ -6,7 +6,7 @@
 
 [![Versión PHP](https://img.shields.io/badge/PHP-8.2%2B-blue?style=for-the-badge&logo=php)](https://www.php.net/)
 [![Versión Laravel](https://img.shields.io/badge/Laravel-12.x-red?style=for-the-badge&logo=laravel)](https://laravel.com/)
-[![Versión](https://img.shields.io/badge/versión-1.0.1-orange?style=for-the-badge)](VERSION)
+[![Versión](https://img.shields.io/badge/versión-1.1.0-orange?style=for-the-badge)](VERSION)
 [![Licencia](https://img.shields.io/badge/licencia-Apache%202.0-green?style=for-the-badge)](LICENSE)
 
 </div>
