@@ -28,3 +28,10 @@ package-lock.json
 "composer.lock"
 "package-lock.json"
 /.claude
+
+# AI/IDE Configuration
+/.cursor
+.mcp.json
+boost.json
+CLAUDE.md
+.github/copilot-instructions.md
