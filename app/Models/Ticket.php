@@ -2,22 +2,24 @@
 
 namespace App\Models;
 
+use App\Enums\Priority;
+use App\Enums\StatusTicket;
+use App\Enums\TicketType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use App\Enums\StatusTicket;
-use App\Enums\Priority;
-use App\Enums\TicketType;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @mixin IdeHelperTicket
  */
 class Ticket extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, LogsActivity, SoftDeletes;
 
     protected $fillable = [
         'ticket_number',
@@ -31,7 +33,7 @@ class Ticket extends Model
         'response_due_date',
         'resolution_due_date',
         'first_response_at',
-        'resolution_at'
+        'resolution_at',
     ];
 
     protected $casts = [
@@ -45,9 +47,31 @@ class Ticket extends Model
     ];
 
     /**
+     * Configuración de ActivityLog
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly([
+                'status',
+                'priority',
+                'type',
+                'department_id',
+                'title',
+                'description',
+                'response_due_date',
+                'resolution_due_date',
+                'first_response_at',
+                'resolution_at',
+            ])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->setDescriptionForEvent(fn (string $eventName) => "Ticket {$eventName}")
+            ->useLogName('ticket');
+    }
+
+    /**
      * Genera un número de ticket único
-     *
-     * @return string
      */
     public static function generateUniqueNumber(): string
     {
@@ -61,7 +85,7 @@ class Ticket extends Model
             // Método 1: Basado en el máximo ID actual (incluyendo eliminados)
             $lastId = self::withTrashed()->max('id') ?? 0;
             $nextId = $lastId + 1;
-            $ticketNumber = 'TK-' . str_pad($nextId, 5, '0', STR_PAD_LEFT);
+            $ticketNumber = 'TK-'.str_pad($nextId, 5, '0', STR_PAD_LEFT);
 
             // Verificar si este número ya existe (incluyendo eliminados)
             $exists = self::withTrashed()
@@ -69,7 +93,7 @@ class Ticket extends Model
                 ->exists();
 
             // Si no existe, podemos usarlo
-            if (!$exists) {
+            if (! $exists) {
                 return $ticketNumber;
             }
 
@@ -78,13 +102,13 @@ class Ticket extends Model
                 // Método 2: Generar basado en timestamp + número aleatorio
                 $timestamp = now()->format('ymd');
                 $random = mt_rand(1000, 9999);
-                $ticketNumber = 'TK-' . $timestamp . $random;
+                $ticketNumber = 'TK-'.$timestamp.$random;
 
                 $exists = self::withTrashed()
                     ->where('ticket_number', $ticketNumber)
                     ->exists();
 
-                if (!$exists) {
+                if (! $exists) {
                     return $ticketNumber;
                 }
             }
@@ -94,7 +118,8 @@ class Ticket extends Model
         // Si llegamos aquí, todos los intentos fallaron
         // Generamos uno completamente aleatorio como último recurso
         $uniqueString = substr(md5(uniqid(mt_rand(), true)), 0, 8);
-        return 'TK-' . $uniqueString;
+
+        return 'TK-'.$uniqueString;
     }
 
     /**
@@ -104,7 +129,7 @@ class Ticket extends Model
     {
         static::creating(function ($ticket) {
             // Solo asignar un número si no tiene uno ya
-            if (!$ticket->ticket_number) {
+            if (! $ticket->ticket_number) {
                 $ticket->ticket_number = self::generateUniqueNumber();
             }
         });
@@ -123,8 +148,8 @@ class Ticket extends Model
     public function sla(): BelongsTo
     {
         return $this->belongsTo(SLA::class, 'type', 'ticket_type')
-                    ->where('priority', $this->priority)
-                    ->where('is_active', true);
+            ->where('priority', $this->priority)
+            ->where('is_active', true);
     }
 
     public function comments(): HasMany
@@ -150,5 +175,47 @@ class Ticket extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'ticket_tags');
+    }
+
+    /**
+     * Verificar si se puede cambiar al estado especificado
+     */
+    public function canTransitionTo(StatusTicket $newStatus): bool
+    {
+        $stateMachine = app(\App\Services\TicketStateMachine::class);
+
+        return $stateMachine->canTransition($this->status, $newStatus);
+    }
+
+    /**
+     * Cambiar el estado del ticket usando la State Machine
+     */
+    public function transitionTo(StatusTicket $newStatus, ?string $reason = null): bool
+    {
+        $stateMachine = app(\App\Services\TicketStateMachine::class);
+
+        return $stateMachine->transition($this, $newStatus, $reason);
+    }
+
+    /**
+     * Obtener los estados permitidos desde el estado actual
+     *
+     * @return array<StatusTicket>
+     */
+    public function getAllowedNextStates(): array
+    {
+        $stateMachine = app(\App\Services\TicketStateMachine::class);
+
+        return $stateMachine->getAllowedTransitions($this->status);
+    }
+
+    /**
+     * Verificar si el ticket está en un estado terminal
+     */
+    public function isInTerminalState(): bool
+    {
+        $stateMachine = app(\App\Services\TicketStateMachine::class);
+
+        return $stateMachine->isTerminalState($this->status);
     }
 }

@@ -2,19 +2,21 @@
 
 namespace App\Models;
 
+use App\Enums\StatusGlobal;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Enums\StatusGlobal;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Str;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @mixin IdeHelperDepartment
  */
 class Department extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, LogsActivity, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -29,6 +31,19 @@ class Department extends Model
     protected $casts = [
         'status' => StatusGlobal::class,
     ];
+
+    /**
+     * Configuración de ActivityLog
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'code', 'description', 'address', 'phone', 'email', 'status'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->setDescriptionForEvent(fn (string $eventName) => "Department {$eventName}")
+            ->useLogName('department');
+    }
 
     /**
      * Interact with the department's code.

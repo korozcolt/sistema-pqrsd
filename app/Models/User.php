@@ -3,19 +3,21 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @mixin IdeHelperUser
  */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, LogsActivity, Notifiable, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -35,6 +37,19 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'role' => UserRole::class,
         ];
+    }
+
+    /**
+     * Configuración de ActivityLog
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'email', 'role'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->setDescriptionForEvent(fn (string $eventName) => "User {$eventName}")
+            ->useLogName('user');
     }
 
     // Relationships
@@ -97,13 +112,10 @@ class User extends Authenticatable
 
     /**
      * Remueve acentos y caracteres especiales de un string.
-     *
-     * @param string $string
-     * @return string
      */
     private function removeAccents(string $string): string
     {
-        if (!preg_match('/[\x80-\xff]/', $string)) {
+        if (! preg_match('/[\x80-\xff]/', $string)) {
             return $string;
         }
 

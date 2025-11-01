@@ -2,17 +2,19 @@
 
 namespace App\Models;
 
+use App\Enums\Priority;
+use App\Enums\TicketType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Enums\TicketType;
-use App\Enums\Priority;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @mixin IdeHelperSLA
  */
 class SLA extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $table = 'slas';
 
@@ -21,7 +23,7 @@ class SLA extends Model
         'priority',
         'response_time',
         'resolution_time',
-        'is_active'
+        'is_active',
     ];
 
     protected $casts = [
@@ -29,12 +31,25 @@ class SLA extends Model
         'priority' => Priority::class,
         'is_active' => 'boolean',
         'response_time' => 'integer',
-        'resolution_time' => 'integer'
+        'resolution_time' => 'integer',
     ];
+
+    /**
+     * Configuración de ActivityLog
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['ticket_type', 'priority', 'response_time', 'resolution_time', 'is_active'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->setDescriptionForEvent(fn (string $eventName) => "SLA {$eventName}")
+            ->useLogName('sla');
+    }
 
     public function tickets()
     {
         return $this->hasMany(Ticket::class, 'type', 'ticket_type')
-                    ->where('priority', $this->priority);
+            ->where('priority', $this->priority);
     }
 }
