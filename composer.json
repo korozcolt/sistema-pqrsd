@@ -30,6 +30,7 @@
         "filament/upgrade": "^4.0",
         "laravel/boost": "^1.6",
         "laravel/breeze": "^2.2",
+        "laravel/dusk": "^8.3",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
