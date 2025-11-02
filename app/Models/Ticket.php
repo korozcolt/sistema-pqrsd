@@ -34,6 +34,7 @@ class Ticket extends Model
         'resolution_due_date',
         'first_response_at',
         'resolution_at',
+        'marked_for_closure_at',
     ];
 
     protected $casts = [
@@ -44,6 +45,7 @@ class Ticket extends Model
         'resolution_due_date' => 'datetime',
         'first_response_at' => 'datetime',
         'resolution_at' => 'datetime',
+        'marked_for_closure_at' => 'datetime',
     ];
 
     /**

@@ -2,20 +2,27 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Ticket;
 use App\Enums\StatusTicket;
-use App\Events\TicketStatusChanged;
+use App\Models\Ticket;
+use App\Models\User;
 use App\Notifications\TicketInactivityClosedNotification;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Auth;
 
 class CloseInactiveTickets extends Command
 {
     protected $signature = 'tickets:close-inactive';
+
     protected $description = 'Cierra tickets que fueron notificados y siguen sin actividad del cliente';
 
     public function handle()
     {
+        // Autenticar como usuario del sistema para los cambios automáticos
+        $systemUser = User::find(1);
+        if ($systemUser) {
+            Auth::login($systemUser);
+        }
+
         // Definir el período de aviso (72 horas = 3 días)
         $warningHours = 72;
 
@@ -30,17 +37,14 @@ class CloseInactiveTickets extends Command
         foreach ($tickets as $ticket) {
             // Verificar si hubo algún comentario del cliente después de la marca
             $hasNewClientComment = $ticket->comments()
-                ->whereHas('user', function($query) {
+                ->whereHas('user', function ($query) {
                     $query->where('role', 'user_web');
                 })
                 ->where('created_at', '>', $ticket->marked_for_closure_at)
                 ->exists();
 
-            if (!$hasNewClientComment) {
-                // Guardar estado anterior para el evento
-                $oldStatus = $ticket->status;
-
-                // Cerrar el ticket
+            if (! $hasNewClientComment) {
+                // Cerrar el ticket (el Observer se encargará de disparar eventos)
                 $ticket->status = StatusTicket::Closed;
                 $ticket->resolution_at = now();
                 $ticket->save();
@@ -59,20 +63,11 @@ class CloseInactiveTickets extends Command
                 // Notificar al cliente
                 $ticket->user->notify(new TicketInactivityClosedNotification($ticket, $inactiveDays));
 
-                // Notificar al asignado (si existe)
-                $assignedUser = $ticket->department?->users()->first(); // Ajustar según tu modelo
-                if ($assignedUser) {
-                    $assignedUser->notify(new TicketInactivityClosedNotification($ticket, $inactiveDays));
-                }
-
-                // Disparar evento de cambio de estado
-                event(new TicketStatusChanged(
-                    ticket: $ticket,
-                    oldStatus: $oldStatus,
-                    newStatus: StatusTicket::Closed,
-                    changedBy: null, // sistema
-                    reason: "Cierre automático por inactividad de {$inactiveDays} días"
-                ));
+                // TODO: Notificar al asignado (si existe) - requiere implementar relación Department->users()
+                // $assignedUser = $ticket->department?->users()->first();
+                // if ($assignedUser) {
+                //     $assignedUser->notify(new TicketInactivityClosedNotification($ticket, $inactiveDays));
+                // }
 
                 $closedCount++;
             } else {
