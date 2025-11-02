@@ -19,9 +19,18 @@
       "Bash(git pull:*)",
       "Bash(cat:*)",
       "Bash(php test_sla.php:*)",
-      "Bash(git restore:*)"
+      "Bash(git restore:*)",
+      "Bash(vendor/bin/pint:*)",
+      "Bash(php -l:*)",
+      "Bash(awk:*)",
+      "Bash(mysql:*)",
+      "Bash(git mv:*)"
     ],
     "deny": [],
     "ask": []
-  }
+  },
+  "enabledMcpjsonServers": [
+    "laravel-boost",
+    "herd"
+  ]
 }
