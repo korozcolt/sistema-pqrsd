@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 Route::get('/tracking')->name('tracking');
