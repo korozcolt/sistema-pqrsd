@@ -19,6 +19,11 @@ return new class extends Migration
 
     public function down()
     {
+        // Primero limpiamos los datos que no coinciden con el enum
+        \DB::table('reminders')
+            ->whereNotIn('reminder_type', ['response_due', 'resolution_due'])
+            ->delete();
+
         Schema::table('reminders', function (Blueprint $table) {
             $table->enum('reminder_type', ['response_due', 'resolution_due'])->change();
         });

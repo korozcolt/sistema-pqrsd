@@ -12,7 +12,6 @@ uses(DatabaseMigrations::class);
  * Tests E2E para Login de Filament Admin Panel
  * El sistema usa SOLO Filament para autenticación
  */
-
 test('usuario puede ver la página de login de Filament', function () {
     $this->browse(function (Browser $browser) {
         $browser->visit('/admin/login')
