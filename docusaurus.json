@@ -1,0 +1,102 @@
+[
+  {
+    "route": "/",
+    "name": "home"
+  },
+  {
+    "route": "/login",
+    "name": "login"
+  },
+  {
+    "route": "/register",
+    "name": "register"
+  },
+  {
+    "route": "/forgot-password",
+    "name": "forgot-password"
+  },
+  {
+    "route": "/two-factor-challenge",
+    "name": "two-factor-challenge"
+  },
+  {
+    "route": "/confirm-password",
+    "name": "confirm-password"
+  },
+  {
+    "route": "/verify-email",
+    "name": "verify-email"
+  },
+  {
+    "route": "/support",
+    "name": "support"
+  },
+  {
+    "route": "/tracking",
+    "name": "tracking"
+  },
+  {
+    "route": "/admin",
+    "name": "admin-dashboard"
+  },
+  {
+    "route": "/admin/login",
+    "name": "admin-login"
+  },
+  {
+    "route": "/admin/tickets",
+    "name": "admin-tickets-list"
+  },
+  {
+    "route": "/admin/tickets/create",
+    "name": "admin-tickets-create"
+  },
+  {
+    "route": "/admin/users",
+    "name": "admin-users-list"
+  },
+  {
+    "route": "/admin/users/create",
+    "name": "admin-users-create"
+  },
+  {
+    "route": "/admin/departments",
+    "name": "admin-departments-list"
+  },
+  {
+    "route": "/admin/departments/create",
+    "name": "admin-departments-create"
+  },
+  {
+    "route": "/admin/s-l-a-s",
+    "name": "admin-slas-list"
+  },
+  {
+    "route": "/admin/s-l-a-s/create",
+    "name": "admin-slas-create"
+  },
+  {
+    "route": "/admin/tags",
+    "name": "admin-tags-list"
+  },
+  {
+    "route": "/admin/tags/create",
+    "name": "admin-tags-create"
+  },
+  {
+    "route": "/admin/reminders",
+    "name": "admin-reminders-list"
+  },
+  {
+    "route": "/admin/reminders/create",
+    "name": "admin-reminders-create"
+  },
+  {
+    "route": "/log-viewer",
+    "name": "log-viewer"
+  },
+  {
+    "route": "/publish-log-viewer",
+    "name": "publish-log-viewer"
+  }
+]
